@@ -21,6 +21,9 @@
 .carousel-caption small{
     margin: 15px 0;
 }
+.carousel-caption small{
+    font-size: 1.2em;
+}
 .carousel-caption .btn{
     margin: 10px 0;
     font-size: 1.2rem;
@@ -63,6 +66,9 @@
 		transform: none !important;
 		opacity: 1 !important;
     }
+    .carousel-caption small{
+        font-size: 1.4em;
+    }
 }
 @media (max-width: 560px){
     .carousel-caption{
@@ -74,6 +80,9 @@
     }
     .carousel-caption .btn{
         font-size: 0.6rem;
+    }
+    .carousel-caption small{
+        font-size: 1.6em;
     }
     .carousel-caption h1,
     .carousel-caption small{
