@@ -1,0 +1,121 @@
+.logo-image{
+    background: url('../Image/logo.svg') no-repeat center center;
+    background-size: contain;
+}
+.logo-text{
+    margin-left: 10px;
+}
+.logo-text .hospital{
+    margin-top: -10px;
+}
+header .logo{
+    font-size: 1.2em;
+}
+header .logo-image{
+    width: 50px;
+    height: 50px;
+    filter: invert(99%) sepia(83%) saturate(2%) hue-rotate(97deg) brightness(104%) contrast(100%);
+}
+.navbar-light .logo-image{
+    filter: none;
+}
+header .nav-item{
+    font-size: 1.3em;
+    font-weight: 500;
+}
+.sticky-navigation{
+    z-index: 999;
+    background-color: #00000034;
+    padding: 15px 0 30px 0;
+    position: fixed;
+    transition: all .2s ease-in-out;
+    color: white;
+}
+.sticky-now{
+    padding: 5px 0 5px 0;
+    background-color: #fbfaf8;
+    color: black;
+}
+.navbar-nav .nav-item:not(.last-child){
+    margin-right: 10px;
+}
+.navbar-nav .nav-item a{
+    padding-bottom: 2px;
+}
+body{
+    background-color: teal;
+    font-family: 'Manrope', sans-serif;
+}
+
+@keyframes slidein {
+    from{
+        left: -100%;
+    }
+    to {
+        left: 0;
+    }
+}
+@keyframes slideout {
+    from{
+        left: 0;
+    }
+    to {
+        left: 100%;
+    }
+}
+@media (min-width: 768px){
+    .navbar-nav .nav-item{
+        position: relative;
+        overflow: hidden;
+    }
+    .navbar-nav.navbar-links .nav-item::after{
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -101%;
+        height: 2px;
+        width: 100%;
+        animation: slideout 0.5s ;
+        background-color: sandybrown;
+    }
+    .navbar-nav.navbar-links .nav-item:hover::after,
+    .navbar-nav.navbar-links .nav-item.active::after{
+        animation: slidein 0.5s forwards;
+    }
+}
+
+@media (max-width: 767px){
+    header .logo{
+        font-size: 0.8em;
+    }
+    header .nav-item{
+        font-size: 0.9em;
+    }
+    .sticky-navigation{
+        position: static;
+    }
+    header .logo-image{
+        width: 30px;
+        height: 30px;
+    }
+    .logo-text{
+        margin-left: 5px;
+    }
+    #navbarContent.collapsing li:not(.last-child),
+    #navbarContent.show li:not(.last-child){
+        border-bottom: 1px solid rgba(0, 0, 0, 0.493);
+    }
+}
+@media (max-width: 539px){
+    .navbar{
+        padding: 1px;
+    }
+    .navbar-toggler{
+        padding: 2px;
+        font-size: 18px;
+    }
+    .navbar-nav .nav-link{
+        padding: 4px 0;
+    }
+}
+
