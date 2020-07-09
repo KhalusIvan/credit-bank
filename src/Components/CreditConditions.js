@@ -4,8 +4,8 @@ import '../style/creditConditions.css';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
     return (
-        <div className="jumbotron credit-conditions p-0 rounded-0">
-            <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 credit-conditions-title'>{appLanguage === 'eng' ? 'Terms of financing' : 'Умови фінансування'}</h2>
+        <div className="jumbotron m-0 credit-conditions p-1 p-xm-2 p-sm-3 rounded-0">
+            <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 credit-conditions-title title'>{appLanguage === 'eng' ? 'Terms of financing' : 'Умови фінансування'}</h2>
             <div className='container'>
                 <div className='row m-0'>
                     <div className='col-6 col-sm-6 d-flex align-items-center condition'>

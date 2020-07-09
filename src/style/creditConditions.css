@@ -1,3 +1,7 @@
+.credit-conditions-wrapper,
+.credit-conditions{
+    background-color: #fff;
+}
 .credit-conditions .check-mark-img{
     display: inline-block;
     width: 55px;
@@ -6,7 +10,7 @@
     background: url('../Image/checkmark.svg') no-repeat center;
     background-size: contain;
 }
-.credit-conditions .credit-conditions-title{
+.jumbotron .title{
     font-size: 3em;
     font-weight: 300;
     line-height: 1.2;
@@ -19,7 +23,7 @@
     font-size: 1.5em;
 }
 @media (max-width: 1200px){
-    .credit-conditions .credit-conditions-title{
+    .jumbotron .title{
         font-size: 2.25em;
     }
     .credit-conditions .condition-text{
@@ -31,7 +35,7 @@
     }
 }
 @media (max-width: 960px){
-    .credit-conditions .credit-conditions-title{
+    .jumbotron .title{
         font-size: 2em;
     }
     .credit-conditions .condition-text{
@@ -43,7 +47,7 @@
     }
 }
 @media (max-width: 767px){
-    .credit-conditions .credit-conditions-title{
+    .jumbotron .title{
         font-size: 1.75em;
     }
     .credit-conditions .condition-text{
@@ -58,7 +62,7 @@
     }
 }
 @media (max-width: 575px){
-    .credit-conditions .credit-conditions-title{
+    .jumbotron .title{
         font-size: 1.5em;
     }
     .credit-conditions .condition-text{

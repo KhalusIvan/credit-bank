@@ -51,7 +51,7 @@ const Header = (props) => {
                 </div>
                 <div className="collapse navbar-collapse" id="navbarContent">
                     <ul className="navbar-nav navbar-links ml-auto">
-                        <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Balal' : "Блала", href: '/#sdfs' }, { label: language.appLanguage === 'eng' ? 'Patient' : "Пацієнт", href: '/#patient' }]} />
+                        <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Benefits' : "Переваги", href: '/#why-us' }, { label: language.appLanguage === 'eng' ? 'Patient' : "Пацієнт", href: '/#patient' }]} />
                     </ul>
                 </div>
                 <ul className="navbar-nav d-none d-md-inline-block">

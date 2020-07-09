@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Carousel from './Carousel/Carousel.js';
-import CreditConditions from './CreditConditions.js'
+import CreditConditions from './CreditConditions.js';
+import WhyUs from './WhyUs.js';
 import sliderElements from './sliderElements.js';
 import AppLanguage from '../Contexts/AppLanguage.js';
 import '../style/carousel.css';
@@ -13,6 +14,9 @@ export default (props) => {
             </div>}
             <div className='container-fluid p-0 credit-conditions-wrapper anchor' id='credit-conditions'>
                 <CreditConditions/>
+            </div>
+            <div className='container-fluid p-0 why-us-wrapper anchor' id='why-us'>
+                <WhyUs/>
             </div>
             <div><div>
                 <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores quasi sapiente tempora quas quisquam modi consectetur iure ex mollitia illum expedita atque repellat laudantium similique corporis perspiciatis, fuga, soluta culpa!</div>
