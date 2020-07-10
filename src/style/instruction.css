@@ -1,0 +1,65 @@
+.instruction-wrapper{
+    background: radial-gradient(ellipse at center, #ede6d6, #dbcbb2);             
+}
+.instruction-background{
+    max-width: 1250px;
+    margin: 0 auto;
+}
+.instruction-background .smileGirl{
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    width: 33%;
+    height: 80%;
+    background: url('../Image/smileGirl.png') no-repeat center bottom;
+    background-size: contain;
+}
+.instruction-titile{
+    color: #515151;
+}
+.instruction{
+    width: 75%;
+}
+.instruction-switcher{
+    width: 380px;
+}
+.instruction-list .row{
+    max-width: 670px;
+}
+.instruction-list .card{
+    border-radius: 10px;
+    max-width: 300px;
+    height: 100%;
+    transition: transform .3s;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.instruction-list .card-title{
+    color: #604e90;
+    font-size: 1.3em;
+}
+.instruction-list .card-text{
+    font-size: 1em;
+}
+@media (max-width: 767px){
+    .instruction{
+        width: 100%;
+    }
+    .instruction-list .card{
+        max-width: 100%;
+        width: 100%;
+        font-size: 0.9em;
+    }
+    .instruction-list .card-text{
+        font-size: 1.05em;
+    }
+    .instruction-switcher{
+        width: 100%;
+    }
+}
+@media (hover: hover) {
+    .instruction-list .card:hover{
+        transform: translateY(-5px);
+        cursor: pointer;
+    }
+}

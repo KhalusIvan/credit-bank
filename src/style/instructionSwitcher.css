@@ -1,0 +1,37 @@
+.Switcher-variants {
+    background-color: #d1c3c5;
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+}
+.Switcher-variants .variant{
+    display: inline-block;
+    padding: 10px;
+    width: 50%;
+    color: white;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.Switcher-variants::after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    border-radius: 30px;
+    top: 0;
+    z-index: 1;
+    background-color: #59c2a4;
+    transition: all 0.3s;
+}
+
+.Switcher-variants.left::after{
+    left: 0;
+}
+.Switcher-variants.right::after{
+    left: 50%;
+}
+.Switcher-variants .variant{
+    vertical-align: middle;
+}

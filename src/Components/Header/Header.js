@@ -4,7 +4,7 @@ import '../../style/header.css';
 import headerThemeContext from '../../Contexts/HeaderThemeContext.js';
 import AppLanguage from '../../Contexts/AppLanguage.js';
 import Logo from '../Logo.js';
-import NavItemsForGuests from './NavItems.js';
+import NavItemsForGuests from './NavItemsForGuests.js';
 import Switcher from '../Switcher/Switcher.js';
 const Header = (props) => {
     const theme = useContext(headerThemeContext);
@@ -25,7 +25,9 @@ const Header = (props) => {
         link.parentElement.classList.add('active');
         activeElement.current = link.parentElement;
     }
-
+    useEffect(()=>{
+        language.appLanguage === 'eng' ? languageSwitcherSmall.current.checked = languageSwitcherMiddle.current.checked = true : languageSwitcherSmall.current.checked = languageSwitcherMiddle.current.checked = false;
+    },[]);
     function toggleSwitcher(){
         if(languageSwitcherSmall.current.checked === false)
             languageSwitcherSmall.current.checked = languageSwitcherMiddle.current.checked = true;
@@ -51,7 +53,7 @@ const Header = (props) => {
                 </div>
                 <div className="collapse navbar-collapse" id="navbarContent">
                     <ul className="navbar-nav navbar-links ml-auto">
-                        <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Benefits' : "Переваги", href: '/#why-us' }, { label: language.appLanguage === 'eng' ? 'Patient' : "Пацієнт", href: '/#patient' }]} />
+                        <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Benefits' : "Переваги", href: '/#why-us' }, { label: language.appLanguage === 'eng' ? 'Instruction' : "Інструкція", href: '/#instruction' }]} />
                     </ul>
                 </div>
                 <ul className="navbar-nav d-none d-md-inline-block">

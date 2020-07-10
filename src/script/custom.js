@@ -20,4 +20,5 @@ function throttle(func, ms) {
     }
     return wrapper;
 }
+
 module.exports.throttle = throttle;

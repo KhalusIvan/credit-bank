@@ -1,0 +1,26 @@
+.reviews .card-title{
+    display: flex;
+    align-items: center;
+    color: cadetblue;
+}
+.reviews .card{
+    border-radius: 10px !important;
+    box-shadow: 0 0 10px #00000055;
+    background-color: rgba(233, 231, 229, 0.281);
+}
+.reviews .card-footer{
+    font-size: .8em;
+}
+.reviews .card-text{
+    font-style: italic;
+    color: darkcyan;
+}
+.reviews .avatar {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: url('../Image/avatar.png') no-repeat center center;
+    background-size: contain;
+}

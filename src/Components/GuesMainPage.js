@@ -2,8 +2,11 @@ import React, { useContext } from 'react';
 import Carousel from './Carousel/Carousel.js';
 import CreditConditions from './CreditConditions.js';
 import WhyUs from './WhyUs.js';
+import Instruction from './Instruction/Instruction.js';
 import sliderElements from './sliderElements.js';
 import AppLanguage from '../Contexts/AppLanguage.js';
+import MultiCarousel from './MultiCarousel.js';
+import Reviews from './Reviews.js';
 import '../style/carousel.css';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
@@ -18,6 +21,14 @@ export default (props) => {
             <div className='container-fluid p-0 why-us-wrapper anchor' id='why-us'>
                 <WhyUs/>
             </div>
+            <div className='container-fluid p-0 instruction-wrapper anchor' id='instruction'>
+                <Instruction/>
+            </div>
+            <div className='container-fluid p-0 multi-carousel-wrapper reviews'>
+                <div className='card-group'><MultiCarousel items={Reviews()}/></div>
+                 
+            </div>
+            
             <div><div>
                 <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores quasi sapiente tempora quas quisquam modi consectetur iure ex mollitia illum expedita atque repellat laudantium similique corporis perspiciatis, fuga, soluta culpa!</div>
                 <div>Neque, cumque quam. Voluptates, accusamus. Amet eius consequatur tempore eos officiis, sapiente culpa ex! Culpa quae enim aperiam, dolorum pariatur quaerat ab quia porro laboriosam, labore molestiae cumque fugit quasi.</div>

@@ -16,14 +16,16 @@ export default (props) => {
                 toogleActive(document.querySelector(`.nav-item a[href='/#${idOfLink}']`))
             }
             toogleActiveAnchor = throttle(toogleActiveAnchor, 500);
+            
+            toogleActiveAnchor();
             window.addEventListener('scroll', toogleActiveAnchor);
             return () =>window.removeEventListener('scroll', toogleActiveAnchor);
         }
-    },[userRole])
+    },[userRole,toogleActive])
     return (
         <>
             {navList.map((object, index) =>
-                <li key={object.label} className={`nav-item ${index === 0 ? 'active' : ''} ${index === navList.length - 1 ? 'last-child' : ''}`} ref={index === 0 ? activeElement : null}>
+                <li key={object.label} className={`nav-item ${index === navList.length - 1 ? 'last-child' : ''}`} ref={index === 0 ? activeElement : null}>
                     <NavLink to={object.href} onClick={(e) => { toogleActive(e.target) }} className='nav-link' activeClassName='n' scroll={el => props.scrollWithOffset(el, document.documentElement.clientWidth <= 767 ? 0 : document.querySelector('header').offsetHeight)}>{object.label}</NavLink>
                 </li>
             )}

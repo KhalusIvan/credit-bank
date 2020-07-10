@@ -18,14 +18,13 @@ import UserRole from './Contexts/UserRole.js';
 import Header from './Components/Header/Header.js';
 import GuesMainPage from './Components/GuesMainPage.js';
 
-
+import './style/custom.css';
 function App() {
-
-  const [appLanguage, setAppLanguage] = useState('ukr');
+  const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
+  localStorage.setItem('lang',appLanguage);
   function toggleLanguage() {
     appLanguage === 'eng' ? setAppLanguage('ukr') : setAppLanguage('eng');
   }
-
   const headerWrapper = useRef(null);
   const [headerTheme, setHeaderTheme] = useState('navbar-dark');
   function checkTheme(expectedTheme) {

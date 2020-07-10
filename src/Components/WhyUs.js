@@ -11,19 +11,19 @@ export default (props) =>{
                 <div className='row m-0'>
                     <div className='col-12 col-sm-6 col-md-3 d-flex flex-column align-items-center'>
                         <div className='online-order-img img-proger'></div>
-                        <p className='why-us-text text-center'>Заповнення заявки онлайн</p>
+                        <p className='why-us-text text-center'>{appLanguage === 'eng' ? 'Filling out the application online' : 'Заповнення заявки онлайн'}</p>
                     </div>
                     <div className='col-12 col-sm-6 col-md-3 d-flex flex-column align-items-center'>
                         <div className='online-order-img img-time'></div>
-                        <p className='why-us-text text-center'>Швидке прийняття рішення</p>
+                        <p className='why-us-text text-center'>{appLanguage === 'eng' ? 'Quick decision making' : 'Швидке прийняття рішення'}</p>
                     </div>
                     <div className='col-12 col-sm-6 col-md-3 d-flex flex-column align-items-center'>
                         <div className='online-order-img img-ticket'></div>
-                        <p className='why-us-text text-center'>Прозорість (немає прихованих комісій)</p>
+                        <p className='why-us-text text-center'>{appLanguage === 'eng' ? 'Transparency (no hidden fees)' : 'Прозорість (немає прихованих комісій)'}</p>
                     </div>
                     <div className='col-12 col-sm-6 col-md-3 d-flex flex-column align-items-center'>
                         <div className='online-order-img img-people'></div>
-                        <p className='why-us-text text-center'>Без застави і поручителів</p>
+                        <p className='why-us-text text-center'>{appLanguage === 'eng' ? 'Without collateral and guarantors' : 'Без застави і поручителів'}</p>
                     </div>
                 </div>
             </div>
