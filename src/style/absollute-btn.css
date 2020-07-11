@@ -1,0 +1,49 @@
+.absolute-btn{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    box-shadow: none;
+    border: none;
+    z-index: 1000000;
+    border-radius: 5px 5px 0 0;
+    animation: pulse 3s infinite;
+}
+.absolute-btn:hover{
+    animation: none;
+}
+.absolute-btn:focus{
+    outline: none;
+    box-shadow: none;
+}
+@keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(165, 79, 168, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 30px rgba(165, 79, 168, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(165, 79, 168, 0);
+    }
+  
+}
+@keyframes pulse1{
+    0% {
+      box-shadow: 0 0 0 0 rgba(165, 79, 168, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(165, 79, 168, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(165, 79, 168, 0);
+    }
+}
+@media (max-width: 767px){
+    .absolute-btn{
+        font-size: .9em;
+        animation: pulse1 2s infinite;
+    }
+}
+@media (max-width: 560px){
+   
+}

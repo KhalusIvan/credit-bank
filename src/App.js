@@ -18,6 +18,7 @@ import UserRole from './Contexts/UserRole.js';
 import Header from './Components/Header/Header.js';
 import GuesMainPage from './Components/GuesMainPage.js';
 import Footer from './Components/Footer.js';
+import SignForm from './Components/SignForm.js';
 import './style/custom.css';
 function App() {
   const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
@@ -70,6 +71,7 @@ function App() {
                 </headerThemeContext.Provider>
               </div>
               <GuesMainPage />
+              {userRole === 'guest' ? <SignForm/>:null}
               <Footer/>
             </Router>
           </UserRole.Provider>
