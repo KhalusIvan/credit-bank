@@ -1,5 +1,5 @@
 .MultiCarousel { overflow: hidden; padding: 15px; width: 100%; position:relative; }
-.MultiCarousel .MultiCarousel-inner { padding:10px 0;transition: 1s ease all;}
+.MultiCarousel .MultiCarousel-inner { padding:10px 0;transition: 1s ease all; display: flex; flex-wrap: nowrap; flex-direction: row;}
 .MultiCarousel .MultiCarousel-inner .item { margin: 0 20px;}
 .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; border-radius:50%;top:calc(50% - 20px); }
 .MultiCarousel .leftLst { left:0; }
