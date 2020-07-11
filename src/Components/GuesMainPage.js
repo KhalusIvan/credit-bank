@@ -28,9 +28,9 @@ export default (props) => {
                 <div className="container video-text h-100">
                     <div className="d-flex h-100 text-center align-items-center">
                         <div className="w-100 text-white">
-                            <h2 className='video-title'>Спробуй Ukraine Credit</h2>
-                            <p >Реєструйся зараз і отримай безвідсотковий кредит на великий термін</p>
-                            <small>Ми зробимо все, щоб ви залишились задоволеними</small>
+    <h2 className='video-title'>{appLanguage === 'eng'? 'Try Ukraine Credit' : 'Спробуй Ukraine Credit'}</h2>
+                            <p >{appLanguage === 'eng'? 'Register now and get an interest-free loan for a long time' : 'Реєструйся зараз і отримай безвідсотковий кредит на великий термін'}</p>
+                            <small>{appLanguage === 'eng'? 'We will do our best to keep you satisfied' : 'Ми зробимо все, щоб ви залишились задоволеними'}</small>
                         </div>
                     </div>
                 </div>
