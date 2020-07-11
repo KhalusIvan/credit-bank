@@ -1,3 +1,74 @@
+.video-container {
+    position: relative;
+    height: 50vh;
+    min-height: 25rem;
+    width: 100%;
+    font-size: 1.3em;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+.video-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    transform: translateX(-50%) translateY(-50%);
+}
+  
+  .video-container .container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .video-container .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 1;
+  }
+  .video-title{
+      font-size: 2em;
+  }
+  /* @media (pointer: coarse) and (hover: none) {
+    .video-container {
+      background: url(../Image/video.png) no-repeat center center scroll;
+      background-size: cover;
+    }
+    .video-container video {
+      display: none;
+    }
+  } */
+  @media (max-width: 960px){
+    .video-text{
+        font-size: 0.9em;
+    }
+}
+@media (max-width: 767px){
+    .video-text{
+        font-size: 0.8em;
+    }
+}
+@media (max-width: 575px){
+    .video-container {
+        background: url(../Image/video.png) no-repeat center center scroll;
+        background-size: cover;
+      }
+      .video-container video {
+        display: none;
+      }
+    .video-text{
+        font-size: 0.6em;
+    }
+}
 .MultiCarousel { overflow: hidden; padding: 15px; width: 100%; position:relative; }
 .MultiCarousel .MultiCarousel-inner { padding:10px 0;transition: 1s ease all; display: flex; flex-wrap: nowrap; flex-direction: row;}
 .MultiCarousel .MultiCarousel-inner .item { margin: 0 20px;}

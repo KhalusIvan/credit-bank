@@ -92,10 +92,8 @@ export default (props) => {
         });
     }, [])
     const items = props.items;
-    console.log(items);
-    
     return (
-        <div className="MultiCarousel p-0" data-items="1,3,3,4" data-slide="1" id="MultiCarouselk" data-interval="1000">
+        <div className="MultiCarousel p-0" data-items="1,2,3,3" data-slide="1" id="MultiCarouselk" data-interval="1000">
             <div className="MultiCarousel-inner projects-card card-group">
                 {items.map((item,i)=>(
                         item

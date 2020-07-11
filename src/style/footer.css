@@ -1,0 +1,65 @@
+.footer-wrapper,
+footer{
+    background-color: #191919;
+}
+footer{
+    padding: 50px 0;
+}
+footer .logo-image{
+    width: 80px;
+    height: 80px;
+    filter: invert(99%) sepia(83%) saturate(2%) hue-rotate(97deg) brightness(104%) contrast(100%);
+}
+footer .logo{
+    font-size: 2.2em;
+    color: white;
+}
+footer .sociality{
+    align-items: center;
+}
+footer .sociality-title{
+    color: white;
+    margin-bottom: 10px;
+}
+.sociality-link{
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+}
+.sociality-link.google{
+    background: url(../Image/google-plus.svg) no-repeat center;
+    background-size: contain;
+}
+.sociality-link.facebook{
+    background: url(../Image/facebook.svg) no-repeat center;
+    background-size: contain;
+}
+.sociality-link.twitter{
+    background: url(../Image/twitter.svg) no-repeat center;
+    background-size: contain;
+}
+.sociality-link.telegram{
+    background: url(../Image/telegram.svg) no-repeat center;
+    background-size: contain;
+}
+.sociality-link.id{
+    background: url(../Image/linkedin.svg) no-repeat center;
+    background-size: contain;
+}
+@media (max-width: 960px){
+    footer .sociality-title{
+        font-size: 1.8em;
+    }
+}
+@media (max-width: 767px){
+    footer .sociality-title{
+        font-size: 1.6em;
+    }
+    .sociality-link{
+        width: 30px;
+        height: 30px;
+    }
+}
+@media (max-width: 560px){
+   
+}

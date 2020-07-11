@@ -17,7 +17,7 @@ import UserRole from './Contexts/UserRole.js';
 
 import Header from './Components/Header/Header.js';
 import GuesMainPage from './Components/GuesMainPage.js';
-
+import Footer from './Components/Footer.js';
 import './style/custom.css';
 function App() {
   const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
@@ -70,6 +70,7 @@ function App() {
                 </headerThemeContext.Provider>
               </div>
               <GuesMainPage />
+              <Footer/>
             </Router>
           </UserRole.Provider>
         </AppLanguage.Provider>

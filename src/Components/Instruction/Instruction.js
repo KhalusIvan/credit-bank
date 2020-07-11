@@ -13,7 +13,7 @@ export default (props) => {
     return (
         <div className='instruction-background position-relative'>
             <div className='smileGirl d-none d-md-block'></div>
-            <div className='jumbotron rounded-0 instruction ml-auto text-center bg-transparent p-2 p-sm-3 p-md-4 mb-1 mb-sm-3'>
+            <div className='jumbotron rounded-0 instruction ml-auto text-center bg-transparent p-2 p-sm-3 p-md-4 mb-0'>
                 <h2 className='instruction-title title'>{appLanguage === 'eng' ? 'How to use our service' : 'Як користуватися нашим сервісом'}</h2>
                 <div className='container instruction-list d-flex align-items-center flex-column'>
                     <InstructionSwitcher active={active} toggleFunction={toggleActive} classSwitcher='instruction-switcher text-center mt-3 mb-3' firstVariant={appLanguage === 'eng' ? 'How to get a loan' :'Як взяти кредит'} secondVariant={appLanguage === 'eng' ? 'How to repay а loan' :'Як погасити кредит'} />

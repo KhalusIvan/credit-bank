@@ -1,3 +1,6 @@
+.reviews-wrapper{
+    background-color: #e9ecef;
+}
 .reviews .card-title{
     display: flex;
     align-items: center;
@@ -23,4 +26,31 @@
     border-radius: 50%;
     background: url('../Image/avatar.png') no-repeat center center;
     background-size: contain;
+}
+@media (max-width: 960px){
+    .reviews .avatar{
+        width: 70px;
+        height: 70px;
+    }
+}
+@media (max-width: 767px){
+    .reviews .card-title{
+        font-size: 1.2em;
+    }
+}
+@media (max-width: 560px){
+    .reviews .card-body,
+    .reviews .card-footer{
+        padding: 5px 10px;
+    }
+    .reviews .card-title{
+        font-size: 1.1em;
+    }
+    .reviews .avatar{
+        width: 60px;
+        height: 60px;
+    }
+    .reviews .card-text{
+        font-size: 0.9em;
+    }
 }
