@@ -63,13 +63,13 @@ function App() {
     async function fetchData() {
       let formEl = new FormData();
       formEl.append('token', 'sdffhiragf')
-      let resp = await fetch('/verificToken', {
+     /*  let resp = await fetch('/verificToken', {
         method: 'POST',
         body: formEl
       });
       let json = await resp.json();
       setUserRole(json.role);
-      setIsUserReady(true);
+      setIsUserReady(true); */
       console.log('now');
       let user = {
         name: 'John',
