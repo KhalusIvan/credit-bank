@@ -65,6 +65,7 @@ function App() {
       formEl.append('token', 'sdffhiragf')
       let resp = await fetch('/verificToken', {
         method: 'POST',
+        credentials: "include",
         body: formEl
       });
       let json = await resp.json();
