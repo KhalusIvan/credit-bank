@@ -105,7 +105,7 @@ function SignUpForm (props)  {
                 }</small>
             </div>
             <div className='d-flex justify-content-end'>
-                <button type="submit" disabled={false/* !isValidForm */} className="btn btn-dark ml-auto btn-submit">{appLanguage === 'eng'? "Submit": 'Відправити' }</button>
+                <button type="submit" disabled={!isValidForm} className="btn btn-dark ml-auto btn-submit">{appLanguage === 'eng'? "Submit": 'Відправити' }</button>
             </div>
         </form>
     )
