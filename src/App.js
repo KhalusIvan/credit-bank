@@ -83,6 +83,7 @@ function App() {
         },
         body: JSON.stringify(user)
       });
+      console.log(response.json());
     }
      //if (localStorage.getItem('token'))
       fetchData();
