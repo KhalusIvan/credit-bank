@@ -7,9 +7,13 @@ import sliderElements from './sliderElements.js';
 import AppLanguage from '../Contexts/AppLanguage.js';
 import VideoSection from './VideoSection.js';
 import Reviews from './Reviews.js';
+import SignForm from './SignForm.js';
 import '../style/carousel.css';
+
+import UserRole from '../Contexts/UserRole.js';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
+    const userRole = useContext(UserRole).userRole;
     return (
         <>
             {<div className="container-fluid p-0 carousel-wrapper carousel-header">
@@ -38,6 +42,7 @@ export default (props) => {
             <div className='container-fluid p-0 reviews-wrapper'>
                 <Reviews />
             </div>
+            {userRole === 'guest' ? <SignForm/>:null}
         </>
     )
 }

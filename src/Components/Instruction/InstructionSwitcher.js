@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import '../../style/instructionSwitcher.css';
 export default (props)=>{
     const toggleActive = props.toggleFunction;

@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, {useEffect } from 'react';
 import $ from "jquery";
-import InstructionCard from './Instruction/InstructionCard.js';
 export default (props) => {
     useEffect(() => {
         $(document).ready(function () {
@@ -63,7 +62,7 @@ export default (props) => {
                 var divStyle = $(el + ' ' + itemsDiv).css('transform');
                 var values = divStyle.match(/-?[\d\.]+/g);
                 var xds = Math.abs(values[4]);
-                if (e == 0) {
+                if (e === 0) {
                     translateXval = parseInt(xds) - parseInt(itemWidth * s);
                     $(el + ' ' + rightBtn).removeClass("over");
 
@@ -72,7 +71,7 @@ export default (props) => {
                         $(el + ' ' + leftBtn).addClass("over");
                     }
                 }
-                else if (e == 1) {
+                else if (e === 1) {
                     var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
                     translateXval = parseInt(xds) + parseInt(itemWidth * s);
                     $(el + ' ' + leftBtn).removeClass("over");

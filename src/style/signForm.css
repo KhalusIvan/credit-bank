@@ -27,3 +27,13 @@
     opacity: 1;
     transform: scale(1) translateY(20%);
   }
+  @media (max-width: 560px){
+    .modal.fade .modal-dialog {
+        transform: scale(0.25);
+      }
+      
+      .modal.fade.show .modal-dialog {
+        opacity: 1;
+        transform: scale(1);
+      }
+}

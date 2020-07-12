@@ -44,8 +44,11 @@ header .nav-item{
 }
 body{
     font-family: 'Manrope', sans-serif;
+    height: 150vh;
 }
-
+.header-not-sticky{
+    position: static;
+}
 @keyframes slidein {
     from{
         left: -100%;

@@ -1,0 +1,12 @@
+.signUpForm .form-helper{
+    color: grey;
+}
+.signUpForm input.invalid{
+    box-shadow:  0 0 0 3px rgb(216, 87, 87);
+}
+.signUpForm input.valid{
+    box-shadow:  0 0 0 3px rgb(107, 212, 107);
+}
+.signUpForm .btn-submit{
+    transition: all .3s;
+}
