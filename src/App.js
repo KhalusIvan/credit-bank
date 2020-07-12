@@ -71,13 +71,25 @@ function App() {
       setUserRole(json.role);
       setIsUserReady(true);
       console.log('now');
+      let user = {
+        name: 'John',
+        surname: 'Smith'
+      };
+      
+      let response = await fetch('/signUp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+      });
     }
      //if (localStorage.getItem('token'))
       fetchData();
    // else { setUserRole('guest'); setIsUserReady(true) } 
   });
   const [isUserReady, setIsUserReady] = useState(false);
-
+  
   useEffect(() => {
     if (userRole === 'guest') {
       window.addEventListener('scroll', toogleHeaderWrapperTheme);
