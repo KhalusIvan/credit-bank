@@ -1,0 +1,84 @@
+.userAcc-wrapper{
+    background-color: #e9ecef;
+}
+.userAvatar{
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.userAcc{
+    padding: 20px 10px;
+}
+.userAcc .userAvatar{
+    width: 240px;
+    height: 240px;
+    margin-right: 10px;
+}
+.userAcc .user-name{
+    font-size: 2.5em;
+    font-weight: 300;
+}
+.userAcc .user-email{
+    font-size: 1.5em;
+}
+.userAcc .user-role{
+    font-size: 1.2em;
+}
+.userAcc .btn{
+    font-size: 1em;
+    width: 50%;
+}
+.userAcc .empty-space{
+    background: url(../Image/logo.svg) no-repeat center;
+    filter: invert(96%) sepia(0%) saturate(0%) hue-rotate(61deg) brightness(102%) contrast(107%);
+    background-size:  cover;
+}
+@media (max-width: 1200px){
+   .userAcc .user-data{
+       font-size: 0.9em;
+   }
+   .userAcc .userAvatar{
+    width: 220px;
+    height: 220px;
+}
+}
+@media (max-width: 960px){
+    .userAcc .user-data{
+        font-size: 0.8em;
+    }
+    .userAcc .userAvatar{
+     width: 200px;
+     height: 200px;
+ }
+}
+@media (max-width: 767px){
+    .userAcc .user-data{
+        font-size: 0.7em;
+    }
+    .userAcc .userAvatar{
+     width: 180px;
+     height: 180px;
+ }.userAcc .btn{
+     width: 75%;
+ }
+ .userAcc .user-name{
+    font-size: 2em;
+    font-weight: 300;
+}
+}
+@media (max-width: 560px){
+    .userAcc .user-name{
+        font-size: 1.9em;
+    }
+    .userAcc .user-email{
+        font-size: 1.4em;
+    }
+    .userAcc .user-data{
+        font-size: 0.6em;
+    }
+    .userAcc .userAvatar{
+        width: 120px;
+        height: 120px;
+    }
+}

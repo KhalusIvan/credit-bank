@@ -1,11 +1,10 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
 import { NavHashLink as NavLink } from 'react-router-hash-link';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link,
-    Redirect,useRouteMatch
   } from "react-router-dom";
 import '../../style/header.css';
 import headerThemeContext from '../../Contexts/HeaderThemeContext.js';
@@ -15,8 +14,8 @@ import NavItemsForGuests from './NavItemsForGuests.js';
 import Switcher from '../Switcher/Switcher.js';
 import UserRole from '../../Contexts/UserRole';
 const Header = (props) => {
-    const {url} = useRouteMatch();
     const theme = useContext(headerThemeContext);
+    const [path,setPath] = useState(document.location.pathname);
     const language = useContext(AppLanguage);
     const userRole = useContext(UserRole).userRole;
     const activeElement = useRef(null);
@@ -46,7 +45,6 @@ const Header = (props) => {
     }
     const changeUserRole = useContext(UserRole).changeUserRole;
     function logOut() {
-        console.log(userRole);
         changeUserRole('guest');
         window.location.reload();
       }
@@ -72,9 +70,10 @@ const Header = (props) => {
                         {userRole === 'guest' ?
                             <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Benefits' : "Переваги", href: '/#why-us' }, { label: language.appLanguage === 'eng' ? 'Instruction' : "Інструкція", href: '/#instruction' }]} />
                             :(<>
-                                <li className='nav-item'><Link className='nav-link' to={`/user`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
-                                <li className='nav-item'><Link className='nav-link' to={`/user/takeCredit`}>{language.appLanguage === 'eng' ? 'Take a loan' : 'Взяти кредит'}</Link></li>
-                                <li className='nav-item'><Link className='nav-link' onClick={()=>{window.location.reload()}} to={`/user/logOut`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
+                                <li className={`nav-item ${path === '/user' ? 'active':''}`}><Link className='nav-link' onClick={()=>setPath('/user')} to={`/user`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
+                                <li className={`nav-item ${path === '/user/takeCredit' ? 'active':''}`}><Link className='nav-link' onClick={()=>setPath('/user/takeCredit')} to={`/user/takeCredit`}>{language.appLanguage === 'eng' ? 'Take a loan' : 'Кредит'}</Link></li>
+                                <li className={`nav-item ${path === '/user/review' ? 'active':''}`}><Link className='nav-link' onClick={()=>setPath('/user/review')} to={`/user/review`}>{language.appLanguage === 'eng' ? 'Give review' : 'Відгук'}</Link></li>
+                                <li className={`nav-item ${path === '/user/logOut' ? 'active':''}`}><Link className='nav-link' onClick={()=>{document.location.reload();changeUserRole('guest');}}  to={`/user/logOut`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>)
                         }
                     </ul>

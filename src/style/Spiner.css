@@ -9,3 +9,11 @@
     width: 100px;
     height: 100px;
 }
+.Spiner{
+    width: 100%;
+    height: 100%;
+}
+.Spiner .spinner-border{
+    width: 80px;
+    height: 80px;
+}
