@@ -75,14 +75,14 @@ function App() {
         name: 'John',
         surname: 'Smith'
       };
-      let response = await fetch('http://localhost:5000/signUp', {
+      let response = await fetch('https://testserverus.herokuapp.com/signUp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(user)
       });
-      let resonse = await fetch('http://localhost:5000/signIn', {
+      let resonse = await fetch('https://testserverus.herokuapp.com/signIn', {
         method: 'GET'
       });
       let js = await resonse.json();
