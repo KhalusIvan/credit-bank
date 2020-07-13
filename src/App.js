@@ -75,15 +75,19 @@ function App() {
         name: 'John',
         surname: 'Smith'
       };
-      
-      let response = await fetch('/signUp', {
+      let response = await fetch('http://localhost:5000/signUp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(user)
       });
-      console.log(response.json());
+      let resonse = await fetch('http://localhost:5000/signIn', {
+        method: 'GET'
+      });
+      let js = await resonse.json();
+      console.log(js);
+      console.log(resonse);
     }
      //if (localStorage.getItem('token'))
       fetchData();
