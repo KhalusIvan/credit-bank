@@ -40,7 +40,7 @@ function App() {
   function checkTheme(expectedTheme) {
     if (headerTheme === expectedTheme)
       return;
-    else {setHeaderTheme(expectedTheme);console.log(headerTheme);};
+    else {setHeaderTheme(expectedTheme)};
   }
   function toogleHeaderWrapperTheme() {
     if (window.pageYOffset > 0 || document.documentElement.clientWidth <= 767) {
@@ -57,7 +57,6 @@ function App() {
   function changeUserRole(role) {
     setUserRole(role);
   }
-  console.log(userRole);
   useEffect(() => {
     async function fetchData() {
       let formEl = new FormData();

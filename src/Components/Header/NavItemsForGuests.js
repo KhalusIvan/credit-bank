@@ -6,7 +6,7 @@ export default (props) => {
     const navList = props.navList;
     const activeElement = props.activeElement;
     const toogleActive = props.toogleActive;
-    const userRole = useContext(UserRole);
+    const {userRole} = useContext(UserRole);
     useEffect(() => {
         if (userRole === 'guest') {
             function toogleActiveAnchor() {
