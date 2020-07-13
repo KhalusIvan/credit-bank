@@ -44,6 +44,12 @@ const Header = (props) => {
         else languageSwitcherSmall.current.checked = languageSwitcherMiddle.current.checked = false;
         language.toggleLanguage();
     }
+    const changeUserRole = useContext(UserRole).changeUserRole;
+    function logOut() {
+        console.log(userRole);
+        changeUserRole('guest');
+        window.location.reload();
+      }
     return (
         <header className="container">
             <nav className={`navbar navbar-expand-md ${userRole === 'guest' ? theme : 'navbar-light'}`}>
@@ -68,7 +74,7 @@ const Header = (props) => {
                             :(<>
                                 <li className='nav-item'><Link className='nav-link' to={`/user`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
                                 <li className='nav-item'><Link className='nav-link' to={`/user/takeCredit`}>{language.appLanguage === 'eng' ? 'Take a loan' : 'Взяти кредит'}</Link></li>
-                                <li className='nav-item'><Link className='nav-link' to={`/user/logOut`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
+                                <li className='nav-item'><Link className='nav-link' onClick={()=>{window.location.reload()}} to={`/user/logOut`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>)
                         }
                     </ul>

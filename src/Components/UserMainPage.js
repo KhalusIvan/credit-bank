@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link,
-    Redirect,useRouteMatch
+    Redirect,useRouteMatch,withRouter
   } from "react-router-dom";
   import Error404 from './Error404.js'
+  
 import UserOffice from './UserOffice.js';
+import UserRole from '../Contexts/UserRole.js';
 export default (props)=>{
+ 
+    const changeUserRole = useContext(UserRole).changeUserRole;
     let { path, url} = useRouteMatch();
     return (<div>
         <Switch>
@@ -16,7 +20,7 @@ export default (props)=>{
             <div>123456</div>
           </Route>
           <Route path={`${path}/logOut`}>
-            fij
+            hkjhgkhgjk
           </Route>
           <Route path={`${path}/*`}>
             <Error404/>

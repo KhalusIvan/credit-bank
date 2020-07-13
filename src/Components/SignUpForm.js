@@ -70,16 +70,16 @@ function SignUpForm (props)  {
     }
     async function formSubmit(e){
         e.preventDefault();
-        let resp = await fetch('/signUp',{
+        let resp = await fetch('https://testservere.herokuapp.com/signUp',{
             method: 'POST',
             body: new FormData(e.target)
         });
         let json = await resp.json()
-        if(json.status === 'ok'){
+        console.log(json);
             props.onSubmitFunction();
-            changeUserRole('user');
+            changeUserRole(json.role);
             props.history.push('/');
-        }
+        
     }
     return (
         <form className='signUpForm' onSubmit={formSubmit}>

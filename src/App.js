@@ -28,21 +28,19 @@ import Footer from './Components/Footer.js';
 import SpinerApp from './Components/SpinerApp.js';
 import Separate from './Components/Separate.js';
 import './style/custom.css';
+const url = 'https://testservere.herokuapp.com';
 function App() {
   const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
+  const headerWrapper = useRef(null);
+  const [headerTheme, setHeaderTheme] = useState();
   localStorage.setItem('lang', appLanguage);
   function toggleLanguage() {
     appLanguage === 'eng' ? setAppLanguage('ukr') : setAppLanguage('eng');
   }
-  const headerWrapper = useRef(null);
-  const [headerTheme, setHeaderTheme] = useState('navbar-dark');
   function checkTheme(expectedTheme) {
     if (headerTheme === expectedTheme)
       return;
-    else toogleHeaderTheme();
-  }
-  function toogleHeaderTheme() {
-    headerTheme === 'navbar-dark' ? setHeaderTheme('navbar-light') : setHeaderTheme('navbar-dark');
+    else {setHeaderTheme(expectedTheme);console.log(headerTheme);};
   }
   function toogleHeaderWrapperTheme() {
     if (window.pageYOffset > 0 || document.documentElement.clientWidth <= 767) {
@@ -59,39 +57,36 @@ function App() {
   function changeUserRole(role) {
     setUserRole(role);
   }
+  console.log(userRole);
   useEffect(() => {
     async function fetchData() {
       let formEl = new FormData();
       formEl.append('token', 'sdffhiragf')
-      let resp = await fetch('https://testservere.herokuapp.com/verificToken', {
+      let resp = await fetch(url+'/verificToken', {
         method: 'POST',
         body: formEl
       });
       let json = await resp.json();
       setUserRole(json.role);
       setIsUserReady(true);
-      console.log('now');
+      return json;
     }
-     //if (localStorage.getItem('token'))
-      fetchData();
-   // else { setUserRole('guest'); setIsUserReady(true) } 
-  });
-  const [isUserReady, setIsUserReady] = useState(false);
-  
-  useEffect(() => {
-    if (userRole === 'guest') {
-      window.addEventListener('scroll', toogleHeaderWrapperTheme);
-      window.addEventListener('load', toogleHeaderWrapperTheme);
-      window.addEventListener('resize', toogleHeaderWrapperTheme);
-      return () => {
-        window.removeEventListener('scroll', toogleHeaderWrapperTheme);
-        window.removeEventListener('load', toogleHeaderWrapperTheme);
-        window.removeEventListener('resize', toogleHeaderWrapperTheme);
+    //if (localStorage.getItem('token'))
+    fetchData().then(json=>{
+      if (json.role === 'guest') {
+        window.addEventListener('scroll', toogleHeaderWrapperTheme);
+        window.addEventListener('resize', toogleHeaderWrapperTheme);
+        toogleHeaderWrapperTheme();
+        return () => {
+          console.log('now');
+          window.removeEventListener('scroll', toogleHeaderWrapperTheme);
+          window.removeEventListener('resize', toogleHeaderWrapperTheme);
+        }
       }
-    }
-
-  }, [userRole]);
-  console.log(userRole);
+    });
+    // else { setUserRole('guest'); setIsUserReady(true) } 
+  },[]);
+  const [isUserReady, setIsUserReady] = useState(false);
   return (
     <>
       <React.StrictMode>
@@ -99,7 +94,7 @@ function App() {
           <UserRole.Provider value={{ userRole: userRole, changeUserRole: changeUserRole }}>
             <Router>
               {!isUserReady ? <SpinerApp /> : null}
-              <div ref={headerWrapper} className={`container-fluid sticky-navigation ${userRole !== 'guest' ? 'header-not-sticky sticky-now' : null}`}>
+              <div ref={headerWrapper} className={`container-fluid sticky-navigation ${userRole !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>
                 <headerThemeContext.Provider value={headerTheme}>
                   <Header />
                 </headerThemeContext.Provider>
@@ -108,11 +103,11 @@ function App() {
                 <Route exact path="/">
                   <Separate role={userRole} />
                 </Route>
-                <Route exact path="/guest">
+                <OnlyGuest exact role={userRole} path="/guest">
                   <GuesMainPage />
-                </Route>
+                </OnlyGuest>
                 <Route path="/guest/*">
-                  <Error404/>
+                  <Error404 />
                 </Route>
                 <PrivateRoute path="/user" role={userRole}>
                   <UserMainPage />
@@ -121,7 +116,7 @@ function App() {
                   <UserMainPage />
                 </PrivateRoute>
                 <Route path="*">
-                  <Error404/>
+                  <Error404 />
                 </Route>
               </Switch>
               <Footer />
@@ -139,6 +134,25 @@ function PrivateRoute({ children, role, ...rest }) {
       {...rest}
       render={({ location }) =>
         role !== 'guest' ? (
+          children
+        ) : (
+            <Redirect
+              to={{
+                pathname: "/",
+                state: { from: location }
+              }}
+            />
+          )
+      }
+    />
+  );
+}
+function OnlyGuest({ children, role, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        role === 'guest' ? (
           children
         ) : (
             <Redirect

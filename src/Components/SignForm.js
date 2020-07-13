@@ -13,7 +13,9 @@ export default (props) => {
     }
     const closeModalButton = useRef(null);
     function closeModal() {
-        closeModalButton.current.click();
+        if(closeModalButton.current)
+            closeModalButton.current.click();
+        return;
     }
     const appLanguage = useContext(AppLanguage).appLanguage;
     return (

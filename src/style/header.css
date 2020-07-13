@@ -48,6 +48,9 @@ body{
 }
 .header-not-sticky{
     position: static;
+    padding: 5px 0 5px 0;
+    background-color: #fbfaf8;
+    color: black;
 }
 @keyframes slidein {
     from{
