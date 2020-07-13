@@ -63,31 +63,14 @@ function App() {
     async function fetchData() {
       let formEl = new FormData();
       formEl.append('token', 'sdffhiragf')
-     /*  let resp = await fetch('/verificToken', {
+      let resp = await fetch('https://testservere.herokuapp.com/verificToken', {
         method: 'POST',
         body: formEl
       });
       let json = await resp.json();
       setUserRole(json.role);
-      setIsUserReady(true); */
+      setIsUserReady(true);
       console.log('now');
-      let user = {
-        name: 'John',
-        surname: 'Smith'
-      };
-      let response = await fetch('https://testserverus.herokuapp.com/signUp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(user)
-      });
-      let resonse = await fetch('https://testserverus.herokuapp.com/signIn', {
-        method: 'GET'
-      });
-      let js = await resonse.json();
-      console.log(js);
-      console.log(resonse);
     }
      //if (localStorage.getItem('token'))
       fetchData();
