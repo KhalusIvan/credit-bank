@@ -83,8 +83,9 @@ function App() {
         }
       }
     });
-    //else { setUserRole('user'); setIsUserReady(true) } 
+   // else { setUserRole('guest'); setIsUserReady(true) } 
   },[]);
+  console.log('fff');
   const [isUserReady, setIsUserReady] = useState(false);
   return (
     <>
