@@ -11,9 +11,13 @@ setTimeout(function run() {
 }, 100);
 function register(req, res){
     console.log(2222222);
+    let password;
         let token = "111";
-        let password = bcrypt.hashSync(req.body.password, "my salt");
-        console.log(base);
+        bcrypt.genSalt(10, function(err, salt) {
+            let password = bcrypt.hash(req.body.password, salt);
+        });
+        //let password = bcrypt.hashSync(req.body.password, "my salt");
+        console.log(password);
         base.collection('users').insertOne({
             'first_name': req.body.first_name,
             'second_name': req.body.second_name,
