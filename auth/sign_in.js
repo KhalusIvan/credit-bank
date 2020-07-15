@@ -12,7 +12,7 @@ setTimeout(function run() {
 }, 100);
 function signIn(req, res){
     try {
-        console.log(1);
+        console.log(req.body);
         console.log(2);
         base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
             console.log(resp);
