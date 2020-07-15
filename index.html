@@ -10,15 +10,15 @@
     <input type="text" id="pass">
     <button onclick="action()">111</button>
     <script>
-        new Promise(res => {
+        /*new Promise(res => {
             res(fetch("/getUsers", {method: 'POST'}))
         }).then (res => {
             return res.json();
         }).then (res => {
             console.log(res);
-        })
+        })*/
         function action() {
-            fetch('/signIn', {
+            fetch('/register', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json'

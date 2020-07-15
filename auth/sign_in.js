@@ -12,15 +12,13 @@ setTimeout(function run() {
 }, 100);
 function signIn(req, res){
     try {
-        console.log(req.body);
-        console.log(2);
         base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
             console.log(resp);
             if (resp.length == 0)
                 res.json({status: "error"});
             else {
                 console.log(4);
-                const isValid = bcrypt.compareSync(req.body.password, resp.password);
+                const isValid = bcrypt.compareSync(req.body.password, resp[0].password);
                 console.log(5555);
                 if (isValid) {
                     const token = jwt.sign(resp.role, secretJWT);

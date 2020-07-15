@@ -9,8 +9,8 @@ setTimeout(function run() {
     base = db;
     setTimeout(run, 500);
 }, 100);
-function register(){
-    app.post('/register', type, (req, res) => {
+function register(req, res){
+    console.log(2222222);
         let token = "111";
         let password = bcrypt.hashSync(req.body.password, "my salt");
         console.log(base);
@@ -31,6 +31,6 @@ function register(){
             //res.redirect('/');
         });
         res.json({token: token});
-    });
+  
 }
 module.exports.register = register;
