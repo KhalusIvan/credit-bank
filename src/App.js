@@ -43,7 +43,6 @@ function App() {
     else {setHeaderTheme(expectedTheme)};
   }
   function toogleHeaderWrapperTheme() {
-    console.log(87);
     if (window.pageYOffset > 0 || document.documentElement.clientWidth <= 767) {
       headerWrapper.current.classList.add('sticky-now');
       checkTheme('navbar-light');
@@ -59,7 +58,6 @@ function App() {
     setUserRole(role);
   }
   useEffect(() => {
-    console.log('useEffect');
     async function fetchData() {
       let formEl = new FormData();
       formEl.append('token', 'sdffhiragf')
@@ -86,7 +84,6 @@ function App() {
     });
    // else { setUserRole('guest'); setIsUserReady(true) } 
   },[]);
-  console.log('fff');
   const [isUserReady, setIsUserReady] = useState(false);
   return (
     <>
