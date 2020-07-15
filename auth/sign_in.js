@@ -17,7 +17,7 @@ function signIn(req, res){
         base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
             console.log(resp);
             if (resp.length == 0)
-                res.sendStatus(401).json({status: "error"});
+                res.json({status: "error"});
             else {
                 console.log(4);
                 const isValid = bcrypt.compareSync(req.body.password, resp.password);
@@ -27,13 +27,13 @@ function signIn(req, res){
                     res.send(token);
                 }
                 else {
-                    res.sendStatus(401).json({status:"error"});
+                    res.json({status:"error"});
                 }
             }
         });
     } catch (e) {
         console.log(2222);
-        res.sendStatus(500).json({message: e.message});
+        res.json({message: e.message});
     }
 }
 module.exports.signIn = signIn;
