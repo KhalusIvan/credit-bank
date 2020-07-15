@@ -59,6 +59,7 @@ function App() {
     setUserRole(role);
   }
   useEffect(() => {
+    console.log('useEffect');
     async function fetchData() {
       let formEl = new FormData();
       formEl.append('token', 'sdffhiragf')
