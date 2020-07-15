@@ -39,6 +39,7 @@ let {startDataSet} = require("./dataSet/startDataSet.js");
 let {startDataUpdate} = require("./dataUpdate/startDataUpdate.js");
 let {startDataGet} = require("./dataGet/startDataGet.js");
 let {signIn} = require('./auth/sign_in.js');
+let {register} = require('./auth/register.js');
 
 
 startDataSet();
@@ -46,6 +47,7 @@ startDataUpdate();
 startDataGet();
 
 app.post("/signIn", type,  signIn);
+app.post("/register", type,  register);
 
 
 

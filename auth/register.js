@@ -1,5 +1,6 @@
 let {app} = require('../server.js');
 let {type} = require('../server.js');
+const bcrypt = require("bcrypt");
 var base;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -9,14 +10,15 @@ setTimeout(function run() {
     base = db;
     setTimeout(run, 500);
 }, 100);
-function setUser(){
-    app.post('/setUser', type, (req, res) => {
+function register(){
+    app.post('/register', type, (req, res) => {
         let token = "111";
+        let password = bcrypt.hashSync(req.body.password, "my salt");
         console.log(base);
         base.collection('users').insertOne({
             'first_name': req.body.first_name,
             'second_name': req.body.second_name,
-            'password': req.body.password,
+            'password': password,
             'email': req.body.email,
             'phone': null,
             'avatar': null,
@@ -32,4 +34,4 @@ function setUser(){
         res.json({token: token});
     });
 }
-module.exports.setUser = setUser;
+module.exports.register = register;
