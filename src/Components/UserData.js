@@ -1,5 +1,6 @@
-import React, { useContext, Suspense, useRef } from 'react';
+import React, { useContext } from 'react';
 import AppLanguage from '../Contexts/AppLanguage';
+import AvatarConstructor from './AvatarImg/AvatarConstructor';
 import '../style/userAcc.css';
 async function getUserData() {
     let response = await fetch('https://testservere.herokuapp.com/getFile', {
@@ -39,17 +40,18 @@ export default (props) => {
     let arr = new Uint8Array(userData.read().data);
     let blob = new Blob([arr]);
     return (
-        <div className='d-flex align-items-start'>
+        <div className='d-flex align-items-start mt-2 mb-4'>
             <div className='userAvatar flex-shrink-0' style={{ backgroundImage: `url(${URL.createObjectURL(blob)})` }}></div>
             <div className='user-data d-dlex justify-content-between flex-column p-0'>
                 <div className='d-flex flex-column flex-sm-row user-name '>
                     <div className='userFirstName m-0 ml-md-2 mr-1'>Alexander</div>
                     <div className='userSecondName m-0 ml-md-2 mr-1'>Kovalechenko</div>
                 </div>
-                <div className='user-email m-0 ml-sm-2 text-muted'>someemail99@gmail.com</div>
+                <div className='user-email m-0 ml-sm-2 text-muted '>someemail99@gmail.com</div>
                 <div className='user-role m-0 ml-sm-2 text-muted'>Simpe User</div>
-                <div className='change-user-avatar m-0 ml-sm-2 mt-1 text-muted'><button className='btn btn-dark'>Змінити фото</button></div>
+                <div className='change-user-avatar m-0 ml-sm-2 mt-1 text-muted'><button data-toggle="modal" data-target="#changeAvatar" className='btn btn-dark'>{appLanguage === 'eng' ? 'Change image' : 'Змінити фото'}</button></div>
             </div>
+            <AvatarConstructor />
         </div>
     )
 }

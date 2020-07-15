@@ -43,6 +43,7 @@ function App() {
     else {setHeaderTheme(expectedTheme)};
   }
   function toogleHeaderWrapperTheme() {
+    console.log(87);
     if (window.pageYOffset > 0 || document.documentElement.clientWidth <= 767) {
       headerWrapper.current.classList.add('sticky-now');
       checkTheme('navbar-light');
@@ -77,13 +78,12 @@ function App() {
         window.addEventListener('resize', toogleHeaderWrapperTheme);
         toogleHeaderWrapperTheme();
         return () => {
-          console.log('now');
           window.removeEventListener('scroll', toogleHeaderWrapperTheme);
           window.removeEventListener('resize', toogleHeaderWrapperTheme);
         }
       }
     });
-    // else { setUserRole('guest'); setIsUserReady(true) } 
+    //else { setUserRole('user'); setIsUserReady(true) } 
   },[]);
   const [isUserReady, setIsUserReady] = useState(false);
   return (
@@ -111,9 +111,9 @@ function App() {
                 <PrivateRoute path="/user" role={userRole}>
                   <UserMainPage />
                 </PrivateRoute>
-                <PrivateRoute path="/admin" role={userRole}>
+                <OnlyAdmin path="/admin" role={userRole}>
                   <UserMainPage />
-                </PrivateRoute>
+                </OnlyAdmin>
                 <Route path="*">
                   <Error404 />
                 </Route>
@@ -133,6 +133,25 @@ function PrivateRoute({ children, role, ...rest }) {
       {...rest}
       render={({ location }) =>
         role !== 'guest' ? (
+          children
+        ) : (
+            <Redirect
+              to={{
+                pathname: "/",
+                state: { from: location }
+              }}
+            />
+          )
+      }
+    />
+  );
+}
+function OnlyAdmin({ children, role, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        role === 'admin' ? (
           children
         ) : (
             <Redirect

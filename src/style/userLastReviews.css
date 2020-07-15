@@ -1,0 +1,30 @@
+.user-last-reviews-title{
+    font-weight: 300;
+    font-size: 2.1em;
+}
+.user-last-reviews-review .card{
+    height: 100%;
+}
+@media (max-width: 1200px){
+    .user-last-reviews-title{
+        font-size: 1.89em;
+    }
+ }
+ @media (max-width: 960px){
+    .user-last-reviews-title{
+        font-size: 1.68em;
+    }
+ }
+ @media (max-width: 767px){
+    .user-last-reviews-title{
+        font-size: 1.36em;
+    }
+ }
+ @media (max-width: 560px){
+    .user-last-reviews-title{
+        font-size: 1.19em;
+    }
+    .user-last-reviews-review .card{
+        font-size: 14px;
+    }
+ }

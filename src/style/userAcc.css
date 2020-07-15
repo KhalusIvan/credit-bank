@@ -34,26 +34,68 @@
     filter: invert(96%) sepia(0%) saturate(0%) hue-rotate(61deg) brightness(102%) contrast(107%);
     background-size:  cover;
 }
+.change-data-title{
+    font-weight: 300;
+    font-size: 1.8em;
+}
+.changeUserData label,
+.changeUserData input{
+    font-size: 1em;
+}
+ .change-data-wrapper{
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.58);
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 10px;
+} 
+.changeUserData .btn{
+    font-size: 0.9em;
+    width: 200px;
+}
+.change-avatar .modal-dialog{
+    max-width: 1100px;
+}
+.change-avatar.modal.fade .modal-dialog {
+    transform: scale(0.25);
+    opacity: 0;
+    transition: all .25s linear;
+  }
+  
+  .change-avatar.modal.fade.show .modal-dialog {
+    opacity: 1;
+    transform: scale(1);
+  }
+
 @media (max-width: 1200px){
    .userAcc .user-data{
        font-size: 0.9em;
+       z-index: 1;
    }
    .userAcc .userAvatar{
     width: 220px;
     height: 220px;
-}
+    }
+    .change-avatar .modal-dialog{
+        max-width: 860px;
+    }
+    .changeUserData{font-size: 0.9em;}
 }
 @media (max-width: 960px){
-    .userAcc .user-data{
+    .userAcc .user-data,
+    .changeUserData{
         font-size: 0.8em;
     }
     .userAcc .userAvatar{
      width: 200px;
      height: 200px;
  }
+ .change-avatar .modal-dialog{
+    max-width: 667px;
+}
 }
 @media (max-width: 767px){
-    .userAcc .user-data{
+    .userAcc .user-data
+    {
         font-size: 0.7em;
     }
     .userAcc .userAvatar{
@@ -65,6 +107,12 @@
  .userAcc .user-name{
     font-size: 2em;
     font-weight: 300;
+}
+.changeUserData .btn{
+    width: 200px;
+}
+.change-avatar .modal-dialog{
+    max-width: 500px;
 }
 }
 @media (max-width: 560px){
@@ -80,5 +128,13 @@
     .userAcc .userAvatar{
         width: 120px;
         height: 120px;
+    }
+    .change-data-title{
+        margin: 0;
+        font-size: 1.5em;
+    }
+    .changeUserData .btn{
+        margin-top: 10px;
+        width: 100px;
     }
 }

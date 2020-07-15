@@ -1,0 +1,29 @@
+.AvatarConstructor .canvas-field{
+    width: 100%;
+    overflow: hidden;
+}
+.AvatarConstructor .canvas-field .redactImg{
+    width: 70%;
+    margin-right: 20px;
+}
+.AvatarConstructor .canvas-field .redactImg *,
+.AvatarConstructor .canvas-field .previewImg *{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.AvatarConstructor .canvas-field .previewImg{
+    width: 30%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+@media (max-width: 1200px){
+    .AvatarConstructor .canvas-field .redactImg{
+        width: 100%;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+    .AvatarConstructor .canvas-field .previewImg{
+        width: 33%;
+    }
+ }
