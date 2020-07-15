@@ -11,7 +11,6 @@ setTimeout(function run() {
     setTimeout(run, 500);
 }, 100);
 function signIn(req, res){
-    console.log(2333);
     try {
         console.log(1);
         console.log(2);

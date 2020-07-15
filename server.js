@@ -45,7 +45,7 @@ startDataSet();
 startDataUpdate();
 startDataGet();
 
-//app.post("/signIn", type,  signIn);
+app.post("/signIn", type,  signIn);
 
 
 
