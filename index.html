@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="em">
+    <input type="text" id="pass">
+    <button onclick="action()">111</button>
+    <script>
+        new Promise(res => {
+            res(fetch("/getUsers", {method: 'POST'}))
+        }).then (res => {
+            return res.json();
+        }).then (res => {
+            console.log(res);
+        })
+        function action() {
+            fetch('/setUser', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: "111", 
+                    password: 2525
+                })
+            });
+        }
+    </script>
+</body>
+</html>
