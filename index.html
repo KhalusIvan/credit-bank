@@ -6,9 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" name="" id="em">
-    <input type="text" id="pass">
-    <button onclick="action()">111</button>
+    <button onclick="action()">register</button>
+    <button onclick="actionSign()">signin</button>
     <script>
         /*new Promise(res => {
             res(fetch("/getUsers", {method: 'POST'}))
@@ -24,6 +23,21 @@
                 'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    first_name: "gggg",
+                    second_name: "gggggggg",
+                    email: "vakhalus@gmail.com", 
+                    password: "12345678"
+                })
+            });
+        }
+        function actionSign() {
+            fetch('/signIn', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+
                     email: "vakhalus@gmail.com", 
                     password: "12345678"
                 })

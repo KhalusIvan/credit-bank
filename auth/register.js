@@ -14,7 +14,7 @@ function register(req, res){
     let password;
         let token = "111";
         bcrypt.genSalt(10, function(err, salt) {
-            let password = bcrypt.hash(req.body.password, salt);
+            password = bcrypt.hash(req.body.password, salt);
         });
         //let password = bcrypt.hashSync(req.body.password, "my salt");
         console.log(password);
