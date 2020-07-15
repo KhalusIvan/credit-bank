@@ -10,31 +10,33 @@ setTimeout(function run() {
     setTimeout(run, 500);
 }, 100);
 function register(req, res){
-    console.log(2222222);
-    let password;
-        let token = "111";
-        bcrypt.genSalt(10, function(err, salt) {
-            password = bcrypt.hash(req.body.password, salt);
-        });
-        //let password = bcrypt.hashSync(req.body.password, "my salt");
-        console.log(password);
+    let hashPassword;
+    let token = "111";
+    bcrypt.genSalt(10, function(err, salt) {
+    console.log(2334556);
+    bcrypt.hash(req.body.password, salt, function(err, hash) {
         base.collection('users').insertOne({
             'first_name': req.body.first_name,
             'second_name': req.body.second_name,
-            'password': password,
+            'password': hash,
             'email': req.body.email,
             'phone': null,
             'avatar': null,
             'passport': null,
             'credit_card': null,
-            'role': req.body.role,
+            'role': "user",
             'token': token
         },(err,result)=>{
             if(err)
                 return console.log(err);
-            //res.redirect('/');
+                //res.redirect('/');
+            });
         });
-        res.json({token: token});
+    });
+    //let password = bcrypt.hashSync(req.body.password, "my salt");
+    console.log(hashPassword);
+        
+    res.json({token: token});
   
 }
 module.exports.register = register;
