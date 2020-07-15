@@ -2,7 +2,6 @@ let {app} = require('../server.js');
 let {type} = require('../server.js');
 const bcrypt = require("bcrypt");
 var base;
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 setTimeout(function run() {
     if(base) return;
