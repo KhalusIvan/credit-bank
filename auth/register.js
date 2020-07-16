@@ -1,5 +1,6 @@
 let {app} = require('../server.js');
 let {type} = require('../server.js');
+let {secretJWT} = require('../server.js');
 const bcrypt = require("bcrypt");
 var base;
 const jwt = require("jsonwebtoken");
@@ -11,7 +12,7 @@ setTimeout(function run() {
 }, 100);
 function register(req, res){
     let hashPassword;
-    const token = jwt.sign({email:resp[0].email, role:resp[0].role}, secretJWT);
+    const token = jwt.sign({email:req.body.email, role:"user"}, secretJWT);
     bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(req.body.password, salt, function(err, hash) {
         base.collection('users').insertOne({

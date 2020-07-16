@@ -32,18 +32,6 @@
             })
         }
         function action() {
-            fetch('/register', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    first_name: "gggg",
-                    second_name: "gggggggg",
-                    email: "vakhalus@gmail.com", 
-                    password: "12345678"
-                })
-            });
             new Promise(res => {
                 res(fetch('/register', {
                     method: 'POST',
