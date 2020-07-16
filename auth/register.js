@@ -13,7 +13,6 @@ function register(req, res){
     let hashPassword;
     let token = "111";
     bcrypt.genSalt(10, function(err, salt) {
-    console.log(2334556);
     bcrypt.hash(req.body.password, salt, function(err, hash) {
         base.collection('users').insertOne({
             'first_name': req.body.first_name,

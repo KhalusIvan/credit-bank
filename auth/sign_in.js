@@ -18,9 +18,9 @@ function signIn(req, res){
             else {
                 const isValid = bcrypt.compareSync(req.body.password, resp[0].password);
                 if (isValid) {
-                    const token = "111"; //jwt.sign(resp.role, secretJWT);
-                    console.log("YEEEEEs");
-                    res.send(token);
+                    const token = jwt.sign(resp[0].email, secretJWT);
+                    console.log(token);
+                    res.json({token});
                 }
                 else {
                     res.json({status:"error"});
@@ -28,7 +28,6 @@ function signIn(req, res){
             }
         });
     } catch (e) {
-        console.log(2222);
         res.json({message: e.message});
     }
 }

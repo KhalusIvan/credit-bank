@@ -8,14 +8,29 @@
 <body>
     <button onclick="action()">register</button>
     <button onclick="actionSign()">signin</button>
+    <button onclick="actionPost()">post</button>
     <script>
-        /*new Promise(res => {
-            res(fetch("/getUsers", {method: 'POST'}))
-        }).then (res => {
-            return res.json();
-        }).then (res => {
-            console.log(res);
-        })*/
+        let token = '';
+        function actionPost() {
+            console.log(token.token);
+            new Promise(res => {
+                res(fetch('/getUsers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer' + token.token,
+                    },
+                    body: JSON.stringify({
+                        token: token
+                    })
+                }).then (res => {
+                    return res.json();
+                }).then (res => {
+                    console.log(res);
+                })
+                )
+            })
+        }
         function action() {
             fetch('/register', {
                 method: 'POST',
@@ -31,17 +46,24 @@
             });
         }
         function actionSign() {
-            fetch('/signIn', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-
-                    email: "vakhalus@gmail.com", 
-                    password: "12345678"
+            new Promise(res => {
+                res(fetch('/signIn', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: "vakhalus@gmail.com", 
+                        password: "12345678"
+                    })
+                }).then (res => {
+                    return res.json();
+                }).then (res => {
+                    console.log(res);
+                    token = res;
                 })
-            });
+                )
+            })
         }
     </script>
 </body>
