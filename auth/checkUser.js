@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 function checkUser(req, res){
     const authHeader = req.get('Authorization');
     if (!authHeader) {
-        return res.json({message: "Token not provided"})
+        return res.json({message: "Token not provided", role:"guest"})
     }
     const token = authHeader.replace('Bearer ', '');
     let currentUser;
