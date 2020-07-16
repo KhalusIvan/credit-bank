@@ -11,7 +11,7 @@ setTimeout(function run() {
 }, 100);
 function register(req, res){
     let hashPassword;
-    let token = "111";
+    const token = jwt.sign({email:resp[0].email, role:resp[0].role}, secretJWT);
     bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(req.body.password, salt, function(err, hash) {
         base.collection('users').insertOne({
