@@ -24,7 +24,8 @@ function register(req, res){
             'avatar': null,
             'passport': null,
             'credit_card': null,
-            'role': "user"
+            'role': "user",
+            "is_checked": false
         },(err,result)=>{
             if(err)
                 return console.log(err);
