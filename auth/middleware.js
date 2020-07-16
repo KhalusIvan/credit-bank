@@ -5,7 +5,7 @@ function middleware(req, res, next) {
     //next();
     const authHeader = req.get('Authorization');
     if (!authHeader) {
-        return res.json({message: "Token not provided"})
+        return res.json({message: "Token not provided", role:"guest"})
     }
     const token = authHeader.replace('Bearer ', '');
     let currentUser;
@@ -13,7 +13,7 @@ function middleware(req, res, next) {
         currentUser = jwt.verify(token, secretJWT);
     } catch (e) {
         if (e instanceof jwt.JsonWebTokenError) {
-            return res.status(401).json({message: "Invalid token"});
+            return res.status(401).json({message: "Invalid token", role:"guest"});
             //next(e);
         }
     }
