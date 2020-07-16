@@ -32,8 +32,6 @@ function register(req, res){
             });
         });
     });
-    //let password = bcrypt.hashSync(req.body.password, "my salt");
-    console.log(hashPassword);
         
     res.json({token: token});
   

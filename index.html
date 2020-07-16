@@ -14,7 +14,7 @@
         function actionPost() {
             console.log(token.token);
             new Promise(res => {
-                res(fetch('/getUsers', {
+                res(fetch('/checkUser', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

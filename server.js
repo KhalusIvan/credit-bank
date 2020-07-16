@@ -40,6 +40,8 @@ let {startDataUpdate} = require("./dataUpdate/startDataUpdate.js");
 let {startDataGet} = require("./dataGet/startDataGet.js");
 let {signIn} = require('./auth/sign_in.js');
 let {register} = require('./auth/register.js');
+const { middleware } = require('./auth/middleware.js');
+const { checkUser } = require('./auth/checkUser.js');
 
 
 startDataSet();
@@ -48,6 +50,7 @@ startDataGet();
 
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
+app.post("/checkUser", type, checkUser)
 
 
 
