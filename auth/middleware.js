@@ -8,14 +8,16 @@ function middleware(req, res, next) {
         return res.json({message: "Token not provided"})
     }
     const token = authHeader.replace('Bearer ', '');
+    let currentUser;
     try {
-        jwt.verify(token, secretJWT);
+        currentUser = jwt.verify(token, secretJWT);
     } catch (e) {
         if (e instanceof jwt.JsonWebTokenError) {
             return res.status(401).json({message: "Invalid token"});
             //next(e);
         }
     }
+    req.user = {email: currentUser.email};
     next();
 }
 
