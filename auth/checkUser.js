@@ -2,7 +2,6 @@ const {secretJWT} = require('../server.js');
 const jwt = require("jsonwebtoken");
 
 function checkUser(req, res){
-    console.log(22222222222222222222);
     const authHeader = req.get('Authorization');
     if (!authHeader) {
         return res.json({message: "Token not provided"})
