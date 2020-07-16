@@ -23,8 +23,7 @@ function register(req, res){
             'avatar': null,
             'passport': null,
             'credit_card': null,
-            'role': "user",
-            'token': token
+            'role': "user"
         },(err,result)=>{
             if(err)
                 return console.log(err);
