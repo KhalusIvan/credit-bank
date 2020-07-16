@@ -7,7 +7,7 @@ function middleware(req, res, next) {
     if (!authHeader) {
         return res.json({message: "Token not provided"})
     }
-    const token = authHeader.replace('Bearer', '');
+    const token = authHeader.replace('Bearer ', '');
     try {
         jwt.verify(token, secretJWT);
     } catch (e) {
