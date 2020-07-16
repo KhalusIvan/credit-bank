@@ -1,7 +1,7 @@
-let {getUsers} = require('./getUsers.js');
 let {getData} = require('./getData.js');
+let {getComments} = require('./getComments.js');
 function startDataGet() {
-    getUsers();
     getData();
+    getComments();
 }
 module.exports.startDataGet = startDataGet;

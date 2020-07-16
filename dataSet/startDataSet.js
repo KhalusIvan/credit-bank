@@ -1,5 +1,5 @@
-let {setUser} = require('./setUser.js');
+let {setComment} = require('./setComment.js');
 function startDataSet() {
-    setUser();
+    setComment();
 }
 module.exports.startDataSet = startDataSet;

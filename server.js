@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 let {startDataSet} = require("./dataSet/startDataSet.js");
 let {startDataUpdate} = require("./dataUpdate/startDataUpdate.js");
 let {startDataGet} = require("./dataGet/startDataGet.js");
+let {startDataDelete} = require("./dataDelete/startDataDelete.js");
 let {signIn} = require('./auth/sign_in.js');
 let {register} = require('./auth/register.js');
 const { middleware } = require('./auth/middleware.js');
@@ -47,6 +48,7 @@ const { checkUser } = require('./auth/checkUser.js');
 startDataSet();
 startDataUpdate();
 startDataGet();
+startDataDelete();
 
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);

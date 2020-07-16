@@ -13,14 +13,18 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/getData', {
+                res(fetch('/getAllComments', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token.token,
                     },
                     body: JSON.stringify({
-                        token: token
+                        "name": "sssss",
+                        "photo": "photo",
+                        "text": "redacter com",
+                        "email": "vakhalus@gmail.com",
+                        "id": "$2b$10$py0FDeyDCmeHC8n4/6osxeIsFvalEtupFVVtUrWnuw/zvHBR1kjHm"
                     })
                 }).then (res => {
                     return res.json();
