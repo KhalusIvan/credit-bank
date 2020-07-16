@@ -7,9 +7,11 @@ import {
     Redirect,
     withRouter
   } from "react-router-dom";
+import Proxy from '../Contexts/Proxy.js';
 function SignUpForm (props)  {
     const appLanguage = useContext(AppLanguage).appLanguage;
     const changeUserRole = useContext(UserRole).changeUserRole;
+    const proxy = useContext(Proxy);
     const firstName = useRef(null);
     const secondName = useRef(null);
     const email = useRef(null);
