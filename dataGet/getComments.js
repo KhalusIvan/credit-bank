@@ -82,7 +82,7 @@ function getComments(){
                 }
                 return el;
             })
-            res.send(resp);
+            res.send(comments);
         });
     });
 }
