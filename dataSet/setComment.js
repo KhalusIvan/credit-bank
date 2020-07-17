@@ -21,7 +21,7 @@ function setComment(){
                     "avatar": req.body.avatar,
                     "text": req.body.text,
                     "date": date,
-                    "email": req.body.email,
+                    "email": req.user.email,
                     "id": hash
                 },(err,result)=>{
                     if(err)
