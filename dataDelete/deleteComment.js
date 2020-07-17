@@ -17,6 +17,7 @@ function deleteComment(){
                 return console.log(err);
             //res.redirect('/');
         });
+        res.json({status:'ok'});
     });
 }
 module.exports.deleteComment = deleteComment;

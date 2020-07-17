@@ -17,7 +17,7 @@ function updateComments(){
             text: req.body.text
             }      
         });
-        res.send({status:'ok'});
+        res.json({status:'ok'});
     });
 }
 module.exports.updateComments = updateComments;
