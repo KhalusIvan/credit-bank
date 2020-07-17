@@ -58,6 +58,8 @@ function getComments(){
             resp.sort(function(a,b) {
                 return b.date - a.date;
             })
+            // left only first 8 comments
+            resp.splice(8, resp.length);
             let comments = resp.map(el => {
                 minutes = Math.ceil(Math.abs(nowTime.getTime() - el.date.getTime())/ (1000 * 60));
                 if (minutes > 60) {
