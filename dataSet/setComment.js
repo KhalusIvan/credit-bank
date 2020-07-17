@@ -18,7 +18,7 @@ function setComment(){
             bcrypt.hash(hashString, salt, async function(err, hash) {
                 base.collection('comments').insertOne({
                     "name": req.body.name,
-                    "photo": req.body.photo,
+                    "avatar": req.body.avatar,
                     "text": req.body.text,
                     "date": date,
                     "email": req.body.email,
@@ -30,7 +30,7 @@ function setComment(){
                 }); 
                 commentsItem = {
                     "name": req.body.name,
-                    "photo": req.body.photo,
+                    "avatar": req.body.avatar,
                     "text": req.body.text,
                     "date": "now",
                     "email": req.body.email,

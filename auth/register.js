@@ -11,7 +11,7 @@ setTimeout(function run() {
     setTimeout(run, 500);
 }, 100);
 function register(req, res){
-    let hashPassword;
+    let email;
     const token = jwt.sign({email:req.body.email, role:"user"}, secretJWT);
     bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(req.body.password, salt, function(err, hash) {
