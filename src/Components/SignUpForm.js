@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import AppLanguage from '../Contexts/AppLanguage.js';
-import UserRole from '../Contexts/UserRole.js';
+import User from '../Contexts/User.js';
 import '../style/signUpForm.css';
 import {
     BrowserRouter as Router,
@@ -10,13 +10,13 @@ import {
 import Proxy from '../Contexts/Proxy.js';
 function SignUpForm (props)  {
     const appLanguage = useContext(AppLanguage).appLanguage;
-    const changeUserRole = useContext(UserRole).changeUserRole;
-    const proxy = useContext(Proxy);
     const firstName = useRef(null);
     const secondName = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
+    const {proxy} = useContext(Proxy);
     const [isValidForm, setIsValidForm] = useState(false);
+    const [isSending, setIsSending] = useState(false);
     function returnStateOfField(e) {
         if(e.target.value.length === 0){
             e.target.classList.remove('valid');
@@ -72,25 +72,28 @@ function SignUpForm (props)  {
     }
     async function formSubmit(e){
         e.preventDefault();
-        let resp = await fetch('https://testservere.herokuapp.com/signUp',{
+        setIsSending(true);
+        let resp = await fetch(proxy+'/register',{
             method: 'POST',
             body: new FormData(e.target)
         });
         let json = await resp.json()
-        console.log(json);
+        console.log(await json);
+        if(await json.token){
+            localStorage.setItem('token',json.token);
             props.onSubmitFunction();
-            changeUserRole(json.role);
+            document.location.reload();
             props.history.push('/');
-        
+        }     
     }
     return (
         <form className='signUpForm' onSubmit={formSubmit}>
             <div className="input-group">
-                <input type="text" autoComplete='off' maxLength='20' ref={firstName} onChange={(e)=>{validateName(e);checkForm(e)}} className="form-control" name='first-name' placeholder={appLanguage === 'eng'? 'First name': "Ім'я" }/>
+                <input type="text" autoComplete='off' maxLength='20' ref={firstName} onChange={(e)=>{validateName(e);checkForm(e)}} className="form-control" name='first_name' placeholder={appLanguage === 'eng'? 'First name': "Ім'я" }/>
                 <small className="form-text form-helper first-name-helper">{appLanguage === 'eng' ? "First and Second name must be 2-20 characters long and free of spaces, special characters (except - '), or smilies":"Ім'я і Прізвище повинно мати довжину 2-20 символів і не містити пробілів, спеціальних символів (окрім -') або смайлів"}</small>
             </div>
             <div className="input-group">
-                <input type="text" autoComplete='off' ref={secondName} onChange={(e)=>{validateName(e);checkForm(e)}} className="form-control" name='second-name' placeholder={appLanguage === 'eng'? 'Second name': 'Прізвище' } />
+                <input type="text" autoComplete='off' ref={secondName} onChange={(e)=>{validateName(e);checkForm(e)}} className="form-control" name='second_name' placeholder={appLanguage === 'eng'? 'Second name': 'Прізвище' } />
                 <small className="form-text form-helper second-name-helper"></small>
             </div>
             <div className="input-group mb-2 mr-sm-2">
@@ -107,7 +110,7 @@ function SignUpForm (props)  {
                 }</small>
             </div>
             <div className='d-flex justify-content-end'>
-                <button type="submit" disabled={!isValidForm} className="btn btn-dark ml-auto btn-submit">{appLanguage === 'eng'? "Submit": 'Відправити' }</button>
+                <button type="submit" disabled={!isValidForm || isSending} className="btn btn-dark ml-auto btn-submit">{isSending ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : appLanguage === 'eng' ? "Submit" : 'Відправити'}</button>
             </div>
         </form>
     )

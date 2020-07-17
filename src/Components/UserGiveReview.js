@@ -28,7 +28,6 @@ export default (props) => {
         newArray.unshift({ name: 'Alexandr Kovalechenko', text: newText, time: 'justNow', id: newText })
         setMyReviewsArray(newArray);
     }
-    console.log(myReviewsArray);
     useEffect(()=>{
         return ()=>myReviewsArrayFetch=myReviewsArray;
     })

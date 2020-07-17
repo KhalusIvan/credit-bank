@@ -2,9 +2,10 @@ import React, { useContext, useState, useRef } from 'react';
 import AppLanguage from '../../Contexts/AppLanguage';
 import Logo from '../Logo.js';
 import Avatar from './Avatar.js';
-
+import Proxy from '../../Contexts/Proxy.js';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
+    const proxy = useContext(Proxy);
     const closeModalButton = useRef(null);
     const previewAvatarElement = useRef(null);
     const [isPicture, setIsPicture] = useState(false);
@@ -25,11 +26,7 @@ export default (props) => {
         }else{
             comprimed = imageBlob;
         }
-        setTimeout(() => {
-            console.log(comprimed);
-        }, 100);
         let formData =  new FormData();
-        formData.append("name", "John");
         formData.append("file", await comprimed, "image.png");
         let response = await fetch('https://testservere.herokuapp.com/sendFile', {
             method: 'POST',
@@ -57,7 +54,7 @@ export default (props) => {
                     </div>
                     <div className='modal-footer'>
                         <button disabled={!isPicture || isSending} onClick={sendAvatar} className='btn btn-dark'>
-                            {isSending?<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>:'Send'}
+                            {isSending?<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>:appLanguage==='eng'?'Send':'Відправити'}
                         </button>
                     </div>
                 </div>

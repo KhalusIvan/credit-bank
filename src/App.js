@@ -3,10 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
-  useRouteMatch,
-  useParams
 } from "react-router-dom";
 
 import $ from "jquery";
@@ -19,7 +16,7 @@ import Error404 from './Components/Error404.js'
 
 import headerThemeContext from './Contexts/HeaderThemeContext.js';
 import AppLanguage from './Contexts/AppLanguage.js';
-import UserRole from './Contexts/UserRole.js';
+import User from './Contexts/User.js';
 import Proxy from './Contexts/Proxy.js';
 
 
@@ -33,6 +30,7 @@ import './style/custom.css';
 
 function App() {
   const proxy = 'https://credit-bank-practice.herokuapp.com';
+  const [isUserReady, setIsUserReady] = useState(false);
   const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
   const headerWrapper = useRef(null);
   const [headerTheme, setHeaderTheme] = useState();
@@ -56,68 +54,84 @@ function App() {
     }
   }
   toogleHeaderWrapperTheme = throttle(toogleHeaderWrapperTheme, 200);
-  const [userRole, setUserRole] = useState(null);
-  function changeUserRole(role) {
-    setUserRole(role);
+
+  const [user, setUser] = useState({
+    avatar: null,
+    credit_card: null,
+    email: null,
+    first_name: null,
+    is_checked: false,
+    passport: null,
+    password: null,
+    phone: null,
+    role: null,
+    second_name: null,
+    _id: null
+  });
+  function changeUser(newUser) {
+    setUser(newUser);
   }
-  console.log(proxy);
+  function changeUserRole(role) {
+    let newUser = Object.assign({}, user); 
+    newUser.role = role;
+    setUser(newUser);
+  }
   useEffect(() => {
     async function fetchData() {
-      let formEl = new FormData();
-      formEl.append('token', 'sdffhiragf');
-      formEl.append('fname', 'sdfsdf');
-      let resp = await fetch(proxy + '/verification', {
+      let resp = await fetch(proxy + '/checkUser', {
         method: 'POST',
-        body: formEl
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
       });
       let json = await resp.json();
-      console.log(json);
-      setUserRole(json.role);
-      setIsUserReady(true);
       return json;
     }
     if (localStorage.getItem('token'))
       fetchData().then(json => {
-        if (json.role === 'guest') {
-          window.addEventListener('scroll', toogleHeaderWrapperTheme);
-          window.addEventListener('resize', toogleHeaderWrapperTheme);
-          toogleHeaderWrapperTheme();
-          return () => {
-            window.removeEventListener('scroll', toogleHeaderWrapperTheme);
-            window.removeEventListener('resize', toogleHeaderWrapperTheme);
-          }
+        if (json.role !== 'guest') {
+          window.removeEventListener('scroll', toogleHeaderWrapperTheme);
+          window.removeEventListener('resize', toogleHeaderWrapperTheme);
         }
+        changeUserRole(json.role);
+        setIsUserReady(true);
       });
-    else { setUserRole('user'); setIsUserReady(true) }
+    else {
+      changeUserRole('guest');
+      window.addEventListener('scroll', toogleHeaderWrapperTheme);
+      window.addEventListener('resize', toogleHeaderWrapperTheme);
+      toogleHeaderWrapperTheme();
+      setIsUserReady(true);
+    }
   }, []);
-  const [isUserReady, setIsUserReady] = useState(false);
   return (
     <>
       <React.StrictMode>
-        <Proxy.Provider>
+        <Proxy.Provider value={{ proxy: proxy }}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
-            <UserRole.Provider value={{ userRole: userRole, changeUserRole: changeUserRole }}>
+            <User.Provider value={{ user: user, changeUserRole: changeUserRole,changeUser:changeUser }}>
               <Router>
                 {!isUserReady ? <SpinerApp /> : null}
-                <div ref={headerWrapper} className={`container-fluid sticky-navigation ${userRole !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>
+                <div ref={headerWrapper} className={`container-fluid sticky-navigation ${user.role !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>
                   <headerThemeContext.Provider value={headerTheme}>
                     <Header />
                   </headerThemeContext.Provider>
                 </div>
                 <Switch>
                   <Route exact path="/">
-                    <Separate role={userRole} />
+                    <Separate role={user.role} />
                   </Route>
-                  <OnlyGuest exact role={userRole} path="/guest">
+                  <OnlyGuest exact role={user.role} path="/guest">
                     <GuesMainPage />
                   </OnlyGuest>
-                  <Route path="/guest/*">
+                {  <Route path="/guest/*">
                     <Error404 />
-                  </Route>
-                  <PrivateRoute path="/user" role={userRole}>
+                  </Route>}
+                  <PrivateRoute path="/user" role={user.role}>
                     <UserMainPage />
                   </PrivateRoute>
-                  <OnlyAdmin path="/admin" role={userRole}>
+                  <OnlyAdmin path="/admin" role={user.role}>
                     <UserMainPage />
                   </OnlyAdmin>
                   <Route path="*">
@@ -126,7 +140,7 @@ function App() {
                 </Switch>
                 <Footer />
               </Router>
-            </UserRole.Provider>
+            </User.Provider>
           </AppLanguage.Provider>
         </Proxy.Provider>
       </React.StrictMode>

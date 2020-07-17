@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Carousel from './Carousel/Carousel.js';
 import CreditConditions from './CreditConditions.js';
 import WhyUs from './WhyUs.js';
@@ -10,10 +10,15 @@ import Reviews from './Reviews.js';
 import SignForm from './SignForm.js';
 import '../style/carousel.css';
 
-import UserRole from '../Contexts/UserRole.js';
+import User from '../Contexts/User.js';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
-    const userRole = useContext(UserRole).userRole;
+    const {user} = useContext(User);
+    const [an,setAn] =useState(true);
+    console.log(an);
+    useEffect(()=>{
+        setAn(false);
+    },[]);
     return (
         <>
             {<div className="container-fluid p-0 carousel-wrapper carousel-header">
@@ -42,7 +47,7 @@ export default (props) => {
             <div className='container-fluid p-0 reviews-wrapper'>
                 <Reviews />
             </div>
-            {userRole === 'guest' ? <SignForm/>:null}
+            {user.role === 'guest' ? <SignForm/>:null}
         </>
     )
 }
