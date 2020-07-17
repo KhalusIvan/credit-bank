@@ -13,7 +13,10 @@ function getComments(){
         base.collection('comments').find({email: req.user.email}).toArray((err,resp)=>{
             let nowTime = new Date();
             let minutes;
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
+            resp.sort(function(a,b) {
+                return b.date - a.date;
+            })
             let comments = resp.map(el => {
                 minutes = Math.ceil(Math.abs(nowTime.getTime() - el.date.getTime())/ (1000 * 60));
                 if (minutes > 60) {
@@ -52,6 +55,9 @@ function getComments(){
             let nowTime = new Date();
             let minutes;
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            resp.sort(function(a,b) {
+                return b.date - a.date;
+            })
             let comments = resp.map(el => {
                 minutes = Math.ceil(Math.abs(nowTime.getTime() - el.date.getTime())/ (1000 * 60));
                 if (minutes > 60) {

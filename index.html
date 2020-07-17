@@ -13,7 +13,7 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/register', {
+                res(fetch('/getAllComments', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
