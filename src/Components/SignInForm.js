@@ -1,9 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
 import AppLanguage from '../Contexts/AppLanguage.js';
 import Proxy from '../Contexts/Proxy.js';
-export default (props) => {
+import { withRouter } from 'react-router-dom';
+import User from '../Contexts/User.js';
+export default withRouter(props =>{
     const appLanguage = useContext(AppLanguage).appLanguage;
     const { proxy } = useContext(Proxy);
+    const {changeUserRole,user} = useContext(User);
     const email = useRef(null);
     const password = useRef(null);
     const invalidLabel = useRef(false);
@@ -24,7 +27,12 @@ export default (props) => {
         })
         let json = await resp.json();
         console.log(json);
-        if (json.token) {
+        if(json.role === 'admin'){
+            props.onSubmitFunction();
+            changeUserRole('admin');
+            props.history.push('/admin');
+        }
+        else if (json.role === 'user') {
             localStorage.setItem('token', await json.token);
             document.location.reload();
         }
@@ -51,4 +59,4 @@ export default (props) => {
             </div>
         </form>
     )
-}
+})

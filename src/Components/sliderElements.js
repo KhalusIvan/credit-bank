@@ -16,7 +16,7 @@ function sliderElements(appLanguage) {
                 slogan: appLanguage === 'eng' ? 'Need money?' : 'Потрібні гроші?',
                 h1: appLanguage === 'eng' ? 'This is not a problem!' : 'Це не пробема!',
                 small: appLanguage === 'eng' ? 'Register, fill out the form and get a loan here' : 'Реєструйся, заповни форму та отримай кредит тут',
-                button: <button className='btn btn-primary pr-1 pl-1 pr-md-3 pl-md-3'>{appLanguage === 'eng' ? 'Registration' : 'Регістрація'}</button>
+                button: <button className='btn btn-primary pr-1 pl-1 pr-md-3 pl-md-3' data-toggle='modal' data-target='#signin'>{appLanguage === 'eng' ? 'Registration' : 'Регістрація'}</button>
             }
         },
         {

@@ -24,12 +24,6 @@ export default (props) => {
             closeModalButton.current.click();
         return;
     }
-    if(!props.myReviewsArray){
-        return(
-            <h1>Loading...</h1>
-        )
-    }
-    else
     return (
         <div className='user-last-reviews-wrapper container-fluid pt-md-3 pb-md-3 pt-1 pb-1 pr-0 pl-0 pr-sm-2 pl-sm-2'>
             <div className='container user-last-reviews mb-md-3 mt-md-3 mt-1 mb-1'>

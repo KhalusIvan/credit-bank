@@ -132,7 +132,7 @@ function App() {
                     <UserMainPage />
                   </PrivateRoute>
                   <OnlyAdmin path="/admin" role={user.role}>
-                    <UserMainPage />
+                    <div>THIS IS ADMIN PANEL</div>
                   </OnlyAdmin>
                   <Route path="*">
                     <Error404 />
