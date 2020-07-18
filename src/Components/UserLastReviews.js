@@ -1,6 +1,5 @@
-import React, { useContext, Suspense, useState, useEffect, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import AppLanguage from '../Contexts/AppLanguage';
-import Spiner from './Spiner';
 import { CSSTransitionGroup } from 'react-transition-group'
 import UserLastReviewsReviev from './UserLastReviewsReview.js';
 import Logo from './Logo';
@@ -25,6 +24,12 @@ export default (props) => {
             closeModalButton.current.click();
         return;
     }
+    if(!props.myReviewsArray){
+        return(
+            <h1>Loading...</h1>
+        )
+    }
+    else
     return (
         <div className='user-last-reviews-wrapper container-fluid pt-md-3 pb-md-3 pt-1 pb-1 pr-0 pl-0 pr-sm-2 pl-sm-2'>
             <div className='container user-last-reviews mb-md-3 mt-md-3 mt-1 mb-1'>
@@ -33,7 +38,7 @@ export default (props) => {
                     transitionName="example"
                     transitionEnterTimeout={500}
                     transitionLeaveTimeout={300}>
-                    {props.myReviewsArray.map(value => (<UserLastReviewsReviev editReview={editReview} idOfModal={idOfModal} deleteReview={props.deleteReview} key={value.id} name={value.name} text={value.text} time={value.time} id={value.id} />))}
+                    {props.myReviewsArray.map(value => (<UserLastReviewsReviev editReview={editReview} idOfModal={idOfModal} deleteReview={props.deleteReview} key={value.id} name={value.name} text={value.text} date={value.date} id={value.id} />))}
                 </CSSTransitionGroup>
             </div>
             <div className="modal fade signForm p-0" id={idOfModal} tabIndex="-1" role="dialog">

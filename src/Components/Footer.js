@@ -21,11 +21,11 @@ export default (props) => {
                     <div className='col-12 col-md-4 d-flex flex-column'>
     <h1 className='sociality-title'>{appLanguage === 'eng' ? 'Our social networks':'Наші соціальні мережі'}</h1>
                         <div className='sociality d-flex'>
-                            <a href="http://google.com" rel="noopener noreferrer" target="_blank" className='sociality-link google'></a>
-                            <a href="http://facebook.com" rel="noopener noreferrer" target="_blank" className='sociality-link facebook'></a>
-                            <a href="http://twitter.com" rel="noopener noreferrer" target="_blank" className='sociality-link twitter'></a>
-                            <a href="http://telegram.org" rel="noopener noreferrer" target="_blank" className='sociality-link telegram'></a>
-                            <a href="http://linkedin.com" rel="noopener noreferrer" target="_blank" className='sociality-link id'></a>
+                            <a href="http://google.com" rel="noopener noreferrer" target="_blank" className='sociality-link google'><span className='aria-hidden'></span></a>
+                            <a href="http://facebook.com" rel="noopener noreferrer" target="_blank" className='sociality-link facebook'><span className='aria-hidden'></span></a>
+                            <a href="http://twitter.com" rel="noopener noreferrer" target="_blank" className='sociality-link twitter'><span className='aria-hidden'></span></a>
+                            <a href="http://telegram.org" rel="noopener noreferrer" target="_blank" className='sociality-link telegram'><span className='aria-hidden'></span></a>
+                            <a href="http://linkedin.com" rel="noopener noreferrer" target="_blank" className='sociality-link id'><span className='aria-hidden'></span></a>
                         </div>
                     </div>
                 </div>

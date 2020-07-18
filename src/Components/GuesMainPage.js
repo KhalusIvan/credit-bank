@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, Suspense } from 'react';
 import Carousel from './Carousel/Carousel.js';
 import CreditConditions from './CreditConditions.js';
 import WhyUs from './WhyUs.js';
@@ -14,11 +14,6 @@ import User from '../Contexts/User.js';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
     const {user} = useContext(User);
-    const [an,setAn] =useState(true);
-    console.log(an);
-    useEffect(()=>{
-        setAn(false);
-    },[]);
     return (
         <>
             {<div className="container-fluid p-0 carousel-wrapper carousel-header">
@@ -45,7 +40,9 @@ export default (props) => {
                 </div>
             </VideoSection>
             <div className='container-fluid p-0 reviews-wrapper'>
-                <Reviews />
+                <Suspense fallback={<h1>Loading...</h1>}>
+                    <Reviews />
+                </Suspense>
             </div>
             {user.role === 'guest' ? <SignForm/>:null}
         </>

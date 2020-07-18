@@ -1,36 +1,98 @@
-import React, { useContext, Suspense, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import AppLanguage from '../Contexts/AppLanguage';
 import UserGiveReviewImputField from './UserGiveReviewImputField.js';
 import UserLastReviews from './UserLastReviews.js';
-let myReviewsArrayFetch = [
-    { name: 'Alexandr Kovalechenko', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remain", time: '2 days ago', id: 1 },
-    { name: 'Alexandr Kovalechenko', text: "Lorem Ipsum is simply dummard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remain", time: '12 days ago', id: 2 },
-    { name: 'Alexandr Kovalechenko', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a tut also the leap into electronic typesetting, remain", time: '8 days ago', id: 3 },
-    { name: 'Alexandr Kovalechenko', text: "Lorem Ipsusince the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into elg, remain", time: '6 days ago', id: 4 },
-    { name: 'Alexandr Kovalechenko', text: "Loremnot only five centuries, but also the leap into electronic typesetting, remain", time: '8 days ago', id: 5 }
-]
+import User from '../Contexts/User';
+import Proxy from '../Contexts/Proxy.js'
+import Spiner from './Spiner';
+import { Redirect } from 'react-router-dom';
+async function getReview(){
+    let response = await fetch('https://credit-bank-practice.herokuapp.com/getUserComments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    });
+    let result = await response.json();
+    console.log(result);
+    return await result;
+}
+function wrapPromise(promise) {
+    let status = "pending";
+    let result;
+    let suspender = promise.then(
+        r => {
+            status = "success";
+            result = r;
+        },
+        e => {
+            status = "error";
+            result = e;
+        }
+    );
+    return {
+        read() {
+            if (status === "pending") {
+                throw suspender;
+            } else if (status === "error") {
+                throw result;
+            } else if (status === "success") {
+                return result;
+            }
+        }
+    };
+}
+let myReviewsArrayFetch =  localStorage.getItem('token') ? wrapPromise(getReview()) : null;
 export default (props) => {
+    if(!myReviewsArrayFetch)
+        return <Redirect to='/'/>
     const { appLanguage } = useContext(AppLanguage);
-    const [myReviewsArray, setMyReviewsArray] = useState(myReviewsArrayFetch);
-    function deleteReview(removedId) {
+    const {user} = useContext(User);
+    const {proxy} = useContext(Proxy);
+    const [myReviewsArray, setMyReviewsArray] = useState(myReviewsArrayFetch.read());
+    useEffect(()=>{
+        return ()=> myReviewsArrayFetch.read = ()=>myReviewsArray;
+    });
+    async function deleteReview(removedId) {
         const newArray = myReviewsArray.filter(value => removedId !== value.id);
         setMyReviewsArray(newArray);
+        let response = await fetch(proxy+'/deleteComment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({'id':removedId})
+        });
+        let json = await response.json()
     }
-    function sendEditReview(reviewId,newText) {
+    async function sendEditReview(reviewId,newText) {
         setMyReviewsArray(myReviewsArray.map(value=>{
             if(value.id === reviewId)
                 value.text = newText;
             return value;
         }));
+        let response = await fetch(proxy+'/updateComments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                'id':reviewId,
+                'text':newText,
+            })
+        });
     } 
-    function addReview(newText) {
+    function addReview(newReview) {
         let newArray = myReviewsArray.slice();
-        newArray.unshift({ name: 'Alexandr Kovalechenko', text: newText, time: 'justNow', id: newText })
+        newArray.unshift(newReview)
         setMyReviewsArray(newArray);
     }
-    useEffect(()=>{
-        return ()=>myReviewsArrayFetch=myReviewsArray;
-    })
+    if(!user.email){
+        return (<Spiner/>)
+    }
     return (
         <>
         <div className='give-review-wrapper p-0 container-fluid'>
@@ -41,7 +103,7 @@ export default (props) => {
                 <UserGiveReviewImputField addReview={addReview}/>
             </div>
         </div>
-        <UserLastReviews myReviewsArray={myReviewsArray} deleteReview={deleteReview} sendEditReview={sendEditReview}/>
+       <UserLastReviews myReviewsArray={myReviewsArray} deleteReview={deleteReview} sendEditReview={sendEditReview}/>
         </>
     )
 }

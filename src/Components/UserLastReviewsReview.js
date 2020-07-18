@@ -5,7 +5,7 @@ export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
     const name = props.name;
     const text = props.text;
-    const time = props.time;
+    const date = props.date;
     const id = props.id;
     const modal = props.idOfModal;
     const [startAnimation, setStartAnimation] = useState(false);
@@ -34,7 +34,7 @@ export default (props) => {
                         <p className="card-text">{text}</p>
                     </div>
                     <div className="card-footer pb-1 pt-1 text-muted d-flex align-items-center justify-content-between">
-                        {time}
+                        {date}
                         <div className='btns d-flex '>
                             <button className='btn btn-primary' data-toggle='modal' data-target={'#'+modal}  onClick={() => { props.editReview(id) }}>{appLanguage === 'eng' ? 'Edit' : 'Змінити'}</button>
                             <button className='btn btn-danger' onClick={() => { props.deleteReview(id) }}>{appLanguage === 'eng' ? 'Delete' : 'Видалити'}</button>

@@ -2,54 +2,16 @@ import React, { useContext } from 'react';
 import AppLanguage from '../Contexts/AppLanguage';
 import AvatarConstructor from './AvatarImg/AvatarConstructor';
 import '../style/userAcc.css';
-import { Redirect } from 'react-router-dom';
-
-async function getUserData() {
-    let response = await fetch('https://credit-bank-practice.herokuapp.com/getData', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    });
-    let result = await response.json();
-    return await result;
-}
-function wrapPromise(promise) {
-    let status = "pending";
-    let result;
-    let suspender = promise.then(
-        r => {
-            status = "success";
-            result = r;
-        },
-        e => {
-            status = "error";
-            result = e;
-        }
-    );
-    return {
-        read() {
-            if (status === "pending") {
-                throw suspender;
-            } else if (status === "error") {
-                throw result;
-            } else if (status === "success") {
-                return result;
-            }
-        }
-    };
-}
-const userData = localStorage.getItem('token') ? wrapPromise(getUserData()) : null;
+import User from '../Contexts/User';
+import Spiner from './Spiner';
 export default (props) => {
-    if(!userData){
-        return <Redirect to='/'/>
-    }
     const { appLanguage } = useContext(AppLanguage);
-    console.log(userData.read());
-    const user = userData.read();
-    let arr = new Uint8Array(userData.read().avatar);
+    const {user} = useContext(User); 
+    let arr = new Uint8Array(user.avatar);
     let blob = new Blob([arr]);
+    if(!user.email){
+        return (<h1><Spiner/></h1>)
+    }
     return (
         <div className='d-flex align-items-start mt-2 mb-4'>
             <div className='userAvatar flex-shrink-0' style={blob.size > 0 ? { backgroundImage: `url(${URL.createObjectURL(blob)})` }:null}></div>

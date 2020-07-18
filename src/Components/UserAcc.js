@@ -1,7 +1,6 @@
 import React, { useContext, Suspense } from 'react';
 import AppLanguage from '../Contexts/AppLanguage';
 import UserData from './UserData.js';
-import Spiner from './Spiner';
 import ChangeUserData from './ChangeUserData.js';
 import ChangeUserPassword from './ChangeUserPassword.js';
 import '../style/userAcc.css'
@@ -14,9 +13,7 @@ export default (props) => {
                     <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 userAcc-title title'>{appLanguage === 'eng' ? 'Personal office' : 'Особистий кабінет'}</h2>
                     <div className='row ml-0 mr-0 mt-4 mb-3'>
                         <div className='col-12 col-md-8'>
-                            <Suspense fallback={<Spiner />}>
-                                <UserData />
-                            </Suspense>
+                            <UserData />
                         </div>
                         <div className='col-12 col-md-4 d-none d-md-block empty-space'>
                         </div>

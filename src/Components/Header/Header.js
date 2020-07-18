@@ -1,9 +1,6 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import { NavHashLink as NavLink } from 'react-router-hash-link';
-import {
-    BrowserRouter as Router,
-    Link,
-  } from "react-router-dom";
+import {Link } from "react-router-dom";
 import '../../style/header.css';
 import headerThemeContext from '../../Contexts/HeaderThemeContext.js';
 import AppLanguage from '../../Contexts/AppLanguage.js';
@@ -15,7 +12,7 @@ const Header = (props) => {
     const theme = useContext(headerThemeContext);
     const [path,setPath] = useState(document.location.pathname);
     const language = useContext(AppLanguage);
-    const {user,changeUserRole} = useContext(User);
+    const {user} = useContext(User);
     const activeElement = useRef(null);
     const languageSwitcherSmall = useRef(null);
     const languageSwitcherMiddle = useRef(null);
@@ -41,10 +38,6 @@ const Header = (props) => {
         else languageSwitcherSmall.current.checked = languageSwitcherMiddle.current.checked = false;
         language.toggleLanguage();
     }
-    function logOut() {
-        changeUserRole('guest');
-        window.location.reload();
-      }
     return (
         <header className="container">
             <nav className={`navbar navbar-expand-md ${user.role === 'guest' ? theme : 'navbar-light'}`}>

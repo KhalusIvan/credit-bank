@@ -28,7 +28,7 @@ export default (props) => {
         }
         let formData =  new FormData();
         formData.append("file", await comprimed, "image.png");
-        let response = await fetch('https://testservere.herokuapp.com/sendFile', {
+        let response = await fetch(proxy+'/updateAvatar', {
             method: 'POST',
             body: formData
         });

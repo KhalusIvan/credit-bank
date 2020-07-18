@@ -1,15 +1,17 @@
-import React, { useContext, Suspense, useRef, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import AppLanguage from '../Contexts/AppLanguage';
-import Spiner from './Spiner';
+import Proxy from '../Contexts/Proxy.js'
+import User from '../Contexts/User.js';
 import '../style/userGiveReview.css'
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
+    const {proxy} = useContext(Proxy);
+    const {user} = useContext(User);
     const [typedSimbols, setTypedSimbols] = useState(0);
     const [imputValue, setImputValue] = useState('');
     const [isValid,setIsValid] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const maxSimbols = 350;
-
     function valueHandler(e) {
         if(e.target.value.length > maxSimbols)
             return;
@@ -19,14 +21,27 @@ export default (props) => {
     useEffect(()=>{
         setIsValid(imputValue.length > 2);
     },[imputValue.length]);
-    function submitNewReview(e) {
+    async function submitNewReview(e) {
         e.preventDefault();
         setIsSending(true);
-        setTimeout(() => {
-            props.addReview(imputValue);
-            setImputValue('');
-            setIsSending(false);
-        }, 500);
+        console.log(user);
+        let res = await fetch(proxy+'/setComment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            },
+            body: JSON.stringify({
+                "name": user['first_name'] + " " + user['second_name'],
+                "photo": user.avatar,
+                "text": imputValue
+            })
+        });
+        let json = await res.json();
+        console.log(json);
+        props.addReview(json);
+        setImputValue('');
+        setIsSending(false);
     }
     return (
         <div className='container row m-0 give-review pb-3'>
