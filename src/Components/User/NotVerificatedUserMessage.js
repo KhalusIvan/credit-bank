@@ -93,7 +93,7 @@ export default (props) => {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             body: JSON.stringify({
-                "phone": phoneValue,
+                "phone": "+380"+phoneValue,
             })
         });
         let json = await resp.json();
