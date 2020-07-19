@@ -10,17 +10,21 @@ setTimeout(function run() {
     setTimeout(run, 500);
 }, 100);
 function updatePassword(){
-    /*app.post('/updatePassword', middleware, type, (req, res) => {
+    app.post('/updatePassword', middleware, type, async (req, res) => {
+        bcrypt.hash(req.body.new_password, 10, function(err, new_hash) {
+            console.log(new_hash + "   111111");
+            return new_hash;
+        });
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(req.body.old_password, salt, function(err, hash) {
                 base.collection('users').findOneAndUpdate({
                     email : req.user.email,
                     password: hash
                 }, { $set: {
-                    password: async bcrypt.genSalt(10, function(err, salt) {
-                        asyncbcrypt.hash(req.body.new_password, salt, function(err, new_hash) {
+                    password: bcrypt.genSalt(10, async function(err, salt) {
+                        bcrypt.hash(req.body.new_password, salt, function(err, new_hash) {
                             console.log(new_hash);
-                             return new_hash;
+                            return new_hash;
                         });
                         })
                     }      
@@ -29,7 +33,9 @@ function updatePassword(){
             });
             console.log(111);
         res.send({status:'ok'});
-    });*/
+        console.log(222);
+
+    });
 }
 module.exports.updatePassword = updatePassword;
 

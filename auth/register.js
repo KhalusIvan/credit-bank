@@ -15,8 +15,7 @@ function register(req, res){
         if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
         if (resp.length == 0) {
             const token = jwt.sign({email:req.body.email, role:"user"}, secretJWT);
-            bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(req.body.password, salt, function(err, hash) {
+            bcrypt.hash(req.body.password, 10, function(err, hash) {
                 base.collection('users').insertOne({
                     'first_name': req.body.first_name,
                     'second_name': req.body.second_name,
@@ -34,7 +33,6 @@ function register(req, res){
                         //res.redirect('/');
                     });
                 });
-            });
             res.json({token: token, role: "user"});       
         } else {
             res.json({status: "email"});
