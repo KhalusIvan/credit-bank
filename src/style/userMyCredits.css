@@ -1,0 +1,10 @@
+.user-my-credits-wrapper{
+    background-color: rgba(190, 215, 216, 0.349);
+    box-shadow: 0 0 15px #00000055;
+}
+.user-my-credits .jumbotron .title{
+    font-size: 2.4em;
+}
+.user-my-credits .jumbotron .lead{
+    font-size: 1.7em;
+}

@@ -1,9 +1,9 @@
-import React, { useContext, Suspense } from 'react';
-import AppLanguage from '../Contexts/AppLanguage';
+import React, { useContext } from 'react';
+import AppLanguage from '../../Contexts/AppLanguage';
 import UserData from './UserData.js';
 import ChangeUserData from './ChangeUserData.js';
 import ChangeUserPassword from './ChangeUserPassword.js';
-import '../style/userAcc.css'
+import '../../style/userAcc.css'
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage)
     return (

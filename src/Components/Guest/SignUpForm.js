@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState } from 'react';
-import AppLanguage from '../Contexts/AppLanguage.js';
-import '../style/signUpForm.css';
+import AppLanguage from '../../Contexts/AppLanguage.js';
+import '../../style/signUpForm.css';
 import { withRouter } from "react-router-dom";
-import Proxy from '../Contexts/Proxy.js';
+import Proxy from '../../Contexts/Proxy.js';
 function SignUpForm(props) {
     const appLanguage = useContext(AppLanguage).appLanguage;
     const invalidEmail = useRef(null);

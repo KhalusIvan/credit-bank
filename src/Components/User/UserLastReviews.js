@@ -1,13 +1,15 @@
 import React, { useContext, useRef } from 'react';
-import AppLanguage from '../Contexts/AppLanguage';
+import AppLanguage from '../../Contexts/AppLanguage';
 import { CSSTransitionGroup } from 'react-transition-group'
 import UserLastReviewsReviev from './UserLastReviewsReview.js';
-import Logo from './Logo';
-import '../style/userLastReviews.css';
+import Logo from '../Logo';
+import '../../style/userLastReviews.css';
+import User from '../../Contexts/User';
 export default (props) => {
     const idOfModal = 'rewiewEditModal';
     const textareaOfModal = useRef(null);
     const { appLanguage } = useContext(AppLanguage);
+    const {user} = useContext(User);
     let idOfChangedReview = null;
     function editReview(editedId) {
         for (let value of props.myReviewsArray) {
@@ -32,7 +34,7 @@ export default (props) => {
                     transitionName="example"
                     transitionEnterTimeout={500}
                     transitionLeaveTimeout={300}>
-                    {props.myReviewsArray.map(value => (<UserLastReviewsReviev editReview={editReview} idOfModal={idOfModal} deleteReview={props.deleteReview} key={value.id} name={value.name} text={value.text} date={value.date} id={value.id} />))}
+                    {props.myReviewsArray.map(value => (<UserLastReviewsReviev editReview={editReview} idOfModal={idOfModal} deleteReview={props.deleteReview} avatar={user.avatar ? `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})`:false} key={value.id} name={value.name} text={value.text} date={value.date} id={value.id} />))}
                 </CSSTransitionGroup>
             </div>
             <div className="modal fade signForm p-0" id={idOfModal} tabIndex="-1" role="dialog">

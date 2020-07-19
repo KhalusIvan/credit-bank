@@ -1,12 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
-import AppLanguage from '../Contexts/AppLanguage.js';
-import Proxy from '../Contexts/Proxy.js';
+import AppLanguage from '../../Contexts/AppLanguage.js';
+import Proxy from '../../Contexts/Proxy.js';
 import { withRouter } from 'react-router-dom';
-import User from '../Contexts/User.js';
+import User from '../../Contexts/User.js';
 export default withRouter(props =>{
     const appLanguage = useContext(AppLanguage).appLanguage;
     const { proxy } = useContext(Proxy);
-    const {changeUserRole,user} = useContext(User);
+    const {changeUserRole} = useContext(User);
     const email = useRef(null);
     const password = useRef(null);
     const invalidLabel = useRef(false);

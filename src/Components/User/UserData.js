@@ -1,20 +1,17 @@
-import React, { useContext } from 'react';
-import AppLanguage from '../Contexts/AppLanguage';
-import AvatarConstructor from './AvatarImg/AvatarConstructor';
-import '../style/userAcc.css';
-import User from '../Contexts/User';
-import Spiner from './Spiner';
+import React, { useContext, useState, useEffect } from 'react';
+import AppLanguage from '../../Contexts/AppLanguage';
+import AvatarConstructor from '../AvatarImg/AvatarConstructor';
+import '../../style/userAcc.css';
+import User from '../../Contexts/User';
+import Spiner from '../Spiner';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
     const {user} = useContext(User); 
-    let arr = new Uint8Array(user.avatar);
-    let blob = new Blob([arr]);
-    if(!user.email){
-        return (<h1><Spiner/></h1>)
-    }
+    if(!user.email)
+        return <Spiner/>
     return (
         <div className='d-flex align-items-start mt-2 mb-4'>
-            <div className='userAvatar flex-shrink-0' style={blob.size > 0 ? { backgroundImage: `url(${URL.createObjectURL(blob)})` }:null}></div>
+            <div className='userAvatar flex-shrink-0' style={user.avatar ? { backgroundImage: `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})` }:null}></div>
             <div className='user-data d-dlex justify-content-between flex-column p-0'>
                 <div className='d-flex flex-column flex-sm-row user-name '>
                     <div className='userFirstName m-0 ml-md-2 mr-1'>{user['first_name']}</div>

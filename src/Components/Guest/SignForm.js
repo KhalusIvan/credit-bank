@@ -1,9 +1,9 @@
 import React, {useState, useContext, useRef} from 'react';
-import AvsoluteBtn from './AbsoluteBtn.js';
-import '../style/signForm.css';
-import Logo from './Logo.js';
+import AvsoluteBtn from '../AbsoluteBtn.js';
+import '../../style/signForm.css';
+import Logo from '../Logo.js';
 import InstructionSwitcher from './Instruction/InstructionSwitcher.js';
-import AppLanguage from '../Contexts/AppLanguage.js';
+import AppLanguage from '../../Contexts/AppLanguage.js';
 import SignUpForm from './SignUpForm.js';
 import SignInForm from './SignInForm.js';
 export default (props) => {

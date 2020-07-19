@@ -1,6 +1,6 @@
 import React from 'react';
-import video from '../Image/video.mp4';
-import ScrollMePlugin from './ScrollMePlugin.js'
+import video from '../../Image/video.mp4';
+import ScrollMePlugin from '../ScrollMePlugin.js'
 export default (props) => {
     return (
         <div className="container-fluid video-container p-0">

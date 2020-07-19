@@ -1,10 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AppLanguage from '../Contexts/AppLanguage';
+import AppLanguage from '../../Contexts/AppLanguage';
 import UserGiveReviewImputField from './UserGiveReviewImputField.js';
 import UserLastReviews from './UserLastReviews.js';
-import User from '../Contexts/User';
-import Proxy from '../Contexts/Proxy.js'
-import Spiner from './Spiner';
+import Proxy from '../../Contexts/Proxy.js'
 import { Redirect } from 'react-router-dom';
 async function getReview(){
     let response = await fetch('https://credit-bank-practice.herokuapp.com/getUserComments', {
@@ -48,16 +46,16 @@ export default (props) => {
     if(!myReviewsArrayFetch)
         return <Redirect to='/'/>
     const { appLanguage } = useContext(AppLanguage);
-    const {user} = useContext(User);
     const {proxy} = useContext(Proxy);
     const [myReviewsArray, setMyReviewsArray] = useState(myReviewsArrayFetch.read());
     useEffect(()=>{
         return ()=> myReviewsArrayFetch.read = ()=>myReviewsArray;
     });
+    console.log(myReviewsArray);
     async function deleteReview(removedId) {
         const newArray = myReviewsArray.filter(value => removedId !== value.id);
         setMyReviewsArray(newArray);
-        let response = await fetch(proxy+'/deleteComment', {
+        await fetch(proxy+'/deleteComment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,7 +63,6 @@ export default (props) => {
             },
             body: JSON.stringify({'id':removedId})
         });
-        let json = await response.json()
     }
     async function sendEditReview(reviewId,newText) {
         setMyReviewsArray(myReviewsArray.map(value=>{
@@ -73,7 +70,7 @@ export default (props) => {
                 value.text = newText;
             return value;
         }));
-        let response = await fetch(proxy+'/updateComments', {
+        await fetch(proxy+'/updateComments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,9 +86,6 @@ export default (props) => {
         let newArray = myReviewsArray.slice();
         newArray.unshift(newReview)
         setMyReviewsArray(newArray);
-    }
-    if(!user.email){
-        return (<Spiner/>)
     }
     return (
         <>

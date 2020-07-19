@@ -1,0 +1,75 @@
+.not-verificated-user-wrapper{
+    background-color: rgba(166, 190, 118, 0.205);
+    animation: hhh 3s linear infinite;
+    position: relative;
+}
+/* .not-verificated-user-wrapper::after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: rgba(74, 155, 231, 0.144);
+    z-index: 1000000;
+} */
+.not-verificated-user-titile{
+    color: rgb(80, 46, 51);
+    font-size: 1.2em;
+}
+.not-verificated-user div.form-inline{
+    max-width: 980px;
+    justify-content: center;
+    margin: 0 auto;
+}
+.not-verificated-user .custom-file{
+    height: 100%;
+    max-width: 240px;
+}
+.not-verificated-user .form-control{
+    letter-spacing: 3px;
+}
+.not-verificated-user button{
+    font-size: 0.9em;
+}
+.not-verificated-user .passport-loader,
+.not-verificated-user input,
+.not-verificated-user .input-group-text
+{
+    font-size: 0.9em;
+}
+@keyframes hhh{
+    from{
+        background-color: rgba(166, 190, 118, 0.205);
+    }
+    50%{
+        background-color: rgba(166, 190, 118, 0.455);
+    }
+    to{
+        background-color: rgba(166, 190, 118, 0.205);
+    }
+}
+@media (max-width: 992px){
+    .not-verificated-user .input-group{
+        max-width: 340px;
+        width: 100%;
+    }
+    .not-verificated-user .custom-file{
+        max-width: initial;
+    }
+}
+@media (max-width: 767px){
+    .not-verificated-user{
+        font-size: 0.9em;
+    }
+}
+@media (max-width: 560px){
+    .not-verificated-user{
+        font-size: 0.8em;
+    }
+    .not-verificated-user-titile{
+        font-size: 1em;
+    }
+}
+
+

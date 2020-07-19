@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import MultiCarousel from './MultiCarousel.js';
+import MultiCarousel from '../Carousel/MultiCarousel.js';
 import ReviewsArray from './ReviewsArray.js';
-import AppLanguage from '../Contexts/AppLanguage.js';
+import AppLanguage from '../../Contexts/AppLanguage.js';
 export default (props) =>{
     const appLanguage = useContext(AppLanguage).appLanguage;
     return(

@@ -21,8 +21,8 @@ import Proxy from './Contexts/Proxy.js';
 
 
 import Header from './Components/Header/Header.js';
-import GuesMainPage from './Components/GuesMainPage.js';
-import UserMainPage from './Components/UserMainPage.js';
+import GuesMainPage from './Components/Guest/GuesMainPage.js';
+import UserMainPage from './Components/User/UserMainPage.js';
 import Footer from './Components/Footer.js';
 import SpinerApp from './Components/SpinerApp.js';
 import Separate from './Components/Separate.js';
@@ -76,6 +76,32 @@ function App() {
     newUser.role = role;
     setUser(newUser);
   }
+  function changeUserPassport(passport) {
+    let newUser = Object.assign({}, user); 
+    newUser.passport = passport;
+    setUser(newUser);
+  }
+  function changeUserCreditCard(creditCard) {
+    let newUser = Object.assign({}, user); 
+    newUser['credit_card'] = creditCard;
+    setUser(newUser);
+  }
+  function changeUserPhone(phone) {
+    let newUser = Object.assign({}, user); 
+    newUser.phone = phone;
+    setUser(newUser);
+  }
+  function changeUserPassword(password) {
+    let newUser = Object.assign({}, user); 
+    newUser.password = password;
+    setUser(newUser);
+  }
+  function changeUserName(firstName,secondName) {
+    let newUser = Object.assign({}, user); 
+    newUser['first_name'] = firstName;
+    newUser['second_name'] = secondName;
+    setUser(newUser);
+  }
   useEffect(() => {
     async function fetchData() {
       let resp = await fetch(proxy + '/checkUser', {
@@ -110,7 +136,7 @@ function App() {
       <React.StrictMode>
         <Proxy.Provider value={{ proxy: proxy }}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
-            <User.Provider value={{ user: user, changeUserRole: changeUserRole,changeUser:changeUser }}>
+            <User.Provider value={{ user: user,changeUserPassword:changeUserPassword ,changeUserName:changeUserName, changeUserRole: changeUserRole,changeUser:changeUser, changeUserPassport:changeUserPassport, changeUserCreditCard:changeUserCreditCard, changeUserPhone:changeUserPhone}}>
               <Router>
                 {!isUserReady ? <SpinerApp /> : null}
                 <div ref={headerWrapper} className={`container-fluid sticky-navigation ${user.role !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>
@@ -125,9 +151,9 @@ function App() {
                   <OnlyGuest exact role={user.role} path="/guest">
                     <GuesMainPage />
                   </OnlyGuest>
-                {  <Route path="/guest/*">
+                  <Route path="/guest/*">
                     <Error404 />
-                  </Route>}
+                  </Route>
                   <PrivateRoute path="/user" role={user.role}>
                     <UserMainPage />
                   </PrivateRoute>

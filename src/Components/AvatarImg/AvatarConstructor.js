@@ -5,7 +5,7 @@ import Avatar from './Avatar.js';
 import Proxy from '../../Contexts/Proxy.js';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
-    const proxy = useContext(Proxy);
+    const {proxy} = useContext(Proxy);
     const closeModalButton = useRef(null);
     const previewAvatarElement = useRef(null);
     const [isPicture, setIsPicture] = useState(false);
@@ -28,14 +28,16 @@ export default (props) => {
         }
         let formData =  new FormData();
         formData.append("file", await comprimed, "image.png");
-        let response = await fetch(proxy+'/updateAvatar', {
+        let response = await fetch(proxy + '/updateAvatar', {
             method: 'POST',
+            headers:{'Authorization': 'Bearer ' + localStorage.getItem('token')},
             body: formData
         });
         let result = await response.json();
+        console.log(result);
         if(await result.status === 'ok'){
             closeModalButton.current.click();
-            document.location.reload();
+            //document.location.reload();
         }
         else console.log('Something was wrong'); 
     }

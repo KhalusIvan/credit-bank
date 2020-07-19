@@ -1,5 +1,5 @@
 import React from 'react';
-import sliderArr from '../Image/sliderImage.js';
+import sliderArr from '../../Image/sliderImage.js';
 function sliderElements(appLanguage) {
     return [
         {

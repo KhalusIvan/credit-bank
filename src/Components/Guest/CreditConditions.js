@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import AppLanguage from '../Contexts/AppLanguage.js';
-import '../style/creditConditions.css';
+import AppLanguage from '../../Contexts/AppLanguage.js';
+import '../../style/creditConditions.css';
 import Fade from 'react-reveal/Fade';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;

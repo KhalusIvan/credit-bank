@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../style/instructionSwitcher.css';
+import '../../../style/instructionSwitcher.css';
 export default (props)=>{
     const toggleActive = props.toggleFunction;
     return (

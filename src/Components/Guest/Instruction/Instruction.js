@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import AppLanguage from '../../Contexts/AppLanguage.js';
-import '../../style/instruction.css';
+import AppLanguage from '../../../Contexts/AppLanguage.js';
+import '../../../style/instruction.css';
 import Zoom from 'react-reveal/Zoom';
 import Bounce from 'react-reveal/Bounce';
 import InstructionSwitcher from './InstructionSwitcher.js';

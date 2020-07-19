@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/reviews.css';
+import '../../style/reviews.css';
 async function getReview(){
     let response = await fetch('https://credit-bank-practice.herokuapp.com/getAllComments', {
         method: 'POST',
@@ -39,6 +39,7 @@ function wrapPromise(promise) {
 const reviewsArray = localStorage.getItem('token') ? null : wrapPromise(getReview());
 export default (props) => {
     const reviews = reviewsArray.read();
+    console.log(reviews);
     if(!reviews){
         return [];
     }
@@ -46,7 +47,7 @@ export default (props) => {
     return reviews.map((review,i) => (
         <div key={i} className='card item'>
             <div className="card-body">
-                <h5 className="card-title"><span className='avatar flex-shrink-0'></span>{review.name} {review.surname}</h5>
+                <h5 className="card-title"><span style={ review.avatar ? { backgroundImage: `url(${URL.createObjectURL(new Blob([new Uint8Array(review.avatar.data)]))})`} : null} className='avatar flex-shrink-0'></span>{review.name} {review.surname}</h5>
                 <p className="card-text">{review.text}</p>
             </div>
             <div className="card-footer pb-1 pt-1 text-muted">

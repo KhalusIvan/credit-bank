@@ -1,16 +1,15 @@
-import React, { useContext, useState, useEffect, Suspense } from 'react';
-import Carousel from './Carousel/Carousel.js';
+import React, { useContext, Suspense } from 'react';
+import Carousel from '../Carousel/Carousel.js';
 import CreditConditions from './CreditConditions.js';
 import WhyUs from './WhyUs.js';
 import Instruction from './Instruction/Instruction.js';
 import sliderElements from './sliderElements.js';
-import AppLanguage from '../Contexts/AppLanguage.js';
+import AppLanguage from '../../Contexts/AppLanguage.js';
 import VideoSection from './VideoSection.js';
 import Reviews from './Reviews.js';
 import SignForm from './SignForm.js';
-import '../style/carousel.css';
-
-import User from '../Contexts/User.js';
+import '../../style/carousel.css';
+import User from '../../Contexts/User.js';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
     const {user} = useContext(User);

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import AppLanguage from '../Contexts/AppLanguage';
+import AppLanguage from '../../Contexts/AppLanguage';
 import Zoom from 'react-reveal/Zoom';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
@@ -30,7 +30,7 @@ export default (props) => {
             <Zoom when={startAnimation}>
                 <div className='card'>
                     <div className="card-body">
-                        <h5 className="card-title"><span className='avatar flex-shrink-0'></span>{name}</h5>
+                        <h5 className="card-title"><span style={{backgroundImage:props.avatar?props.avatar:''}} className='avatar flex-shrink-0'></span>{name}</h5>
                         <p className="card-text">{text}</p>
                     </div>
                     <div className="card-footer pb-1 pt-1 text-muted d-flex align-items-center justify-content-between">

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import AppLanguage from '../Contexts/AppLanguage.js';
+import AppLanguage from '../../Contexts/AppLanguage.js';
 import Zoom from 'react-reveal/Zoom';
-import '../style/why-us.css';
+import '../../style/why-us.css';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
     const [startAnimation, setStartAnimation] = useState(false);

@@ -1,0 +1,12 @@
+.jumbotron-separator .logo-image{
+    width: 100px;
+    height: 100px;
+}
+.jumbotron-separator .logo-text{
+   display: flex;
+   align-items: center;
+}
+.jumbotron-separator .container{
+    max-width: 980px;
+}
+.jumbotron-separator .logo-text .hospital{margin: 0;}
