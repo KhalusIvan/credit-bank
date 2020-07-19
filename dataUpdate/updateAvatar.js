@@ -17,6 +17,7 @@ function updateAvatar(){
             avatar: avatar
             }      
         });
+        console.log("uuuuu")
         res.send({status:'ok'});
     });
 }
