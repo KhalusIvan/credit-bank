@@ -10,7 +10,7 @@ setTimeout(function run() {
 }, 100);
 function getData(){
     app.post('/getData', type, middleware, (req, res) => {
-        console.log("-------")
+        console.log("---lll----")
         console.log(req.user);
         base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
