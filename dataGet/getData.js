@@ -16,7 +16,8 @@ function getData(){
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
             console.log(resp);
             let user = Object.assign({}, resp[0]);
-            user.avatar = user.avatar.buffer;
+            user.avatar = resp[0].avatar.buffer;
+            console.log(user.avatar);
             res.send(user);
         });
     });
