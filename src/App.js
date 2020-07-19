@@ -71,6 +71,11 @@ function App() {
   function changeUser(newUser) {
     setUser(newUser);
   }
+  function changeUserAvatar(avatar){
+    let newUser = Object.assign({}, user); 
+    newUser.avatar.data = avatar;
+    setUser(newUser);
+  }
   function changeUserRole(role) {
     let newUser = Object.assign({}, user); 
     newUser.role = role;
@@ -89,11 +94,6 @@ function App() {
   function changeUserPhone(phone) {
     let newUser = Object.assign({}, user); 
     newUser.phone = phone;
-    setUser(newUser);
-  }
-  function changeUserPassword(password) {
-    let newUser = Object.assign({}, user); 
-    newUser.password = password;
     setUser(newUser);
   }
   function changeUserName(firstName,secondName) {
@@ -136,7 +136,7 @@ function App() {
       <React.StrictMode>
         <Proxy.Provider value={{ proxy: proxy }}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
-            <User.Provider value={{ user: user,changeUserPassword:changeUserPassword ,changeUserName:changeUserName, changeUserRole: changeUserRole,changeUser:changeUser, changeUserPassport:changeUserPassport, changeUserCreditCard:changeUserCreditCard, changeUserPhone:changeUserPhone}}>
+            <User.Provider value={{ user: user,changeUserAvatar:changeUserAvatar,changeUserName:changeUserName, changeUserRole: changeUserRole,changeUser:changeUser, changeUserPassport:changeUserPassport, changeUserCreditCard:changeUserCreditCard, changeUserPhone:changeUserPhone}}>
               <Router>
                 {!isUserReady ? <SpinerApp /> : null}
                 <div ref={headerWrapper} className={`container-fluid sticky-navigation ${user.role !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>

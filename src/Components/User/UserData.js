@@ -9,6 +9,7 @@ export default (props) => {
     const {user} = useContext(User); 
     if(!user.email)
         return <Spiner/>
+    console.log(user);
     return (
         <div className='d-flex align-items-start mt-2 mb-4'>
             <div className='userAvatar flex-shrink-0' style={user.avatar ? { backgroundImage: `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})` }:null}></div>

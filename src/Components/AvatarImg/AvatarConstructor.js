@@ -3,8 +3,10 @@ import AppLanguage from '../../Contexts/AppLanguage';
 import Logo from '../Logo.js';
 import Avatar from './Avatar.js';
 import Proxy from '../../Contexts/Proxy.js';
+import User from '../../Contexts/User';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
+    const {changeUserAvatar} = useContext(User);
     const {proxy} = useContext(Proxy);
     const closeModalButton = useRef(null);
     const previewAvatarElement = useRef(null);
@@ -14,7 +16,6 @@ export default (props) => {
         setIsSending(true);
         let imageBlob = await new Promise(resolve => previewAvatarElement.current.toBlob(resolve, 'image/jpeg'));
         let comprimed;
-        console.log(imageBlob);
         if(imageBlob.size > 500000){
             comprimed = await new Promise(resolve => previewAvatarElement.current.toBlob(resolve, 'image/jpeg',0.2));
         }else if(imageBlob.size > 100000 && imageBlob.size <= 500000){
@@ -34,10 +35,10 @@ export default (props) => {
             body: formData
         });
         let result = await response.json();
-        console.log(result);
         if(await result.status === 'ok'){
             closeModalButton.current.click();
-            //document.location.reload();
+            changeUserAvatar(await comprimed.arrayBuffer());
+            setIsSending(false);
         }
         else console.log('Something was wrong'); 
     }
