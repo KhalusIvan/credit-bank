@@ -1,5 +1,6 @@
 let {app} = require('../server.js');
 let {type} = require('../server.js');
+const { middleware } = require('../auth/middleware.js');
 var base;
 setTimeout(function run() {
     if(base) return;
@@ -8,9 +9,9 @@ setTimeout(function run() {
     setTimeout(run, 500);
 }, 100);
 function updateCreditCard(){
-    app.post('/updateCreditCard', type, (req, res) => {
+    app.post('/updateCreditCard', middleware, type, (req, res) => {
         base.collection('users').findOneAndUpdate({
-            token : req.body.token
+            email : req.user.email
         }, { $set: {
             credit_card: req.body.credit_card
             }      

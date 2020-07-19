@@ -35,7 +35,7 @@ function register(req, res){
                     });
                 });
             });
-            res.json({token: token});       
+            res.json({token: token, role: "user"});       
         } else {
             res.json({status: "email"});
         }

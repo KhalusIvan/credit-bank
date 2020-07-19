@@ -8,16 +8,17 @@ setTimeout(function run() {
     base = db;
     setTimeout(run, 500);
 }, 100);
-function updateAvatar(){
-    app.post('/updateAvatar', middleware, type, (req, res) => {
-        let avatar = req.file.buffer;
+function updateName(){
+    app.post('/updateName', middleware, type, (req, res) => {
         base.collection('users').findOneAndUpdate({
             email : req.user.email
         }, { $set: {
-            avatar: avatar
+            first_name: req.body.first_name,
+            second_name: req.body.second_name
             }      
         });
         res.send({status:'ok'});
     });
 }
-module.exports.updateAvatar = updateAvatar;
+module.exports.updateName = updateName;
+
