@@ -10,13 +10,10 @@ setTimeout(function run() {
 }, 100);
 function getData(){
     app.post('/getData', type, middleware, (req, res) => {
-        console.log("---lll----")
-        console.log(req.user);
         base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
-            console.log(resp);
             let user = Object.assign({}, resp[0]);
-            if(!user.avatar)
+            if(user.avatar != null)
                 user.avatar = user.avatar.buffer;
             res.send(user);
         });
