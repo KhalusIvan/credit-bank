@@ -11,27 +11,20 @@ setTimeout(function run() {
 }, 100);
 function updatePassword(){
     app.post('/updatePassword', middleware, type, async (req, res) => {
-        bcrypt.hash(req.body.new_password, 10, function(err, new_hash) {
-            console.log(new_hash + "   111111");
-            return new_hash;
-        });
-        bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(req.body.old_password, salt, function(err, hash) {
-                base.collection('users').findOneAndUpdate({
-                    email : req.user.email,
-                    password: hash
-                }, { $set: {
-                    password: bcrypt.genSalt(10, async function(err, salt) {
-                        bcrypt.hash(req.body.new_password, salt, function(err, new_hash) {
-                            console.log(new_hash);
-                            return new_hash;
-                        });
-                        })
-                    }      
+        let currentOldPAss = false;
+        base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
+            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            if(bcrypt.compareSync(req.body.old_password, resp[0].password)) {
+                console.log("here");
+                bcrypt.hash(req.body.new_password, 10, function(err, hash) {
+                    base.collection('users').findOneAndUpdate({
+                        email : req.user.email,
+                    }, { $set: {
+                        password: hash     
+                    }});
                 });
-            });
-            });
-            console.log(111);
+            }
+        });
         res.send({status:'ok'});
         console.log(222);
 
