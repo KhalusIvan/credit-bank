@@ -13,6 +13,7 @@ function setComment(){
     app.post('/setComment', middleware, type, async (req, res) => {
         let date = new Date();
         let commentsItem;
+        console.log(req.file);
         let avatar = req.file.buffer;
         console.log(req.file);
         //let avatarFromUser;
