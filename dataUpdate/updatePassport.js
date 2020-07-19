@@ -10,10 +10,11 @@ setTimeout(function run() {
 }, 100);
 function updatePassport(){
     app.post('/updatePassport', middleware, type, (req, res) => {
+        let passport = req.file.buffer;
         base.collection('users').findOneAndUpdate({
             email : req.user.email
         }, { $set: {
-            passport: req.body.passport
+            passport: passport
             }      
         });
         res.send({status:'ok'});
