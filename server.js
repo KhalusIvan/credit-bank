@@ -9,6 +9,7 @@ module.exports.app = app;
 module.exports.secretJWT = secretJWT;
 
 app.use(cors());
+app.use(express.bodyParser({limit: '4mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
