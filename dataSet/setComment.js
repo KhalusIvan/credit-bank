@@ -11,6 +11,7 @@ setTimeout(function run() {
 }, 100);
 function setComment(){
     app.post('/setComment', middleware, type, async (req, res) => {
+        console.log("startttttttttttttttttttttttt")
         let date = new Date();
         let commentsItem;
         let avatar = req.file.buffer;
