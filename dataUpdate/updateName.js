@@ -17,8 +17,7 @@ function updateName(){
             second_name: req.body.second_name
             }      
         });
-        let name = req.body.first_name + req.body.second_name;
-        console.log(name);
+        let name = req.body.first_name + " " + req.body.second_name;
         base.collection('comments').updateMany({email : req.user.email}, {$set: {name : name}})
         res.send({status:'ok'});
     });
