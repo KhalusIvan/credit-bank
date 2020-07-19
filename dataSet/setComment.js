@@ -14,6 +14,7 @@ function setComment(){
         let date = new Date();
         let commentsItem;
         let avatar = req.file.buffer;
+        console.log(11111111111);
         console.log(req.avatar);
         //let avatarFromUser;
         let hashString = req.body.email + date.toString();
