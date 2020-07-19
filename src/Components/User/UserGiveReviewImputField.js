@@ -33,7 +33,7 @@ export default (props) => {
             },
             body: JSON.stringify({
                 "name": user['first_name'] + " " + user['second_name'],
-                "photo": user.avatar,
+                "avatar": user.avatar,
                 "text": imputValue
             })
         });
