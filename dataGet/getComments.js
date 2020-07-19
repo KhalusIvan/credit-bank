@@ -10,7 +10,7 @@ setTimeout(function run() {
 }, 100);
 function getComments(){
     app.post('/getUserComments', type, middleware, (req, res) => {
-        base.collection('comments').find({email: req.user.email} {avatar: 0}).toArray((err,resp)=>{
+        base.collection('comments').find({email: req.user.email}, {avatar: 0}).toArray((err,resp)=>{
             let nowTime = new Date();
             let minutes;
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
