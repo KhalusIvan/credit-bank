@@ -16,7 +16,7 @@ function setComment(){
         let commentsItem;
         let avatar = req.file.buffer;
         console.log(11111111111);
-        console.log(req.avatar);
+        console.log(req.file);
         //let avatarFromUser;
         let hashString = req.body.email + date.toString();
         /*base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
