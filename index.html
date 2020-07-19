@@ -13,15 +13,15 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/updatePassword', {
+                res(fetch('/updateName', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token.token
                     },
                     body: JSON.stringify({
-                        "old_password": "12345",
-                        "new_password": "12345678"
+                        "first_name": "12345",
+                        "second_name": "12345678"
                     })
                 }).then (res => {
                     return res.json();
@@ -62,7 +62,7 @@
                     },
                     body: JSON.stringify({
                         email: "vakhalus@gmail.com", 
-                        password: "12345"
+                        password: "12345678"
                     })
                 }).then (res => {
                     return res.json();
