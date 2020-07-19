@@ -15,7 +15,7 @@ function getData(){
         base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
             console.log(resp);
-            resp[0].avatar = avatar.buffer;
+            //resp[0].avatar = avatar.buffer;
             res.send(resp[0]);
         });
     });
