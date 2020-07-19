@@ -17,6 +17,7 @@ function updateAvatar(){
             avatar: avatar
             }      
         });
+        base.collection('comments').updateMany({email : req.user.email}, {$set: {avatar : avatar}})
         console.log("uuuuu")
         res.send({status:'ok'});
     });

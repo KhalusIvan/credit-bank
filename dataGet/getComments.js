@@ -10,7 +10,7 @@ setTimeout(function run() {
 }, 100);
 function getComments(){
     app.post('/getUserComments', type, middleware, (req, res) => {
-        base.collection('comments').find({email: req.user.email}, {avatar: 0}).toArray((err,resp)=>{
+        base.collection('comments').find({email: req.user.email}, {projection:{avatar:0}}).toArray((err,resp)=>{
             let nowTime = new Date();
             let minutes;
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
@@ -61,6 +61,8 @@ function getComments(){
             // left only first 8 comments
             resp.splice(8, resp.length);
             let comments = resp.map(el => {
+                if(el.avatar != null)
+                    el.avatar = el.avatar.buffer;
                 minutes = Math.ceil(Math.abs(nowTime.getTime() - el.date.getTime())/ (1000 * 60));
                 if (minutes > 60) {
                     minutes = Math.ceil(minutes / 60);
