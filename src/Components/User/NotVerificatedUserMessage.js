@@ -45,17 +45,20 @@ export default (props) => {
     async function sendPassport(){
         setIsSendingFile(true);
         let formData =  new FormData();
+        console.log( passportLoader.current.files[0]);
         formData.append("file", passportLoader.current.files[0], "image.png");
-        let response = await fetch('http://localhost:5000/sendPassport', {
+        let response = await fetch(proxy+'/updatePassport', {
             method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
             body: formData
         });
         let result = await response.json();
         if(result.status === 'ok'){
-            setTimeout(() => {
-                changeUserPassport(passportLoader.current.files[0].name);
-            }, 0);
+            changeUserPassport(passportLoader.current.files[0].name);
             setStartAnimationFile(true);
+            setIsSendingFile(false);
         }
     }
     async function sendCreditCard() {
@@ -83,6 +86,22 @@ export default (props) => {
         if(!inputOnlyNumbers(phoneValue))
             return;
         setIsSendingPhone(true);
+        let resp = await fetch(proxy+'/updatePhone', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "phone": phoneValue,
+            })
+        });
+        let json = await resp.json();
+        if(json.status === 'ok'){
+            setIsSendingPhone(false);
+            setStartAnimationPhone(true);
+            changeUserPhone(phoneValue);
+        }
     }
     return (
         <div className='container-fluid p-0 not-verificated-user-wrapper'>

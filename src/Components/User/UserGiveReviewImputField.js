@@ -25,23 +25,24 @@ export default (props) => {
         e.preventDefault();
         setIsSending(true);
         console.log(user);
+        let formData =  new FormData();
+        formData.append('name',user['first_name'] + " " + user['second_name']);
+        formData.append("file", new Blob([new Uint8Array(user.avatar.data)]), "image.png");
+        formData.append('text',imputValue);
+        console.log(user.avatar);
         let res = await fetch(proxy+'/setComment', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
-            body: JSON.stringify({
-                "name": user['first_name'] + " " + user['second_name'],
-                "avatar": user.avatar,
-                "text": imputValue
-            })
+            body: formData
         });
         let json = await res.json();
         console.log(json);
         props.addReview(json);
         setImputValue('');
         setIsSending(false);
+        setTypedSimbols(0);
     }
     return (
         <div className='container row m-0 give-review pb-3'>
