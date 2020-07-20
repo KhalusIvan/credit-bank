@@ -5,6 +5,7 @@ const app = express();
 var cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const secretJWT = "practiceBank";
+const nodemailer = require('nodemailer');
 module.exports.app = app;
 module.exports.secretJWT = secretJWT;
 
@@ -27,8 +28,31 @@ MongoClient.connect('mongodb+srv://vania:Hfqyscf10f@cluster0.k1jws.mongodb.net/<
    
 });
 
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS
+    }
+})
+
+
 app.listen(PORT, () => {
     console.log(`Server has been started on port ${PORT}`);
+});
+
+app.post("/sendEmail", type, (req, resp) => {
+    transporter.sendMail({
+        from: 'vakhalus.work@gmail.com',
+        to: 'vakhalus@gmail.com',
+        subject: "topic",
+        html: '<p>Text</p>'
+    }, function (err, info) {
+        if (err)
+            console.log(err);
+        else    
+            console.log(info);
+    })
 });
 
 app.get("/", (req, res) => {

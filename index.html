@@ -13,11 +13,11 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/updateName', {
+                res(fetch('/sendEmail', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token.token
+                        //'Authorization': 'Bearer ' + token.token
                     },
                     body: JSON.stringify({
                         "first_name": "12345",
