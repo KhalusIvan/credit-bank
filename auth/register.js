@@ -41,7 +41,7 @@ function register(req, res){
                             {
                               expiresIn: '1h',
                             }, (err, emailToken) => {
-                                const url = `http://credit-bank-practice.herokuapp.com//confirmation/${emailToken}`;
+                                const url = `http://credit-bank-practice.herokuapp.com/confirmation/${emailToken}`;
                                 transporter.sendMail({
                                     from: 'vakhalus.work@gmail.com',
                                     to: req.body.email,
