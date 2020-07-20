@@ -50,7 +50,8 @@ function register(req, res){
                                 }, function (err, info) {
                                     if (err)
                                         return res.json({status: "error"})
-                            
+                                    else
+                                        return res.json({status:"confirm", email:req.body.email});       
                                 })
                             })
                             console.log("2")
@@ -60,7 +61,6 @@ function register(req, res){
                 });
                 /**/
                 console.log("3")
-            res.json({status:"confirm", email:req.body.email});       
             console.log("4")
         } else {
             res.json({status: "email"});
