@@ -46,7 +46,6 @@ app.listen(PORT, () => {
 const { middleware } = require('./auth/middleware.js');
 
 app.get("/", (req, res) => {
-    console.log(req);
     res.sendFile(__dirname + '/index.html');
 });
 
