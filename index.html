@@ -13,11 +13,11 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/sendEmail', {
+                res(fetch('/getUserComments', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        //'Authorization': 'Bearer ' + token.token
+                        'Authorization': 'Bearer ' + token.token
                     },
                     body: JSON.stringify({
                         "first_name": "12345",
@@ -41,7 +41,7 @@
                     body: JSON.stringify({
                         first_name: "gggg",
                         second_name: "gggggggg",
-                        email: "vakhalus@gmail.com", 
+                        email: "khalus.ivan@chnu.edu.ua", 
                         password: "12345678"
                     })
                 }).then (res => {
@@ -61,7 +61,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        email: "vakhalus@gmail.com", 
+                        email: "khalus.ivan@chnu.edu.ua", 
                         password: "12345678"
                     })
                 }).then (res => {

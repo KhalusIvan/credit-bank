@@ -1,6 +1,7 @@
 let {app} = require('../server.js');
 let {type} = require('../server.js');
 let {secretJWT} = require('../server.js');
+const {transporter} = require('../server.js');
 const bcrypt = require("bcrypt");
 var base;
 const jwt = require("jsonwebtoken");
@@ -14,7 +15,6 @@ function register(req, res){
     base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
         if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
         if (resp.length == 0) {
-            const token = jwt.sign({email:req.body.email, role:"user"}, secretJWT);
             bcrypt.hash(req.body.password, 10, function(err, hash) {
                 base.collection('users').insertOne({
                     'first_name': req.body.first_name,
@@ -26,14 +26,38 @@ function register(req, res){
                     'passport': null,
                     'credit_card': null,
                     'role': "user",
-                    "is_checked": false
+                    "is_checked": false,
+                    "is_confirmed": false
                 },(err,result)=>{
                     if(err)
-                        return console.log(err);
+                        return res.json({status: "error"});
+                    else {
+                        jwt.sign(
+                            {
+                              email: req.body.email,
+                            },
+                            secretJWT,
+                            {
+                              expiresIn: '1h',
+                            }, (err, emailToken) => {
+                                const url = `http://credit-bank-practice.herokuapp.com//confirmation/${emailToken}`;
+                                transporter.sendMail({
+                                    from: 'vakhalus.work@gmail.com',
+                                    to: req.body.email,
+                                    subject: "Підтвердження пароля",
+                                    html: `Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити Ваш e-mail адрес.`
+                                }, function (err, info) {
+                                    if (err)
+                                        return res.json({status: "error"})
+                            
+                                })
+                            })
+                    }
                         //res.redirect('/');
                     });
                 });
-            res.json({token: token, role: "user"});       
+                /**/
+            res.json({status:"confirm", email:req.body.email});       
         } else {
             res.json({status: "email"});
         }

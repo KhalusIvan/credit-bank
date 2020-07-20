@@ -6,6 +6,7 @@ var cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const secretJWT = "practiceBank";
 const nodemailer = require('nodemailer');
+const jwt = require("jsonwebtoken");
 module.exports.app = app;
 module.exports.secretJWT = secretJWT;
 
@@ -31,33 +32,41 @@ MongoClient.connect('mongodb+srv://vania:Hfqyscf10f@cluster0.k1jws.mongodb.net/<
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS
+        user: "vakhalus.work@gmail.com",
+        pass: "YDRk.,bcnjr"
     }
 })
+module.exports.transporter = transporter;
 
 
 app.listen(PORT, () => {
     console.log(`Server has been started on port ${PORT}`);
 });
 
-app.post("/sendEmail", type, (req, resp) => {
-    transporter.sendMail({
-        from: 'vakhalus.work@gmail.com',
-        to: 'vakhalus@gmail.com',
-        subject: "topic",
-        html: '<p>Text</p>'
-    }, function (err, info) {
-        if (err)
-            console.log(err);
-        else    
-            console.log(info);
-    })
-});
+const { middleware } = require('./auth/middleware.js');
 
 app.get("/", (req, res) => {
+    console.log(req);
     res.sendFile(__dirname + '/index.html');
 });
+
+app.get('/confirmation/:token', async (req, res) => {
+    let userToConfirm;
+    try {
+        userToConfirm = jwt.verify(req.params.token, secretJWT);
+        await dbMongo.collection('users').findOneAndUpdate({
+            email : userToConfirm.email
+        }, { $set: {
+            is_confirmed: true
+            }      
+        });
+    } catch (e) {
+      res.send('error');
+    }
+    const token = jwt.sign({email:userToConfirm.email, role:"user"}, secretJWT, {expiresIn: "1d"});
+    //localStorage.setItem("token", token);
+    return res.redirect(`https://bodyapracqweqwe.herokuapp.com/abd/${token}`);
+  });
 
 let {startDataSet} = require("./dataSet/startDataSet.js");
 let {startDataUpdate} = require("./dataUpdate/startDataUpdate.js");
@@ -65,7 +74,6 @@ let {startDataGet} = require("./dataGet/startDataGet.js");
 let {startDataDelete} = require("./dataDelete/startDataDelete.js");
 let {signIn} = require('./auth/sign_in.js');
 let {register} = require('./auth/register.js');
-const { middleware } = require('./auth/middleware.js');
 const { checkUser } = require('./auth/checkUser.js');
 
 
@@ -77,28 +85,3 @@ startDataDelete();
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
 app.post("/checkUser", type, checkUser)
-
-
-
-app.post('/getFile', type, (req, res) => {
-    dbMongo.collection('user').find({name:'John'}).toArray((err, obj) => {
-        if(err){
-            res.send({status:'error'});
-            return console.log('Server cannot load customer list');
-        }
-        obj.forEach((object => res.json(object.photo.buffer)));
-    });
-});
-app.post('/signUp',type,(req,res)=>{
-    console.log(req.body);
-    res.json({'role':'user','name':'sdfsdf','surname':'sdfsfd'});
-});
-
-app.post('/verificToken',type,(req,res)=>{
-    console.log(req.body);
-    res.json({'role':'guest','name':'sdfsdf','surname':'sdfsfd'});
-});
-app.post('/verificToken2',type,(req,res)=>{
-    console.log(req.body);
-    res.json({'role':'user','name':'sdfsdf','surname':'sdfsfd'});
-});
