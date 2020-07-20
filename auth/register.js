@@ -32,6 +32,7 @@ function register(req, res){
                     if(err)
                         return res.json({status: "error"});
                     else {
+                        console.log("1")
                         jwt.sign(
                             {
                               email: req.body.email,
@@ -52,13 +53,15 @@ function register(req, res){
                             
                                 })
                             })
-                            console.log("start emailing")
+                            console.log("2")
                     }
                         //res.redirect('/');
                     });
                 });
                 /**/
+                console.log("3")
             res.json({status:"confirm", email:req.body.email});       
+            console.log("4")
         } else {
             res.json({status: "email"});
         }
