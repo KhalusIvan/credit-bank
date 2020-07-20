@@ -32,6 +32,7 @@ function register(req, res){
                     if(err)
                         return res.json({status: "error"});
                     else {
+                        console.log("start emailing")
                         jwt.sign(
                             {
                               email: req.body.email,
