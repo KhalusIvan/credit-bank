@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, Children } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  Redirect,useParams
 } from "react-router-dom";
 
 import $ from "jquery";
@@ -148,6 +148,7 @@ function App() {
                   <Route exact path="/">
                     <Separate role={user.role} />
                   </Route>
+                  <Route path="/abd/:token" children={<Child/>}/>
                   <OnlyGuest exact role={user.role} path="/guest">
                     <GuesMainPage />
                   </OnlyGuest>
@@ -172,6 +173,15 @@ function App() {
       </React.StrictMode>
     </>
 
+  );
+}
+function Child() {
+  let { token } = useParams();
+  console.log(token);
+  return (
+    <div className='tokenPage'>
+      <h3>ID: {token}</h3>
+    </div>
   );
 }
 function PrivateRoute({ children, role, ...rest }) {

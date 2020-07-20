@@ -101,3 +101,12 @@ html, body, #root {
 .footer-wrapper {
   flex-shrink: 0;
 }
+.tokenPage{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: white;
+  z-index: 100000000000;
+}

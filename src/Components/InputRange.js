@@ -31,7 +31,7 @@ export default (props) => {
             <div onClick={decRange} className='range-dec range-controller'>
                 <div className='range-subcontroller-text text-nowrap text-muted'>{props.min} {props.subcontrollerText}</div>
             </div>
-            <input ref={props.rangeRef} value={value} onChange={handleValue} type="range" min={props.min} max={props.max} step={props.step} />
+            <input  value={value} onChange={handleValue} type="range" min={props.min} max={props.max} step={props.step} />
             <div onClick={incRange} className='range-inc range-controller'>
             <div className='range-subcontroller-text text-nowrap text-muted'>{props.max} {props.subcontrollerText}</div>
             </div>

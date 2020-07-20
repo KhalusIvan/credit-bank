@@ -25,7 +25,10 @@ export default (props) => {
         return value;
     }
     function changeRange(value) {
-        setValue(String(value) + props.subcontrollerText)
+        setValue(String(value) + props.subcontrollerText);
+        if(props.setValue){
+            props.setValue(value);
+        }
     }
     function focusTrue() {
         setValue(value.replace(props.subcontrollerText,''));
