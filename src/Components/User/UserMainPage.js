@@ -7,7 +7,7 @@ import {
   import Error404 from '../Error404.js'
 import UserGiveReview from './UserGiveReview.js';
 import UserAcc from './UserAcc.js';
-import TakeCredit from './UserCredit.js';
+import UserCredit from './UserCredit.js';
 import Proxy from '../../Contexts/Proxy.js';
 import User from '../../Contexts/User';
 import Spiner from '../Spiner.js'
@@ -37,7 +37,7 @@ export default (props)=>{
             <UserAcc/>
           </Route>
           <Route path={`${path}/takeCredit`}>
-            {user.email ? <TakeCredit/> : <Spiner/>}
+            {user.email ? <UserCredit/> : <Spiner/>}
           </Route>
           <Route path={`${path}/review`}>
             <Suspense fallback={<Spiner/>}>

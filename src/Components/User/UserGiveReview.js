@@ -4,6 +4,7 @@ import UserGiveReviewImputField from './UserGiveReviewImputField.js';
 import UserLastReviews from './UserLastReviews.js';
 import Proxy from '../../Contexts/Proxy.js'
 import { Redirect } from 'react-router-dom';
+import {wrapPromise} from '../../script/custom.js';
 async function getReview(){
     let response = await fetch('https://credit-bank-practice.herokuapp.com/getUserComments', {
         method: 'POST',
@@ -15,31 +16,6 @@ async function getReview(){
     let result = await response.json();
     console.log(result);
     return await result;
-}
-function wrapPromise(promise) {
-    let status = "pending";
-    let result;
-    let suspender = promise.then(
-        r => {
-            status = "success";
-            result = r;
-        },
-        e => {
-            status = "error";
-            result = e;
-        }
-    );
-    return {
-        read() {
-            if (status === "pending") {
-                throw suspender;
-            } else if (status === "error") {
-                throw result;
-            } else if (status === "success") {
-                return result;
-            }
-        }
-    };
 }
 let myReviewsArrayFetch =  localStorage.getItem('token') ? wrapPromise(getReview()) : null;
 export default (props) => {

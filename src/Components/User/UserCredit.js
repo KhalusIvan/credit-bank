@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import NotVerificatedUserMessage from './NotVerificatedUserMessage.js';
 import UserMyCredits from './UserMyCredits.js';
+import UserTakeCredits from './UserTakeCredits';
 import User from '../../Contexts/User.js';
 import JumbotronSeparator from '../JumbotronSeparator.js';
 export default (props)=>{
@@ -10,6 +11,7 @@ export default (props)=>{
             {user['is_checked'] ? '' : <NotVerificatedUserMessage/>}
             <UserMyCredits/>
             <JumbotronSeparator/>
+            <UserTakeCredits/>
         </div>
     )
 }

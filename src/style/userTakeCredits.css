@@ -1,0 +1,22 @@
+.user-take-credits .credits-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    user-select: none;
+}
+.user-take-credits .credit-item{
+    width: calc(33% - 30px);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(47, 79, 79, 0.699);;
+    padding: 20px 40px;
+    margin: 15px;
+}
+.user-take-credits .credit-name{
+    font-size: 2em;
+    font-weight: 300;
+}
+.user-take-credits .credit-body{
+    background-color: whitesmoke;
+    border-radius: 10px;
+}

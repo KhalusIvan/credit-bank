@@ -106,7 +106,7 @@ export default (props) => {
     return (
         <div className='container-fluid p-0 not-verificated-user-wrapper'>
             <div className='container  not-verificated-user p-3'>
-                <p className={`not-verificated-user-titile text-center`}>{ !user['is_checked']?
+                <p className={`not-verificated-user-titile text-center`}>{ !user['credit_card'] && !user.passport &&  !user.phone ?
                     appLanguage === 'eng' ? `To take a loan you need to confirm your ${user.passport ? '' : 'passport'} ${user.phone ? '' : 'phone'} ${user['credit_card'] ? '' : 'credit card'}` : `Щоб взяти кредит вам залишилося підтвердити ${user.passport ? '' : 'паспорт'} ${user.phone ? '' : 'телефон'} ${user['credit_card'] ? '' : 'кредитну карту'}`:
                     appLanguage === 'eng' ? 'You will be able to take a loan after the service administrator checks your data' : 'Ви зможете брати кредит після того, як адміністратор сервісу перевірить ваші дані'
                 }</p>

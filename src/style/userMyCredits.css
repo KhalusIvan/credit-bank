@@ -1,10 +1,37 @@
-.user-my-credits-wrapper{
+.user-my-credits-wrapper,
+.user-take-credits-wrapper{
     background-color: rgba(190, 215, 216, 0.349);
     box-shadow: 0 0 15px #00000055;
 }
-.user-my-credits .jumbotron .title{
+.user-my-credits .jumbotron .title
+.user-take-credits .jumbotron .title{
     font-size: 2.4em;
 }
-.user-my-credits .jumbotron .lead{
-    font-size: 1.7em;
+.user-my-credits  .lead,
+.user-take-credits  .lead{
+    font-size: 1.2em;
+}
+@media (max-width: 1200px){
+    .user-my-credits,
+    .user-take-credits{
+        font-size: 0.9em;
+    }
+}
+@media (max-width: 992px){
+    .user-my-credits,
+    .user-take-credits{
+        font-size: 0.8em;
+    }
+}
+@media (max-width: 767px){
+    .user-my-credits,
+    .user-take-credits{
+        font-size: 0.7em;
+    }
+}
+@media (max-width: 560px){
+    .user-my-credits,
+    .user-take-credits{
+        font-size: 0.6em;
+    }
 }

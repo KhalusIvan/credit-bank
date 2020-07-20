@@ -1,4 +1,5 @@
 import React from 'react';
+import {wrapPromise} from '../../script/custom.js';
 import '../../style/reviews.css';
 async function getReview(){
     let response = await fetch('https://credit-bank-practice.herokuapp.com/getAllComments', {
@@ -10,31 +11,6 @@ async function getReview(){
     let result = await response.json();
     console.log(result);
     return await result;
-}
-function wrapPromise(promise) {
-    let status = "pending";
-    let result;
-    let suspender = promise.then(
-        r => {
-            status = "success";
-            result = r;
-        },
-        e => {
-            status = "error";
-            result = e;
-        }
-    );
-    return {
-        read() {
-            if (status === "pending") {
-                throw suspender;
-            } else if (status === "error") {
-                throw result;
-            } else if (status === "success") {
-                return result;
-            }
-        }
-    };
 }
 const reviewsArray = localStorage.getItem('token') ? null : wrapPromise(getReview());
 export default (props) => {

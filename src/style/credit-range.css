@@ -1,0 +1,26 @@
+.credit-range{
+    margin: 10px 5px 20px 5px;
+    padding: 5px 15px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    user-select: none;
+}
+.credit-range .preview-value{
+    margin: 10px 0 20px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.credit-range .preview-value .text{
+    font-size: 1em;
+}
+.credit-range .input-field{
+    max-width: 100px;
+}
+.credit-range .input-field input{
+    padding: 5px;
+    font-size: 1em;
+    border-radius: 10px;
+    text-align: center;
+}

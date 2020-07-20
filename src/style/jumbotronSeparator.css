@@ -1,12 +1,85 @@
+.jumbotron-separator{
+    overflow: hidden;
+}
 .jumbotron-separator .logo-image{
     width: 100px;
     height: 100px;
+    margin: 0 40px;
+    filter: invert(61%) sepia(39%) saturate(381%) hue-rotate(131deg) brightness(91%) contrast(86%);
 }
 .jumbotron-separator .logo-text{
-   display: flex;
-   align-items: center;
+   display: none;
 }
 .jumbotron-separator .container{
     max-width: 980px;
 }
-.jumbotron-separator .logo-text .hospital{margin: 0;}
+.jumbotron-separator .separator-text{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-size: 2.8em;
+    color: rgba(2, 112, 112, 0.63);
+}
+.jumbotron-separator .separator-text::after,
+.jumbotron-separator .separator-text::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    height: 4px;
+    background-color: rgba(2, 112, 112, 0.63);
+    border-radius: 50%;
+}
+.jumbotron-separator .separator-text::after{
+    right: 110%;
+}
+.jumbotron-separator .separator-text::before{
+    left: 110%;
+}
+@media (max-width: 1200px){
+    .jumbotron-separator{
+        font-size: 0.8em;
+    }
+ }
+ @media (max-width: 992px){
+    .jumbotron-separator{
+        font-size: 0.75em;
+    }
+    .jumbotron-separator .logo-image{
+        width: 90px;
+        height: 90px;
+        margin: 0 30px;
+    }
+    .jumbotron-separator .separator-text::after{
+        right: 105%;
+    }
+    .jumbotron-separator .separator-text::before{
+        left: 105%;
+    }
+ }
+ @media (max-width: 767px){
+    .jumbotron-separator{
+        font-size: 0.6em;
+    }
+    .jumbotron-separator .logo-image{
+        width: 60px;
+        height: 60px;
+        margin: 0 10px;
+    }
+ }
+ @media (max-width: 560px){
+    .jumbotron-separator{
+        font-size: 0.5em;
+    }
+    .jumbotron-separator .logo-image{
+        width: 50px;
+        height: 50px;
+        margin: 0 5px;
+    }
+    .jumbotron-separator .separator-text::after,
+.jumbotron-separator .separator-text::before{
+    height: 2px;
+}
+ }
