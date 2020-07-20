@@ -48,8 +48,10 @@ function register(req, res){
                                     subject: "Підтвердження пароля",
                                     html: `Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити Ваш e-mail адрес.`
                                 }, function (err, info) {
-                                    if (err)
+                                    if (err) {
+                                        console.log(err);
                                         return res.json({status: "error"})
+                                    }
                                     else
                                         return res.json({status:"confirm", email:req.body.email});       
                                 })
