@@ -13,7 +13,7 @@ setTimeout(function run() {
 }, 100);
 function register(req, res){
     base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
-        if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+        if (err) return console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
         if (resp.length == 0) {
             bcrypt.hash(req.body.password, 10, function(err, hash) {
                 base.collection('users').insertOne({
