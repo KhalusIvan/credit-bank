@@ -6,6 +6,7 @@
 }
 .user-take-credits .credit-item{
     width: calc(33% - 30px);
+    position: relative;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(47, 79, 79, 0.699);;
@@ -19,4 +20,84 @@
 .user-take-credits .credit-body{
     background-color: whitesmoke;
     border-radius: 10px;
+    margin: 10px 0;
+    padding: 5px 15px;
+    border: 1px solid rgba(47, 79, 79,0.3);
+    box-shadow: inset 0 0 15px rgba(47, 79, 79,0.5),
+                0 0 10px rgba(47, 79, 79,0.3);
+}
+.user-take-credits .credit-info{
+    margin: 10px 0;
+    padding: 5px 20px;
+    font-size: 1em;
+}
+.user-take-credits .credit-description{font-size: 1em;}
+.user-take-credits .button-take{
+    height: 40px;
+    margin: 15px 5px 10px 5px;
+}
+.user-take-credits .button-take .btn{
+    font-size: 1em;
+    background-color: rgba(47, 79, 79);
+    color: white;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid rgba(47, 79, 79,0.8);
+}
+.user-take-credits .button-take .btn:hover{
+    background-color: rgba(47, 79, 79,0.8);
+    
+}
+.user-take-credits .button-take .btn:active,
+.user-take-credits .button-take .btn:focus{
+    box-shadow: none;
+}
+@media (max-width: 1400px){
+    .user-take-credits .credit-item{
+        width: calc(50% - 30px);
+    }
+}
+@media (max-width: 1200px){
+    .user-take-credits .credit-item{
+        font-size: .9em;
+    }
+    .user-take-credits .credit-info,
+    .user-take-credits .credit-description,
+    .user-take-credits .button-take .btn{
+        font-size: 1.2em;
+    }
+}
+@media (max-width: 960px){
+    .user-take-credits .credit-item{
+        font-size: .8em;
+        padding: 10px 20px;
+        margin: 10px;
+        width: calc(50% - 20px);
+    }
+    .user-take-credits .credit-info,
+    .user-take-credits .credit-description,
+    .user-take-credits .button-take .btn{
+        font-size: 1.3em;
+    }
+    .user-take-credits .credit-name{
+        font-size: 2.3em;
+    }
+}
+@media (max-width: 767px){
+    .user-take-credits .credit-item{
+        font-size: 1em;
+        padding: 10px 20px;
+        margin: 10px 20px;
+        width: calc(100% - 40px);
+    }
+    .user-take-credits .credit-info,
+    .user-take-credits .credit-description,
+    .user-take-credits .button-take .btn{
+        font-size: 1.6em;
+    }
+}
+@media (max-width: 560px){
+   
 }

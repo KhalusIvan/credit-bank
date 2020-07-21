@@ -24,3 +24,32 @@
     border-radius: 10px;
     text-align: center;
 }
+@media (max-width: 1200px){
+    .credit-range .preview-value .text{
+        font-size: 1.2em;
+    }
+}
+@media (max-width: 960px){
+    .credit-range .preview-value .text{
+        font-size: 1.4em;
+    }
+    .credit-range .input-field input{
+        font-size: 1.3em;
+    }
+}
+@media (max-width: 767px){
+    .credit-range .preview-value .text,
+    .credit-range .input-field input{
+        font-size: 1.6em;
+    }
+    .credit-range .preview-value{
+        margin: 5px 10px;
+    }
+    .credit-range{
+        margin: 0;
+        padding: 10px;
+    }
+}
+@media (max-width: 560px){
+ 
+}

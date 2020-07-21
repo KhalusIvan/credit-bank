@@ -149,3 +149,20 @@ input[type="range"]{
 .range-inc .range-subcontroller-text{
     right: 0;
 }
+@media (max-width: 767px){
+  .range-subcontroller-text{
+    font-size: 16px;
+  }
+  .range-controller{
+    width: 30px;
+    height: 30px;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    height: 26px;
+    width: 26px;
+    margin-top: -11px;
+}
+}
+@media (max-width: 560px){
+ 
+}

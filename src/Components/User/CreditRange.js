@@ -12,7 +12,7 @@ export default (props) => {
         return /^\d*$/.test(text);
     }
     function inputValue(e) {
-        inputOnlyNumbers(e.target.value)
+        
         if(inputOnlyNumbers(e.target.value)){
             setValue(e.target.value)
         }
@@ -36,6 +36,9 @@ export default (props) => {
     function focusFalse() {
         const newValue = String(verificDiapazonOfValue(+value));
         setValue(newValue.replace(/^0+?([1-9])/,newValue.match(/^0+?([1-9])/)?newValue.match(/^0+?([1-9])/)[1]:'') + props.subcontrollerText)
+        if(props.setValue){
+            props.setValue(newValue);
+        }
     }
     return (
         <div className='credit-range'>

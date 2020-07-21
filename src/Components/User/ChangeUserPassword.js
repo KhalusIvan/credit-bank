@@ -4,7 +4,6 @@ import User from '../../Contexts/User';
 import Proxy from '../../Contexts/Proxy';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
-    const { changeUserPassword } = useContext(User);
     const oldPassword = useRef(null);
     const newPassword = useRef(null);
     const {proxy} = useContext(Proxy);
