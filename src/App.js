@@ -74,6 +74,7 @@ function App() {
   }
   function changeUserAvatar(avatar){
     let newUser = Object.assign({}, user); 
+    newUser.avatar = {data:null};
     newUser.avatar.data = avatar;
     setUser(newUser);
   }

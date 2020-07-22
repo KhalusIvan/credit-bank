@@ -11,6 +11,87 @@
 .user-take-credits  .lead{
     font-size: 1.2em;
 }
+.user-my-credits .user-my-credits-list{
+    padding: 20px 0;
+}
+.user-my-credits .button-panel{
+    max-width: 980px;
+    margin: 0 auto;
+}
+.user-my-credits .button-panel .col-12{
+    margin: 5px 0;
+    display: flex;
+    justify-content: center;
+}
+.user-my-credits .button-panel .btn{
+    width: 100%;
+    font-size: 1.1em;
+}
+.user-my-credits .credit-title,
+.user-my-credits .credit-body,
+.user-my-credits .credit-description{
+    padding: 0 15px;
+}
+.user-my-credits .credit-item{
+    margin: 20px auto 30px auto;
+    box-shadow: 0 0 20px #6ea7a9;
+    max-width: 768px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.user-my-credits .credit-name{
+    font-size: 2em;
+    margin: 10px 0;
+    padding: 5px;
+}
+.user-my-credits .credit-title{
+    display: flex;
+    color: lightcyan;
+    align-items: center;
+    justify-content: space-between;
+}
+.user-my-credits .user-data{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin: 10px 0;
+}
+.user-my-credits .avatar{
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: url(/static/media/avatar.e28f375b.png) no-repeat center center;
+    background-size: contain;
+}
+.user-my-credits .user-name{
+    vertical-align: middle;
+    font-weight: 600;
+    font-size: 1.5em;
+    color: lightcyan;
+}
+.user-my-credits .credit-data,
+.user-my-credits .credit-payd-data{
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+.user-my-credits .credit-description{    
+    font-size: 1.1em;
+    padding: 15px;
+    color: lightcyan;
+}
+.user-my-credits .credit-item.active .credit-title,
+.user-my-credits .credit-item.active .credit-description{
+    background-color: rgb(19, 171, 241);
+}
+.user-my-credits .credit-item.expired .credit-title,
+.user-my-credits .credit-item.expired .credit-description{
+    background-color: rgb(248, 122, 122);
+}
+.user-my-credits .credit-item.closed .credit-title,
+.user-my-credits .credit-item.closed .credit-description{
+    background-color: rgb(119, 182, 177);
+}
 @media (max-width: 1200px){
     .user-my-credits,
     .user-take-credits{
@@ -24,14 +105,31 @@
     }
 }
 @media (max-width: 767px){
-    .user-my-credits,
     .user-take-credits{
         font-size: 0.7em;
     }
+    .user-my-credits .avatar{
+        width: 60px;
+        height: 60px;
+    }
+    .user-my-credits .button-panel .btn{
+        width: 50%;
+    }
 }
 @media (max-width: 560px){
-    .user-my-credits,
     .user-take-credits{
         font-size: 0.6em;
+    }
+    .user-my-credits{
+        font-size: 0.75em;
+    }
+    .user-my-credits .credit-body,
+    .user-my-credits .credit-title{
+        padding: 0 5px;
+    }
+}
+@media (max-width: 350px){
+    .user-my-credits .button-panel .btn{
+        width: 65%;
     }
 }
