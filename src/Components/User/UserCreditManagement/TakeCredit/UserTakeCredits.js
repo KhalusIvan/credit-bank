@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import User from '../../Contexts/User.js';
+import User from '../../../../Contexts/User.js';
 import Credit from './Credit';
-import '../../style/userTakeCredits.css';
-import AppLanguage from '../../Contexts/AppLanguage.js';
+import '../../../../style/userTakeCredits.css';
+import AppLanguage from '../../../../Contexts/AppLanguage.js';
 
 export default (props) => {
     const { user } = useContext(User);

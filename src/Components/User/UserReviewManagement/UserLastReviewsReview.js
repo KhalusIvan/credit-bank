@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import AppLanguage from '../../Contexts/AppLanguage';
+import AppLanguage from '../../../Contexts/AppLanguage';
 import Zoom from 'react-reveal/Zoom';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);

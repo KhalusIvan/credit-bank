@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,useParams
+  Redirect, useParams
 } from "react-router-dom";
 
 import $ from "jquery";
@@ -27,6 +27,7 @@ import Footer from './Components/Footer.js';
 import SpinerApp from './Components/SpinerApp.js';
 import Separate from './Components/Separate.js';
 import ValidateEmail from './Components/ValidateEmail';
+import Fade from 'react-reveal/Fade';
 import './style/custom.css';
 
 function App() {
@@ -72,34 +73,50 @@ function App() {
   function changeUser(newUser) {
     setUser(newUser);
   }
-  function changeUserAvatar(avatar){
-    let newUser = Object.assign({}, user); 
-    newUser.avatar = {data:null};
+  function removeUser() {
+    setUser({
+      avatar: null,
+      credit_card: null,
+      email: null,
+      first_name: null,
+      is_checked: false,
+      passport: null,
+      password: null,
+      phone: null,
+      role: 'guest',
+      token: null,
+      second_name: null,
+      _id: null
+    });
+  }
+  function changeUserAvatar(avatar) {
+    let newUser = Object.assign({}, user);
+    newUser.avatar = { data: null };
     newUser.avatar.data = avatar;
     setUser(newUser);
   }
   function changeUserRole(role) {
-    let newUser = Object.assign({}, user); 
+    let newUser = Object.assign({}, user);
     newUser.role = role;
     setUser(newUser);
   }
   function changeUserPassport(passport) {
-    let newUser = Object.assign({}, user); 
+    let newUser = Object.assign({}, user);
     newUser.passport = passport;
     setUser(newUser);
   }
   function changeUserCreditCard(creditCard) {
-    let newUser = Object.assign({}, user); 
+    let newUser = Object.assign({}, user);
     newUser['credit_card'] = creditCard;
     setUser(newUser);
   }
   function changeUserPhone(phone) {
-    let newUser = Object.assign({}, user); 
+    let newUser = Object.assign({}, user);
     newUser.phone = phone;
     setUser(newUser);
   }
-  function changeUserName(firstName,secondName) {
-    let newUser = Object.assign({}, user); 
+  function changeUserName(firstName, secondName) {
+    let newUser = Object.assign({}, user);
     newUser['first_name'] = firstName;
     newUser['second_name'] = secondName;
     setUser(newUser);
@@ -138,7 +155,7 @@ function App() {
       <React.StrictMode>
         <Proxy.Provider value={{ proxy: proxy }}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
-            <User.Provider value={{ user: user,changeUserAvatar:changeUserAvatar,changeUserName:changeUserName, changeUserRole: changeUserRole,changeUser:changeUser, changeUserPassport:changeUserPassport, changeUserCreditCard:changeUserCreditCard, changeUserPhone:changeUserPhone}}>
+            <User.Provider value={{ user: user, removeUser: removeUser, changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
               <Router>
                 {!isUserReady ? <SpinerApp /> : null}
                 <div ref={headerWrapper} className={`container-fluid sticky-navigation ${user.role !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>
@@ -150,9 +167,9 @@ function App() {
                   <Route exact path="/">
                     <Separate role={user.role} />
                   </Route>
-                  <Route path="/abd/:token" children={<ValidateEmail/>}/>
+                  <Route path="/abd/:token" children={<ValidateEmail />} />
                   <OnlyGuest exact role={user.role} path="/guest">
-                    <GuesMainPage />
+                    <Fade timeout={500}><GuesMainPage /></Fade>
                   </OnlyGuest>
                   <Route path="/guest/*">
                     <Error404 />
@@ -161,7 +178,7 @@ function App() {
                     <UserMainPage />
                   </PrivateRoute>
                   <OnlyAdmin path="/admin" role={user.role}>
-                    <div>THIS IS ADMIN PANEL</div>
+                    <Fade timeout={500}><div>THIS IS ADMIN PANEL</div></Fade>
                   </OnlyAdmin>
                   <Route path="*">
                     <Error404 />

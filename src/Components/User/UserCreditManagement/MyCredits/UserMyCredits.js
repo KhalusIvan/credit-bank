@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import User from '../../Contexts/User.js';
+import User from '../../../../Contexts/User.js';
 import UserMyCredit from './UserMyCredit';
-import '../../style/userMyCredits.css';
-import AppLanguage from '../../Contexts/AppLanguage.js';
+import '../../../../style/userMyCredits.css';
+import AppLanguage from '../../../../Contexts/AppLanguage.js';
 import Zoom from 'react-reveal/Zoom';
 export default (props) => {
     const { user } = useContext(User);
@@ -20,7 +20,7 @@ export default (props) => {
                         <div className='col-12 col-md-6 col-lg-3'><button onClick={() => setFilter('expired')} className='btn btn-danger text-nowrap'>{appLanguage === 'eng' ? 'Overdue loans' : 'Прострочені кредити'}</button></div>
                         <div className='col-12 col-md-6 col-lg-3'><button onClick={() => setFilter('closed')} className='btn btn-info text-nowrap'>{appLanguage === 'eng' ? 'Closed loans' : 'Закриті кредити'}</button></div>
                     </div>
-                    <div className='container user-my-credits-list'>
+                    <div className='container user-my-credits-list not-reveal'>
                         {props.creditsArray.map(credit => (
                             <Zoom key={credit.id} timeout={500} collapse when={filter === 'all' || filter === credit.status}>
                                 <UserMyCredit  avatar={user.avatar ? `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})` : false} name={credit.name} id={credit.id} description={credit.description} value={credit.value} term={credit.term} payd={credit.payd} start_date={credit.start_date} end_date={credit.end_date} status={credit.status} percent={credit.percent} fine={credit.fine} />

@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import User from '../../Contexts/User.js';
-import AppLanguage from '../../Contexts/AppLanguage.js';
-import InputRange from '../InputRange';
-import '../../style/credit-range.css';
+import User from '../../../../Contexts/User.js';
+import AppLanguage from '../../../../Contexts/AppLanguage.js';
+import InputRange from '../../../InputRange';
+import '../../../../style/credit-range.css';
 export default (props) => {
     const { user } = useContext(User);
     const { appLanguage } = useContext(AppLanguage);

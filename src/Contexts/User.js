@@ -9,6 +9,7 @@ const User = React.createContext({
     password: null,
     phone: null,
     role: 'guest',
+    token: null,
     second_name: null,
     _id: null
 });

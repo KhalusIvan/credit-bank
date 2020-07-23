@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import { NavHashLink as NavLink } from 'react-router-hash-link';
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../../style/header.css';
 import headerThemeContext from '../../Contexts/HeaderThemeContext.js';
 import AppLanguage from '../../Contexts/AppLanguage.js';
@@ -10,9 +10,9 @@ import Switcher from '../Switcher/Switcher.js';
 import User from '../../Contexts/User';
 const Header = (props) => {
     const theme = useContext(headerThemeContext);
-    const [path,setPath] = useState(document.location.pathname);
+    const [path, setPath] = useState(document.location.pathname);
     const language = useContext(AppLanguage);
-    const {user} = useContext(User);
+    const { user } = useContext(User);
     const activeElement = useRef(null);
     const languageSwitcherSmall = useRef(null);
     const languageSwitcherMiddle = useRef(null);
@@ -25,9 +25,11 @@ const Header = (props) => {
         });
     }
     function toogleActive(link) {
-        activeElement.current.classList.remove('active');
-        link.parentElement.classList.add('active');
-        activeElement.current = link.parentElement;
+        if (link && activeElement) {
+            activeElement.current.classList.remove('active');
+            link.parentElement.classList.add('active');
+            activeElement.current = link.parentElement;
+        }
     }
     useEffect(() => {
         language.appLanguage === 'eng' ? languageSwitcherSmall.current.checked = languageSwitcherMiddle.current.checked = true : languageSwitcherSmall.current.checked = languageSwitcherMiddle.current.checked = false;
@@ -41,7 +43,7 @@ const Header = (props) => {
     return (
         <header className="container">
             <nav className={`navbar navbar-expand-md ${user.role === 'guest' ? theme : 'navbar-light'}`}>
-                <NavLink onClick={(e) => user.role === 'guest' ? document.querySelector('.nav-item a[href="/guest#up"]').click() : null} to="/guest#up" className='navbar-brand d-flex align-items-center' activeClassName='n' scroll={el => scrollWithOffset(el, 0)}><div className='header-logo ml-3'><Logo /></div></NavLink>
+                <NavLink onClick={(e) => user.role === 'guest' ? document.querySelector('.nav-item a[href="/guest#up"]').click() : null} to={user.role === 'guest' ? `/guestt#up` : ''} className='navbar-brand d-flex align-items-center' activeClassName='n' scroll={el => scrollWithOffset(el, 0)}><div className='header-logo ml-3'><Logo /></div></NavLink>
                 <ul className="navbar-nav d-inline-block d-md-none">
                     <li className='nav-link' style={{ paddingBottom: '2px' }}>
                         <div className='language-switcher mr-1 nav-item d-flex align-items-center' onClick={toggleSwitcher}>
@@ -59,11 +61,11 @@ const Header = (props) => {
                     <ul className="navbar-nav navbar-links ml-auto">
                         {user.role === 'guest' ?
                             <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/guest#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/guest#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Benefits' : "Переваги", href: '/guest#why-us' }, { label: language.appLanguage === 'eng' ? 'Instruction' : "Інструкція", href: '/guest#instruction' }]} />
-                            :(<>
-                                <li className={`nav-item ${path === '/user' ? 'active':''}`}><Link className='nav-link' onClick={()=>setPath('/user')} to={`/user`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
-                                <li className={`nav-item ${path === '/user/takeCredit' ? 'active':''}`}><Link className='nav-link' onClick={()=>setPath('/user/takeCredit')} to={`/user/takeCredit`}>{language.appLanguage === 'eng' ? 'Loan' : 'Кредит'}</Link></li>
-                                <li className={`nav-item ${path === '/user/review' ? 'active':''}`}><Link className='nav-link' onClick={()=>setPath('/user/review')} to={`/user/review`}>{language.appLanguage === 'eng' ? 'Review' : 'Відгук'}</Link></li>
-                                <li className={`nav-item ${path === '/user/logOut' ? 'active':''}`}><Link className='nav-link' onClick={()=>{localStorage.removeItem('token');document.location.reload()}}  to={`/`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
+                            : (<>
+                                <li className={`nav-item ${path === '/user' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user')} to={`/user`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
+                                <li className={`nav-item ${path === '/user/takeCredit' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/takeCredit')} to={`/user/takeCredit`}>{language.appLanguage === 'eng' ? 'Loan' : 'Кредит'}</Link></li>
+                                <li className={`nav-item ${path === '/user/review' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/review')} to={`/user/review`}>{language.appLanguage === 'eng' ? 'Review' : 'Відгук'}</Link></li>
+                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className='nav-link' onClick={() => { localStorage.removeItem('token'); document.location.reload() }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>)
                         }
                     </ul>

@@ -110,3 +110,9 @@ html, body, #root {
   background-color: white;
   z-index: 100000000000;
 }
+.react-reveal {
+  animation-fill-mode: backwards!important;
+}
+.not-reveal .react-reveal{
+  animation-fill-mode: both!important;
+}

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import NotVerificatedUserMessage from './NotVerificatedUserMessage.js';
-import UserMyCredits from './UserMyCredits.js';
-import UserTakeCredits from './UserTakeCredits';
-import User from '../../Contexts/User.js';
-import JumbotronSeparator from '../JumbotronSeparator.js';
+import NotVerificatedUserMessage from '../NotVerificatedUserMessage.js';
+import UserMyCredits from './MyCredits/UserMyCredits.js';
+import UserTakeCredits from './TakeCredit/UserTakeCredits';
+import User from '../../../Contexts/User.js';
+import JumbotronSeparator from '../../JumbotronSeparator.js';
 const myCreditsArray = [
     {
         name: 'Min credit',

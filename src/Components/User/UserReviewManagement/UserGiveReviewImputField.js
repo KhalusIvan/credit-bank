@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AppLanguage from '../../Contexts/AppLanguage';
-import Proxy from '../../Contexts/Proxy.js'
-import User from '../../Contexts/User.js';
-import '../../style/userGiveReview.css'
+import AppLanguage from '../../../Contexts/AppLanguage';
+import Proxy from '../../../Contexts/Proxy.js'
+import User from '../../../Contexts/User.js';
+import '../../../style/userGiveReview.css'
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
     const {proxy} = useContext(Proxy);

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef} from 'react';
-import AppLanguage from '../../Contexts/AppLanguage';
-import User from '../../Contexts/User';
-import Proxy from '../../Contexts/Proxy';
+import AppLanguage from '../../../Contexts/AppLanguage';
+import User from '../../../Contexts/User';
+import Proxy from '../../../Contexts/Proxy';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
     const {changeUserName} = useContext(User);

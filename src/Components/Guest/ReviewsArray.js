@@ -12,10 +12,9 @@ async function getReview(){
     console.log(result);
     return await result;
 }
-const reviewsArray = localStorage.getItem('token') ? null : wrapPromise(getReview());
+const reviewsArray = localStorage.getItem('token') ? {read:()=>null} : wrapPromise(getReview());
 export default (props) => {
     const reviews = reviewsArray.read();
-    console.log(reviews);
     if(!reviews){
         return [];
     }

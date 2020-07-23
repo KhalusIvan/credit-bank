@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import AppLanguage from '../../Contexts/AppLanguage';
-import UserData from './UserData.js';
+import AppLanguage from '../../../Contexts/AppLanguage';
+import UserData from './UserData';
 import ChangeUserData from './ChangeUserData.js';
 import ChangeUserPassword from './ChangeUserPassword.js';
-import '../../style/userAcc.css'
+import '../../../style/userAcc.css'
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage)
     return (

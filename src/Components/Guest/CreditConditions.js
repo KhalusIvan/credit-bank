@@ -24,7 +24,7 @@ export default (props) => {
         <div className="jumbotron m-0 credit-conditions p-1 p-xm-2 p-sm-3 rounded-0">
             <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 credit-conditions-title title'>{appLanguage === 'eng' ? 'Terms of financing' : 'Умови фінансування'}</h2>
             <div className='container' ref={elements}>
-                <div className='row m-0' >
+                <div className='row m-0 not-reveal' >
                     <Fade left when={startAnimation} timeout={500}>
                         <div className='col-6 col-sm-6 d-flex align-items-center condition'>
                             <span className='check-mark-img flex-shrink-0'></span>

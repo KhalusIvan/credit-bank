@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
-import User from '../../Contexts/User.js';
-import AppLanguage from '../../Contexts/AppLanguage.js';
+import User from '../../../../Contexts/User.js';
+import AppLanguage from '../../../../Contexts/AppLanguage.js';
 import CreditRange from './CreditRange'
 export default (props) => {
     const { user } = useContext(User);

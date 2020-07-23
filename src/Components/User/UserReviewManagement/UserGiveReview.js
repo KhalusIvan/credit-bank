@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AppLanguage from '../../Contexts/AppLanguage';
+import AppLanguage from '../../../Contexts/AppLanguage';
 import UserGiveReviewImputField from './UserGiveReviewImputField.js';
 import UserLastReviews from './UserLastReviews.js';
-import Proxy from '../../Contexts/Proxy.js'
+import Proxy from '../../../Contexts/Proxy.js'
 import { Redirect } from 'react-router-dom';
-import {wrapPromise} from '../../script/custom.js';
+import {wrapPromise} from '../../../script/custom.js';
 async function getReview(){
     let response = await fetch('https://credit-bank-practice.herokuapp.com/getUserComments', {
         method: 'POST',
@@ -27,7 +27,6 @@ export default (props) => {
     useEffect(()=>{
         return ()=> myReviewsArrayFetch.read = ()=>myReviewsArray;
     });
-    console.log(myReviewsArray);
     async function deleteReview(removedId) {
         const newArray = myReviewsArray.filter(value => removedId !== value.id);
         setMyReviewsArray(newArray);

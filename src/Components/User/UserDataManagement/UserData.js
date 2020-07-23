@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AppLanguage from '../../Contexts/AppLanguage';
-import AvatarConstructor from '../AvatarImg/AvatarConstructor';
-import '../../style/userAcc.css';
-import User from '../../Contexts/User';
-import Spiner from '../Spiner';
+import AppLanguage from '../../../Contexts/AppLanguage';
+import AvatarConstructor from '../../AvatarImg/AvatarConstructor';
+import '../../../style/userAcc.css';
+import User from '../../../Contexts/User';
+import Spiner from '../../Spiner';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
     const {user} = useContext(User); 
