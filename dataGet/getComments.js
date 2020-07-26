@@ -80,21 +80,27 @@ function getComments(){
                                 minutes = Math.ceil(minutes / 4);
                                 if (minutes > 12) {
                                     minutes = Math.ceil(minutes / 12);
-                                    el.date = minutes + ' років назад'
+                                    el.date_ua = minutes + ' років назад';
+                                    el.date_en = minutes + ' years ago';
                                 } else {
-                                    el.date = minutes + ' місяців назад'
+                                    el.date_ua = minutes + ' місяців назад';
+                                    el.date_en = minutes + ' months ago';
                                 }
                             } else {
-                                el.date = minutes + ' тижднів назад'
+                                el.date_ua = minutes + ' тижднів назад';
+                                el.date_en = minutes + ' weeks ago';
                             }
                         } else {
-                            el.date = minutes + ' днів назад'
+                            el.date_ua = minutes + ' днів назад';
+                            el.date_en = minutes + ' days ago';
                         }
                     } else {
-                        el.date = minutes + ' годин назад'
+                        el.date_ua = minutes + ' годин назад';
+                        el.date_en = minutes + ' hours ago';
                     }
                 } else {
-                    el.date = minutes + ' хвилин назад'
+                    el.date_ua = minutes + ' хвилин назад';
+                    el.date_en = minutes + ' minutes ago';
                 }
                 return el;
             })
