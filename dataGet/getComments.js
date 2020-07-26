@@ -29,21 +29,21 @@ function getComments(){
                                 minutes = Math.ceil(minutes / 4);
                                 if (minutes > 12) {
                                     minutes = Math.ceil(minutes / 12);
-                                    el.date = minutes + ' років назад'
+                                    el.date_ua = minutes + ' років назад'
                                 } else {
-                                    el.date = minutes + ' місяців назад'
+                                    el.date_ua = minutes + ' місяців назад'
                                 }
                             } else {
-                                el.date = minutes + ' тижднів назад'
+                                el.date_ua = minutes + ' тижднів назад'
                             }
                         } else {
-                            el.date = minutes + ' днів назад'
+                            el.date_ua = minutes + ' днів назад'
                         }
                     } else {
-                        el.date = minutes + ' годин назад'
+                        el.date_ua = minutes + ' годин назад'
                     }
                 } else {
-                    el.date = minutes + ' хвилин назад'
+                    el.date_ua = minutes + ' хвилин назад'
                 }
                 return el;
             })
