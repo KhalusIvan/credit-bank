@@ -13,7 +13,7 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/getUserComments', {
+                res(fetch('/getUsersActiveCredits', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -61,8 +61,8 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        email: "khalus.ivan@chnu.edu.ua", 
-                        password: "12345678"
+                        email: "vakhalus@gmail.com", 
+                        password: "Hfqyscf10f"
                     })
                 }).then (res => {
                     return res.json();
