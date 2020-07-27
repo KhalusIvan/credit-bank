@@ -12,6 +12,9 @@ function getUsersCredits(){
     app.post('/getUsersCredits', type, middleware, (req, res) => {
         base.collection('users_credits').find({user: req.user.email}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            resp.map(el => {
+                el.start_date = new Date(el.start_date);
+            })
             res.send(resp);
         });
     });
