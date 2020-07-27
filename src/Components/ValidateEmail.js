@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Proxy from '../Contexts/Proxy';
 import {
-    Redirect,useParams
+    Redirect,useParams,useHistory
   } from "react-router-dom";
-export default function ValidateEmail() {
+export default function ValidateEmail(props) {
     const { token } = useParams();
     const {proxy} = useContext(Proxy);
+    const history = useHistory()
     const [isValidToken,setIsValidToken] = useState(false);
     console.log(token);
     async function fetchData() {
@@ -20,7 +21,7 @@ export default function ValidateEmail() {
       console.log(json);
       if (json.role === 'user') {
           localStorage.setItem('token',token);
-          document.location.reload();
+          history.push('/user');
           setIsValidToken(true);
       }
     }

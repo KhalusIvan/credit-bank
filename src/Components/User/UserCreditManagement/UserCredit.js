@@ -4,6 +4,7 @@ import UserMyCredits from './MyCredits/UserMyCredits.js';
 import UserTakeCredits from './TakeCredit/UserTakeCredits';
 import User from '../../../Contexts/User.js';
 import JumbotronSeparator from '../../JumbotronSeparator.js';
+import {wrapPromise} from '../../../script/custom.js';
 const myCreditsArray = [
     {
         name: 'Min credit',
@@ -55,7 +56,7 @@ const myCreditsArray = [
         percent: 1
     }
 ];
-const allCreditsArray = [
+/* const allCreditsArray = [
     {
         name: 'Min credit',
         id: 1,
@@ -86,7 +87,20 @@ const allCreditsArray = [
         max_term: 50,
         percent: 1
     }
-]
+] */
+async function getAllCredits(){
+    let response = await fetch('https://credit-bank-practice.herokuapp.com/getCreditsTypes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    });
+    let result = await response.json();
+    console.log(result);
+    return await result;
+}
+let allCreditsArrayFetch =  localStorage.getItem('token') ? wrapPromise(getAllCredits()) : null;
 export default (props)=>{
     const {user} = useContext(User);
     return(
@@ -94,7 +108,7 @@ export default (props)=>{
             {user['is_checked'] ? '' : <NotVerificatedUserMessage/>}
             <UserMyCredits creditsArray={myCreditsArray}/>
             <JumbotronSeparator/>
-            <UserTakeCredits creditsArray={allCreditsArray}/>
+            <UserTakeCredits creditsArray={allCreditsArrayFetch.read()}/>
         </div>
     )
 }
