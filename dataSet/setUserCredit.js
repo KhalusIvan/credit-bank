@@ -26,7 +26,7 @@ function setUserCredit(){
                     "description": resp[0].description,
                     "start_date": startDate,
                     "term": req.body.term,
-                    "finish_date": finishDate,
+                    "end_date": finishDate,
                     "percent": resp[0].percent,
                     "value": req.body.value,
                     "paid": 0,
