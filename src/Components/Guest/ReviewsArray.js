@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {wrapPromise} from '../../script/custom.js';
 import '../../style/reviews.css';
+import AppLanguage from '../../Contexts/AppLanguage.js';
 async function getReview(){
     let response = await fetch('https://credit-bank-practice.herokuapp.com/getAllComments', {
         method: 'POST',
@@ -15,6 +16,7 @@ async function getReview(){
 const reviewsArray = localStorage.getItem('token') ? {read:()=>null} : wrapPromise(getReview());
 export default (props) => {
     const reviews = reviewsArray.read();
+    const {appLanguage} = useContext(AppLanguage);
     if(!reviews){
         return [];
     }
@@ -26,7 +28,7 @@ export default (props) => {
                 <p className="card-text">{review.text}</p>
             </div>
             <div className="card-footer pb-1 pt-1 text-muted">
-                {review.date}
+                {appLanguage === 'eng' ? review.date_en : review.date_ua}
             </div>
         </div>
     ))

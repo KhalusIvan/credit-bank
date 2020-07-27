@@ -36,7 +36,7 @@ export default (props) => {
                         transitionName="example"
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={300}>
-                        {props.myReviewsArray.map(value => (<UserLastReviewsReviev editReview={editReview} idOfModal={idOfModal} deleteReview={props.deleteReview} avatar={user.avatar ? `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})` : false} key={value.id} name={user['first_name'] + ' ' + user['second_name']} text={value.text} date={value.date} id={value.id} />))}
+                        {props.myReviewsArray.map(value => (<UserLastReviewsReviev editReview={editReview} idOfModal={idOfModal} deleteReview={props.deleteReview} avatar={user.avatar ? `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})` : false} key={value.id} name={user['first_name'] + ' ' + user['second_name']} text={value.text} date={appLanguage === 'eng' ? value.date_en : value.date_ua} id={value.id} />))}
                     </CSSTransitionGroup> : <Spiner />
                 }
             </div>

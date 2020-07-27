@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Proxy from '../Contexts/Proxy';
 import {
     Redirect,useParams
@@ -23,9 +23,12 @@ export default function ValidateEmail() {
           setIsValidToken(true);
       }
     }
+    useEffect(()=>{
+        fetchData();
+    },[])
     if(isValidToken)
         return (
             <Redirect to='/user'/>
         );
-    else return (<Redirect to='/'/>)
+    else return (<h1>Loading...</h1>)
   }

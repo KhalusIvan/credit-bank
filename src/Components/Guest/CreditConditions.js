@@ -28,7 +28,7 @@ export default (props) => {
                     <Fade left when={startAnimation} timeout={500}>
                         <div className='col-6 col-sm-6 d-flex align-items-center condition'>
                             <span className='check-mark-img flex-shrink-0'></span>
-                            <span><h3 className='m-0 condition-text'>{appLanguage === 'eng' ? 'Age 18-19 years old' : 'Вік 18-70 років'}</h3></span>
+                            <span><h3 className='m-0 condition-text'>{appLanguage === 'eng' ? 'Age 18-70 years old' : 'Вік 18-70 років'}</h3></span>
                         </div>
                     </Fade>
                     <Fade left when={startAnimation} delay={100}>

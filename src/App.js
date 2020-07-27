@@ -131,6 +131,7 @@ function App() {
         }
       });
       let json = await resp.json();
+      console.log(json);
       return json;
     }
     if (localStorage.getItem('token'))
@@ -138,6 +139,11 @@ function App() {
         if (json.role !== 'guest') {
           window.removeEventListener('scroll', toogleHeaderWrapperTheme);
           window.removeEventListener('resize', toogleHeaderWrapperTheme);
+        }
+        else{
+          window.addEventListener('scroll', toogleHeaderWrapperTheme);
+          window.addEventListener('resize', toogleHeaderWrapperTheme);
+          toogleHeaderWrapperTheme();
         }
         changeUserRole(json.role);
         setIsUserReady(true);
