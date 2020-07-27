@@ -42,7 +42,9 @@ export default (props) => {
           </Fade>
         </Route>
         <Route path={`${path}/takeCredit`}>
-            {user.email ? <Fade timeout={500}> <UserCredit /> </Fade> : <Spiner />}
+            {user.email ? <Fade timeout={500}> 
+              <UserCredit /> 
+            </Fade> : <Spiner />}
         </Route>
         <Route path={`${path}/review`}>
           <Suspense fallback={<Spiner />}>

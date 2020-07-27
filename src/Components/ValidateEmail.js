@@ -7,8 +7,6 @@ export default function ValidateEmail(props) {
     const { token } = useParams();
     const {proxy} = useContext(Proxy);
     const history = useHistory()
-    const [isValidToken,setIsValidToken] = useState(false);
-    console.log(token);
     async function fetchData() {
       let resp = await fetch(proxy + '/checkUser', {
         method: 'POST',
@@ -18,11 +16,13 @@ export default function ValidateEmail(props) {
         }
       });
       const json = await resp.json();
-      console.log(json);
       if (json.role === 'user') {
           localStorage.setItem('token',token);
           history.push('/user');
-          setIsValidToken(true);
+          window.location.reload();
+      }
+      else{
+        history.push('/');
       }
     }
     useEffect(()=>{
