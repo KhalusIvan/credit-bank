@@ -15,7 +15,7 @@ function setUserCredit(){
         let finishDate = new Date();
         finishDate.setDate(finishDate.getDate() + req.body.term);
         let hashString = req.user.email + startDate.toString();
-        base.collection('credit_types').find({id:req.body.id).toArray((err,resp)=>{
+        base.collection('credit_types').find({id:req.body.id}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
             bcrypt.hash(hashString, 10, async function(err, hash) {
                 base.collection('users_credits').insertOne({
@@ -26,10 +26,10 @@ function setUserCredit(){
                     "start_date": startDate,
                     "term": req.body.term,
                     "finish_date": finishDate,
-                    "percent": req.body.percent,
+                    "percent": resp.percent,
                     "value": req.body.value,
                     "paid": 0,
-                    "finish_sum": req.body.start_sum + (req.body.start_sum / 100 * req.body.percent * req.body.term),
+                    "finish_sum": req.body.value + (req.body.value / 100 * resp.percent * req.body.term),
                     "fine": 0,
                     "status": "active"
                 },(err,result)=>{
