@@ -22,15 +22,15 @@ function setUserCredit(){
                 base.collection('users_credits').insertOne({
                     "id": hash,
                     "user": req.user.email,
-                    "name": resp.name,
-                    "description": resp.description,
+                    "name": resp[0].name,
+                    "description": resp[0].description,
                     "start_date": startDate,
                     "term": req.body.term,
                     "finish_date": finishDate,
-                    "percent": resp.percent,
+                    "percent": resp[0].percent,
                     "value": req.body.value,
                     "paid": 0,
-                    "finish_sum": req.body.value + (req.body.value / 100 * resp.percent * req.body.term),
+                    "finish_sum": req.body.value + (req.body.value / 100 * resp[0].percent * req.body.term),
                     "fine": 0,
                     "status": "active"
                 },(err,result)=>{
