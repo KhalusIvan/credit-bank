@@ -20,15 +20,12 @@ export default function ValidateEmail() {
       console.log(json);
       if (json.role === 'user') {
           localStorage.setItem('token',token);
+          document.location.reload();
           setIsValidToken(true);
       }
     }
     useEffect(()=>{
         fetchData();
     },[])
-    if(isValidToken)
-        return (
-            <Redirect to='/user'/>
-        );
-    else return (<h1>Loading...</h1>)
+    return (<h1>Loading...</h1>)
   }
