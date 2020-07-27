@@ -18,7 +18,7 @@ export default function ValidateEmail() {
       });
       const json = await resp.json();
       console.log(json);
-      if (json.status === 'ok') {
+      if (json.role === 'user') {
           localStorage.setItem('token',token);
           setIsValidToken(true);
       }
