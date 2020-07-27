@@ -17,6 +17,7 @@ function setUserCredit(){
         let hashString = req.user.email + startDate.toString();
         base.collection('credit_types').find({id:req.body.id}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            console.log(req.body.id);
             bcrypt.hash(hashString, 10, async function(err, hash) {
                 base.collection('users_credits').insertOne({
                     "id": hash,
