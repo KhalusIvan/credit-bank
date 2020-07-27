@@ -10,7 +10,7 @@ setTimeout(function run() {
 }, 100);
 function getUsersCredits(){
     app.post('/getUsersCredits', type, middleware, (req, res) => {
-        base.collection('users_credits').find({email: req.user.email}).toArray((err,resp)=>{
+        base.collection('users_credits').find({user: req.user.email}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
             res.send(resp);
         });
