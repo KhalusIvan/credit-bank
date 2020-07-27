@@ -45,7 +45,7 @@ function register(req, res){
                                 transporter.sendMail({
                                     from: 'vakhalus.work@gmail.com',
                                     to: req.body.email,
-                                    subject: "Підтвердження пароля",
+                                    subject: "Підтвердження емайла",
                                     html: `Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити Ваш e-mail адрес.`
                                 }, function (err, info) {
                                     if (err) {

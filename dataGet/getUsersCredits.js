@@ -8,12 +8,12 @@ setTimeout(function run() {
     base = db;
     setTimeout(run, 500);
 }, 100);
-function getUserFinishedCredits(){
-    app.post('/getUserFinishedCredits', type, middleware, (req, res) => {
-        base.collection('finished_credits').find({email: req.user.email}).toArray((err,resp)=>{
+function getUsersCredits(){
+    app.post('/getUsersCredits', type, middleware, (req, res) => {
+        base.collection('users_credits').find({email: req.user.email}).toArray((err,resp)=>{
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
             res.send(resp);
         });
     });
 }
-module.exports.getUserFinishedCredits = getUserFinishedCredits;
+module.exports.getUsersCredits = getUsersCredits;
