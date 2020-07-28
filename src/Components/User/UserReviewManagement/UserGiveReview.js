@@ -14,7 +14,6 @@ async function getReview(){
         }
     });
     let result = await response.json();
-    console.log(result);
     return await result;
 }
 let myReviewsArrayFetch =  localStorage.getItem('token') ? wrapPromise(getReview()) : null;

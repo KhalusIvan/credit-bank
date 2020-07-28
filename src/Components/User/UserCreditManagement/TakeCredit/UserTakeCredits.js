@@ -19,7 +19,7 @@ export default (props) => {
                             <p className='text-center'>Увага! У випадку прострочення кредиту, його відсоток збільшиться вдвічі</p>
                             <div className='container p-0 credits-list'>
                                 {props.creditsArray.map((credit) => (
-                                    <Credit key={credit.id} name={credit.name} min_value={credit.min_value} max_value={credit.max_value} min_term={credit.min_term} max_term={credit.max_term} percent={credit.percent} description={credit.description} />
+                                    <Credit addCredit={props.addCredit} id={credit.id} key={credit.id} name={credit.name} min_value={credit.min_value} max_value={credit.max_value} min_term={credit.min_term} max_term={credit.max_term} percent={credit.percent} description={credit.description} />
                                 ))}
                             </div>
                             </>

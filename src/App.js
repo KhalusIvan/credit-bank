@@ -123,6 +123,7 @@ function App() {
   }
   useEffect(() => {
     async function fetchData() {
+      console.log(4);
       let resp = await fetch(proxy + '/checkUser', {
         method: 'POST',
         headers: {

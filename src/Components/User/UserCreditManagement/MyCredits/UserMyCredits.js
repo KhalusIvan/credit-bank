@@ -23,7 +23,7 @@ export default (props) => {
                     <div className='container user-my-credits-list not-reveal'>
                         {props.creditsArray.map(credit => (
                             <Zoom key={credit.id} timeout={500} collapse when={filter === 'all' || filter === credit.status}>
-                                <UserMyCredit  avatar={user.avatar ? `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})` : false} name={credit.name} id={credit.id} description={credit.description} value={credit.value} term={credit.term} payd={credit.payd} start_date={credit.start_date} end_date={credit.end_date} status={credit.status} percent={credit.percent} fine={credit.fine} />
+                                <UserMyCredit  avatar={user.avatar ? `url(${URL.createObjectURL(new Blob([new Uint8Array(user.avatar.data)]))})` : false} finish_sum={credit.finish_sum} name={credit.name} id={credit.id} description={credit.description} value={credit.value} term={credit.term} paid={credit.paid} start_date={credit.start_date} end_date={credit.end_date} status={credit.status} percent={credit.percent} fine={credit.fine} />
                             </Zoom>
                         ))}
                     </div>
