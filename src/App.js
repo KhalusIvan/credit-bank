@@ -27,6 +27,7 @@ import Footer from './Components/Footer.js';
 import SpinerApp from './Components/SpinerApp.js';
 import Separate from './Components/Separate.js';
 import ValidateEmail from './Components/ValidateEmail';
+import ConfirmEmail from './Components/ConfirmEmail';
 import Fade from 'react-reveal/Fade';
 import './style/custom.css';
 
@@ -174,6 +175,7 @@ function App() {
                   <Route exact path="/">
                     <Separate role={user.role} />
                   </Route>
+                  <Route path="/confirm/:email" children={<ConfirmEmail />} />
                   <Route path="/abd/:token" children={<ValidateEmail />} />
                   <OnlyGuest exact role={user.role} path="/guest">
                     <Fade timeout={500}><GuesMainPage /></Fade>

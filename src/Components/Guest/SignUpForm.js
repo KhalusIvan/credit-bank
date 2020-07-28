@@ -79,6 +79,9 @@ function SignUpForm(props) {
             invalidEmail.current.classList.add('d-inline-block');
             setIsSending(false);
         }
+        else if(json.status === 'confirm'){
+            props.history.push('/confirm/'+json.email);
+        }
         if (await json.token) {
             localStorage.setItem('token', json.token);
             props.onSubmitFunction();

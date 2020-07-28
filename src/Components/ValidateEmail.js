@@ -44,7 +44,7 @@ export default function ValidateEmail(props) {
     <div class="spiner-token-page m-4 spinner-border text-light" role="status">
       <span class="sr-only">Loading...</span>
     </div>
-    <h1 className={`token-title ${isValidUser ? '' : 'd-none'}`}>Ваш аккаунт вже підтверджено</h1>
-    <h4 className={`token-text ${isValidUser ? '' : 'd-none'}`}>Переадресація на особистий кабінет через {counter}</h4>
+    <h1 className={`token-title text-center ${isValidUser ? '' : 'd-none'}`}>Ваш аккаунт вже підтверджено</h1>
+    <h4 className={`token-text text-center ${isValidUser ? '' : 'd-none'}`}>Переадресація на особистий кабінет через {counter}</h4>
   </div>)
 }
