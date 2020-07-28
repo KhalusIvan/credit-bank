@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import AlertTemplate from './Components/react-alert-template-basic'
 const options = {
   position: 'bottom center',
   timeout: 3000,
