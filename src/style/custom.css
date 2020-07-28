@@ -101,14 +101,42 @@ html, body, #root {
 .footer-wrapper {
   flex-shrink: 0;
 }
+
+
+
 .tokenPage{
   width: 100vw;
   height: 100vh;
   position: fixed;
   left: 0;
   top: 0;
-  background-color: white;
+  background-color: #262626;
+  color: white;
   z-index: 100000000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+.spiner-token-page{
+  width: 100px;
+  height: 100px;
+}
+.token-title{
+  font-size: 3em;
+}
+.token-text{
+  font-size: 2em;
+}
+@media (max-width: 767px){
+  .tokenPage{
+    font-size: .6em;
+  }
+}
+@media (max-width: 575px){
+  .tokenPage{
+    font-size: .4em;
+  }
 }
 
 
