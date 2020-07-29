@@ -5,13 +5,15 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import Error404 from '../Error404.js'
-import UserGiveReview from './UserReviewManagement/UserGiveReview.js';
-import UserAcc from './UserDataManagement/UserAcc.js';
-import UserCredit from './UserCreditManagement/UserCredit.js';
+//import UserGiveReview from './UserReviewManagement/UserGiveReview.js';
+//import UserAcc from './UserDataManagement/UserAcc.js';
+//import UserCredit from './UserCreditManagement/UserCredit.js';
 import Proxy from '../../Contexts/Proxy.js';
 import User from '../../Contexts/User';
 import Spiner from '../Spiner.js'
-import Fade from 'react-reveal/Fade';
+const UserAcc = lazy(() => import('./UserDataManagement/UserAcc.js'));
+const UserCredit = lazy(() => import('./UserCreditManagement/UserCredit'));
+const UserGiveReview = lazy(() => import('./UserReviewManagement/UserGiveReview'));
 export default (props) => {
   const { changeUser } = useContext(User);
   const { proxy } = useContext(Proxy);
@@ -26,38 +28,33 @@ export default (props) => {
         }
       });
       let result = await response.json();
+      console.log(result);
       changeUser(result);
     }
     if (localStorage.getItem('token'))
       getUserData();
-  }, [])
+  }, [localStorage.getItem('token')])
   let { path } = useRouteMatch();
   return (
     <div className='content'>
+      <Suspense fallback={<Spiner />}>
         <Switch>
           <Route exact path={`${path}`}>
-            <Fade>
-              <Fade><UserAcc /></Fade>
-            </Fade>
+            <UserAcc />
           </Route>
           <Route path={`${path}/takeCredit`}>
-            {user.email ? <Fade >
-              <Suspense fallback={<Spiner />}>
-                <Fade><UserCredit /></Fade>
-              </Suspense>
-            </Fade> : <Spiner />}
+            {user.email ?
+              <UserCredit />
+               : <Spiner />}
           </Route>
           <Route path={`${path}/review`}>
-            <Suspense fallback={<Spiner />}>
-              <Fade>
-                <UserGiveReview />
-              </Fade>
-            </Suspense>
+            <UserGiveReview />
           </Route>
           <Route path={`${path}/*`}>
-              <Error404 />
+            <Error404 />
           </Route>
         </Switch>
+      </Suspense>
     </div>
   )
 }

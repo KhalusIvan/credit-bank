@@ -1,10 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect,lazy, Suspense } from 'react';
 import Proxy from '../Contexts/Proxy';
 import {
   useParams, useHistory
 } from "react-router-dom";
-import UserMainPage from './User/UserMainPage';
+//import UserMainPage from './User/UserMainPage';
 import User from '../Contexts/User';
+import Spiner from './Spiner';
+const UserMainPage = lazy(()=>import('./User/UserMainPage'))
 export default function ValidateEmail(props) {
   const { token } = useParams();
   const { proxy } = useContext(Proxy);
@@ -54,7 +56,9 @@ export default function ValidateEmail(props) {
         <h1 className={`token-title text-center ${isValidUser ? '' : 'd-none'}`}>Ваш аккаунт вже підтверджено</h1>
         <h4 className={`token-text text-center ${isValidUser ? '' : 'd-none'}`}>Переадресація на особистий кабінет через {counter}</h4>
       </div>
-      <UserMainPage/>
+      <Suspense fallback={<Spiner/>}>
+        <UserMainPage/>
+      </Suspense>
     </>
   )
 }

@@ -25,11 +25,12 @@ import GuesMainPage from './Components/Guest/GuesMainPage.js';
 import Footer from './Components/Footer.js';
 import SpinerApp from './Components/SpinerApp.js';
 import Separate from './Components/Separate.js';
-import ValidateEmail from './Components/ValidateEmail';
+//import ValidateEmail from './Components/ValidateEmail';
 import ConfirmEmail from './Components/ConfirmEmail';
 import Fade from 'react-reveal/Fade';
 import './style/custom.css';
-const UserMainPage = lazy(() => import('./Components/User/UserMainPage.js'));
+const UserMainPage = lazy(() => import('./Components/User/UserMainPage'));
+const ValidateEmail = lazy(() => import('./Components/ValidateEmail'))
 function App() {
   const proxy = 'https://credit-bank-practice.herokuapp.com';
   const [isUserReady, setIsUserReady] = useState(false);

@@ -3,6 +3,7 @@ import AppLanguage from '../../../Contexts/AppLanguage';
 import UserGiveReviewImputField from './UserGiveReviewImputField.js';
 import UserLastReviews from './UserLastReviews.js';
 import Proxy from '../../../Contexts/Proxy.js'
+import Fade from 'react-reveal/Fade';
 import { Redirect } from 'react-router-dom';
 import {wrapPromise} from '../../../script/custom.js';
 async function getReview(){
@@ -62,7 +63,7 @@ export default (props) => {
         setMyReviewsArray(newArray);
     }
     return (
-        <>
+        <Fade>
         <div className='give-review-wrapper p-0 container-fluid'>
             <div className='container p-0'>
                 <div className='jumbotron mb-0 p-0 give-review rounded-0 '>
@@ -72,6 +73,6 @@ export default (props) => {
             </div>
         </div>
        <UserLastReviews myReviewsArray={myReviewsArray} deleteReview={deleteReview} sendEditReview={sendEditReview}/>
-        </>
+        </Fade>
     )
 }
