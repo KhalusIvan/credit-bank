@@ -100,7 +100,7 @@ export default (props) => {
         if(json.status === 'ok'){
             setIsSendingPhone(false);
             setStartAnimationPhone(true);
-            changeUserPhone(phoneValue);
+            changeUserPhone('+380' + phoneValue);
         }
     }
     return (

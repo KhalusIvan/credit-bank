@@ -1,4 +1,4 @@
-import React, { useContext, Suspense } from 'react';
+import React, { useContext, Suspense, useState, useEffect } from 'react';
 import Carousel from '../Carousel/Carousel.js';
 import CreditConditions from './CreditConditions.js';
 import WhyUs from './WhyUs.js';
@@ -12,12 +12,26 @@ import '../../style/carousel.css';
 import User from '../../Contexts/User.js';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
-    const {user} = useContext(User);
+    const { user } = useContext(User);
+    const [reviewsArray, setReviewsArray] = useState(null);
+    useEffect(() => {
+        async function getReviewsFetch() {
+            let response = await fetch('https://credit-bank-practice.herokuapp.com/getAllComments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            let result = await response.json();
+            setReviewsArray(result);
+        }
+        getReviewsFetch();
+    }, [])
     return (
         <>
-            {<div className="container-fluid p-0 carousel-wrapper carousel-header">
+            <div className="container-fluid p-0 carousel-wrapper carousel-header">
                 <Carousel isIndecators={false} id='lol' carouselItems={sliderElements(appLanguage)} />
-            </div>}
+            </div>
             <div className='container-fluid p-0 credit-conditions-wrapper anchor' id='credit-conditions'>
                 <CreditConditions />
             </div>
@@ -39,11 +53,9 @@ export default (props) => {
                 </div>
             </VideoSection>
             <div className='container-fluid p-0 reviews-wrapper'>
-                <Suspense fallback={<h1>Loading...</h1>}>
-                    <Reviews />
-                </Suspense>
+                {reviewsArray ? <Reviews reviewsArray={reviewsArray} /> : ''}
             </div>
-            {user.role === 'guest' ? <SignForm/>:null}
+            <SignForm />
         </>
     )
 }

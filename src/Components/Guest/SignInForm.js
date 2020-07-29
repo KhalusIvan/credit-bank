@@ -26,20 +26,21 @@ export default withRouter(props =>{
             })
         })
         let json = await resp.json();
-        console.log(json);
         if(json.role === 'admin'){
             props.onSubmitFunction();
             changeUserRole('admin');
             props.history.push('/admin');
         }
         else if (json.role === 'user') {
+            props.onSubmitFunction();
             localStorage.setItem('token', await json.token);
-            document.location.reload();
+            changeUserRole('user');
+            props.history.push('/user');
         }
         else if (json.status === 'error') {
             invalidLabel.current.classList.add('d-inline-block');
-            setIsSending(false);
         }
+        setIsSending(false);
     }
     function checkAllField() {
         const isValidForm = email.current.value.length > 0 && password.current.value.length > 0;

@@ -12,7 +12,7 @@ const Header = (props) => {
     const theme = useContext(headerThemeContext);
     const [path, setPath] = useState(document.location.pathname);
     const language = useContext(AppLanguage);
-    const { user } = useContext(User);
+    const { user,changeUserRole } = useContext(User);
     const activeElement = useRef(null);
     const languageSwitcherSmall = useRef(null);
     const languageSwitcherMiddle = useRef(null);
@@ -65,7 +65,7 @@ const Header = (props) => {
                                 <li className={`nav-item ${path === '/user' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user')} to={`/user`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
                                 <li className={`nav-item ${path === '/user/takeCredit' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/takeCredit')} to={`/user/takeCredit`}>{language.appLanguage === 'eng' ? 'Loan' : 'Кредит'}</Link></li>
                                 <li className={`nav-item ${path === '/user/review' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/review')} to={`/user/review`}>{language.appLanguage === 'eng' ? 'Review' : 'Відгук'}</Link></li>
-                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className='nav-link' onClick={() => { localStorage.removeItem('token'); document.location.reload() }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
+                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className='nav-link' onClick={() => { localStorage.removeItem('token'); changeUserRole('guest')/*  document.location.reload() */ }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>)
                         }
                     </ul>

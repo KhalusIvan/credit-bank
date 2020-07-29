@@ -25,6 +25,8 @@
 }
 .userAcc .user-role{
     font-size: 1.2em;
+    letter-spacing: 2px;
+    font-style: italic;
 }
 .userAcc .btn{
     font-size: 1em;

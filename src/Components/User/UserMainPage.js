@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useContext } from 'react';
+import React, { Suspense, useEffect, useContext, lazy } from 'react';
 import {
   Switch,
   Route,
@@ -12,7 +12,6 @@ import Proxy from '../../Contexts/Proxy.js';
 import User from '../../Contexts/User';
 import Spiner from '../Spiner.js'
 import Fade from 'react-reveal/Fade';
-
 export default (props) => {
   const { changeUser } = useContext(User);
   const { proxy } = useContext(Proxy);
@@ -35,32 +34,30 @@ export default (props) => {
   let { path } = useRouteMatch();
   return (
     <div className='content'>
-      <Switch>
-        <Route exact path={`${path}`}>
-          <Fade timeout={500}>
-            <UserAcc />
-          </Fade>
-        </Route>
-        <Route path={`${path}/takeCredit`}>
-            {user.email ? <Fade timeout={500}> 
-            <Suspense fallback={<Spiner/>}>
-              <UserCredit /> 
-            </Suspense>
-            </Fade> : <Spiner />}
-        </Route>
-        <Route path={`${path}/review`}>
-          <Suspense fallback={<Spiner />}>
-            <Fade timeout={500}>
-              <UserGiveReview />
+        <Switch>
+          <Route exact path={`${path}`}>
+            <Fade>
+              <Fade><UserAcc /></Fade>
             </Fade>
-          </Suspense>
-        </Route>
-        <Route path={`${path}/*`}>
-          <Fade timeout={500}>
-            <Error404 />
-          </Fade>
-        </Route>
-      </Switch>
+          </Route>
+          <Route path={`${path}/takeCredit`}>
+            {user.email ? <Fade >
+              <Suspense fallback={<Spiner />}>
+                <Fade><UserCredit /></Fade>
+              </Suspense>
+            </Fade> : <Spiner />}
+          </Route>
+          <Route path={`${path}/review`}>
+            <Suspense fallback={<Spiner />}>
+              <Fade>
+                <UserGiveReview />
+              </Fade>
+            </Suspense>
+          </Route>
+          <Route path={`${path}/*`}>
+              <Error404 />
+          </Route>
+        </Switch>
     </div>
   )
 }

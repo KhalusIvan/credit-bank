@@ -20,7 +20,7 @@ export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
     return (
         <>
-            <AbsoluteBtn btnClass='sign-btn  btn-secondary pt-2 pb-2' btnText={appLanguage === 'eng' ? 'Sigh in/Sign out' : 'Вхід / Регістрація'} dataToggle='modal' dataTarget='#signin' />
+            <AbsoluteBtn btnClass='sign-btn  btn-secondary pt-2 pb-2' btnText={appLanguage === 'eng' ? 'Sigh in/Sign up' : 'Вхід / Регістрація'} dataToggle='modal' dataTarget='#signin' />
             <div className="modal fade signForm " id="signin" tabIndex="-1" role="dialog">
                 <div className="modal-dialog">
                     <div className="modal-content">

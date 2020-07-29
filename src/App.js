@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, Children } from 'react';
+import React, { useRef, useEffect, useState, Children,lazy, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,7 +22,6 @@ import Proxy from './Contexts/Proxy.js';
 
 import Header from './Components/Header/Header.js';
 import GuesMainPage from './Components/Guest/GuesMainPage.js';
-import UserMainPage from './Components/User/UserMainPage.js';
 import Footer from './Components/Footer.js';
 import SpinerApp from './Components/SpinerApp.js';
 import Separate from './Components/Separate.js';
@@ -30,7 +29,7 @@ import ValidateEmail from './Components/ValidateEmail';
 import ConfirmEmail from './Components/ConfirmEmail';
 import Fade from 'react-reveal/Fade';
 import './style/custom.css';
-
+const UserMainPage = lazy(() => import('./Components/User/UserMainPage.js'));
 function App() {
   const proxy = 'https://credit-bank-practice.herokuapp.com';
   const [isUserReady, setIsUserReady] = useState(false);
@@ -41,23 +40,17 @@ function App() {
   function toggleLanguage() {
     appLanguage === 'eng' ? setAppLanguage('ukr') : setAppLanguage('eng');
   }
-  function checkTheme(expectedTheme) {
-    if (headerTheme === expectedTheme)
-      return;
-    else { setHeaderTheme(expectedTheme) };
-  }
   function toogleHeaderWrapperTheme() {
     if (window.pageYOffset > 0 || document.documentElement.clientWidth <= 767) {
       headerWrapper.current.classList.add('sticky-now');
-      checkTheme('navbar-light');
+      setHeaderTheme('navbar-light');
     }
     else {
       headerWrapper.current.classList.remove('sticky-now');
-      checkTheme('navbar-dark');
+      setHeaderTheme('navbar-dark');
     }
   }
   toogleHeaderWrapperTheme = throttle(toogleHeaderWrapperTheme, 200);
-
   const [user, setUser] = useState({
     avatar: null,
     credit_card: null,
@@ -124,7 +117,6 @@ function App() {
   }
   useEffect(() => {
     async function fetchData() {
-      console.log(4);
       let resp = await fetch(proxy + '/checkUser', {
         method: 'POST',
         headers: {
@@ -133,31 +125,30 @@ function App() {
         }
       });
       let json = await resp.json();
-      console.log(json);
       return json;
     }
     if (localStorage.getItem('token'))
       fetchData().then(json => {
-        if (json.role !== 'guest') {
-          window.removeEventListener('scroll', toogleHeaderWrapperTheme);
-          window.removeEventListener('resize', toogleHeaderWrapperTheme);
-        }
-        else{
-          window.addEventListener('scroll', toogleHeaderWrapperTheme);
-          window.addEventListener('resize', toogleHeaderWrapperTheme);
-          toogleHeaderWrapperTheme();
-        }
         changeUserRole(json.role);
         setIsUserReady(true);
       });
     else {
       changeUserRole('guest');
+      setIsUserReady(true);
+    }
+  }, [localStorage.getItem('token')]);
+  useEffect(()=>{
+    if(user.role === 'guest'){
+      console.log("ADD LISTENER");
       window.addEventListener('scroll', toogleHeaderWrapperTheme);
       window.addEventListener('resize', toogleHeaderWrapperTheme);
       toogleHeaderWrapperTheme();
-      setIsUserReady(true);
     }
-  }, []);
+    return ()=>{
+      window.removeEventListener('scroll', toogleHeaderWrapperTheme);
+      window.removeEventListener('resize', toogleHeaderWrapperTheme);
+    }
+  },[user.role])
   return (
     <>
       <React.StrictMode>
@@ -171,6 +162,7 @@ function App() {
                     <Header />
                   </headerThemeContext.Provider>
                 </div>
+                <Suspense fallback={<SpinerApp />}>
                 <Switch>
                   <Route exact path="/">
                     <Separate role={user.role} />
@@ -186,6 +178,9 @@ function App() {
                   <PrivateRoute path="/user" role={user.role}>
                     <UserMainPage />
                   </PrivateRoute>
+                  <Route path='user/aallo'>
+                    <div>allo</div>
+                  </Route>
                   <OnlyAdmin path="/admin" role={user.role}>
                     <Fade timeout={500}><div>THIS IS ADMIN PANEL</div></Fade>
                   </OnlyAdmin>
@@ -193,6 +188,7 @@ function App() {
                     <Error404 />
                   </Route>
                 </Switch>
+                </Suspense>
                 <Footer />
               </Router>
             </User.Provider>
@@ -207,7 +203,7 @@ function PrivateRoute({ children, role, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-        role !== 'guest' ? (
+        role !== 'guest' && role !== 'admin'?(
           children
         ) : (
             <Redirect

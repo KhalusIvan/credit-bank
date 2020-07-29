@@ -73,20 +73,14 @@ function SignUpForm(props) {
             method: 'POST',
             body: new FormData(e.target)
         });
-        let json = await resp.json()
-        console.log(await json);
+        let json = await resp.json();
+        props.onSubmitFunction();
         if(json.status === 'email'){
             invalidEmail.current.classList.add('d-inline-block');
             setIsSending(false);
         }
         else if(json.status === 'confirm'){
             props.history.push('/confirm/'+json.email);
-        }
-        if (await json.token) {
-            localStorage.setItem('token', json.token);
-            props.onSubmitFunction();
-            document.location.reload();
-            props.history.push('/');
         }
     }
     return (
