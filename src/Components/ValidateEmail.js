@@ -45,7 +45,9 @@ export default function ValidateEmail(props) {
     }
   }, [isValidUser, counter])
   useEffect(() => {
-    fetchData();
+    if(!localStorage.getItem('token'))
+      fetchData();
+    else history.push('/');
   }, []);
   return (
     <>
