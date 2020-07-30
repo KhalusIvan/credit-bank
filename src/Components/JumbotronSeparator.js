@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Logo from './Logo';
 import '../style/jumbotronSeparator.css';
 export default ()=>{

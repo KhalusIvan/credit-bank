@@ -1,11 +1,10 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useAlert } from 'react-alert'
 import User from '../../../../Contexts/User.js';
 import AppLanguage from '../../../../Contexts/AppLanguage.js';
 import Proxy from '../../../../Contexts/Proxy';
 import CreditRange from './CreditRange'
 export default (props) => {
-    const { user } = useContext(User);
     const {proxy} = useContext(Proxy);
     const alert = useAlert();
     const { appLanguage } = useContext(AppLanguage);

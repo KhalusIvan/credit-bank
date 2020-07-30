@@ -3,12 +3,14 @@ import AppLanguage from '../../../Contexts/AppLanguage';
 import { CSSTransitionGroup } from 'react-transition-group'
 import UserLastReviewsReviev from './UserLastReviewsReview.js';
 import Logo from '../../Logo';
+import { useAlert } from 'react-alert'
 import '../../../style/userLastReviews.css';
 import User from '../../../Contexts/User';
 import Spiner from '../../Spiner';
 export default (props) => {
     const idOfModal = 'rewiewEditModal';
     const textareaOfModal = useRef(null);
+    const alert = useAlert();
     const { appLanguage } = useContext(AppLanguage);
     const { user } = useContext(User);
     let idOfChangedReview = null;
@@ -26,6 +28,16 @@ export default (props) => {
         if (closeModalButton.current)
             closeModalButton.current.click();
         return;
+    }
+    function editTextAria() {
+        const lengthOfReview = textareaOfModal.current.value.length;
+        if (lengthOfReview >= 3 && lengthOfReview <= 350) {
+            props.sendEditReview(idOfChangedReview, textareaOfModal.current.value);
+            closeModal();
+        }
+        else {
+            alert.info(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Info' : 'Інфо'}</div><p className='alert-text'>{appLanguage === 'eng' ? 'Comment must be between 3 and 350 characters. You wrote ' : 'Коментар має складатися з 3 до 350 символів. Ви ввели '}{lengthOfReview}</p></div>)
+        }
     }
     return (
         <div className='user-last-reviews-wrapper container-fluid pt-md-3 pb-md-3 pt-1 pb-1 pr-0 pl-0 pr-sm-2 pl-sm-2'>
@@ -50,10 +62,10 @@ export default (props) => {
                             </button>
                         </div>
                         <div className='modal-body form-group'>
-                            <textarea className='edit-review-textarea form-control p-3 rounded' rows='8' ref={textareaOfModal}></textarea>
+                            <textarea maxLength='350' minLength='3' className='edit-review-textarea form-control p-3 rounded' rows='8' ref={textareaOfModal}></textarea>
                         </div>
                         <div className='modal-footer'>
-                            <button className='btn btn-primary' onClick={() => { props.sendEditReview(idOfChangedReview, textareaOfModal.current.value); closeModal(); }}>{appLanguage === 'eng' ? 'Edit' : ' Змінити'}</button>
+                            <button className='btn btn-primary' onClick={editTextAria}>{appLanguage === 'eng' ? 'Edit' : ' Змінити'}</button>
                         </div>
                     </div>
                 </div>

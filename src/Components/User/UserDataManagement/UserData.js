@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import AppLanguage from '../../../Contexts/AppLanguage';
 import AvatarConstructor from '../../AvatarImg/AvatarConstructor';
 import '../../../style/userAcc.css';

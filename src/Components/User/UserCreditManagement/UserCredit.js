@@ -5,7 +5,7 @@ import UserTakeCredits from './TakeCredit/UserTakeCredits';
 import User from '../../../Contexts/User.js';
 import JumbotronSeparator from '../../JumbotronSeparator.js';
 import { wrapPromise } from '../../../script/custom.js';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 async function getAllCredits() {
     let response = await fetch('https://credit-bank-practice.herokuapp.com/getCreditsTypes', {
@@ -41,6 +41,13 @@ export default (props) => {
         return <Redirect to='/' />
     const { user } = useContext(User);
     const [myCredits, setMyCredits] = useState(myCreditsArrayFetch.read());
+    const {userName} = useParams();
+    const history = useHistory();
+    useEffect(() => {
+        if (user.email)
+            if (userName !== props.userNameInUrl)
+                history.push('/user');
+    }, [user.email, userName, props.userNameInUrl]);
     useEffect(() => {
         return () => myCreditsArrayFetch.read = () => myCredits;
     });

@@ -1,4 +1,4 @@
-import React, { useContext, Suspense, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Carousel from '../Carousel/Carousel.js';
 import CreditConditions from './CreditConditions.js';
 import WhyUs from './WhyUs.js';
@@ -9,10 +9,8 @@ import VideoSection from './VideoSection.js';
 import Reviews from './Reviews.js';
 import SignForm from './SignForm.js';
 import '../../style/carousel.css';
-import User from '../../Contexts/User.js';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
-    const { user } = useContext(User);
     const [reviewsArray, setReviewsArray] = useState(null);
     useEffect(() => {
         async function getReviewsFetch() {

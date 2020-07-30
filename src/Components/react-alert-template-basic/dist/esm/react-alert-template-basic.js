@@ -84,7 +84,6 @@ var alertStyle = {
   justifyContent: 'space-between',
   alignItems: 'center',
   boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
-  maxWidth: '500px',
   boxSizing: 'border-box'
 };
 

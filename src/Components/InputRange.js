@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import '../style/inputRange.css';
 export default (props) => {
     const [value, setValue] = useState(parseInt(props.initialValue));

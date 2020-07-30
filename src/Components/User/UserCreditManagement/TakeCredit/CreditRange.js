@@ -1,13 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
-import User from '../../../../Contexts/User.js';
-import AppLanguage from '../../../../Contexts/AppLanguage.js';
+import React, {useState } from 'react';
 import InputRange from '../../../InputRange';
 import '../../../../style/credit-range.css';
 export default (props) => {
-    const { user } = useContext(User);
-    const { appLanguage } = useContext(AppLanguage);
     const [value,setValue] = useState(String(props.min + props.subcontrollerText));
-    const [focus,setFocus] = useState(false);
     function inputOnlyNumbers(text) {
         return /^\d*$/.test(text);
     }

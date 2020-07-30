@@ -1,12 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppLanguage from '../../../Contexts/AppLanguage';
 import UserData from './UserData';
 import ChangeUserData from './ChangeUserData.js';
 import ChangeUserPassword from './ChangeUserPassword.js';
 import Fade from 'react-reveal/Fade';
 import '../../../style/userAcc.css'
+import { useParams,useHistory } from 'react-router-dom';
+import User from '../../../Contexts/User';
 export default (props) => {
-    const { appLanguage } = useContext(AppLanguage)
+    const { userName } = useParams();
+    const {user} = useContext(User);
+    const history = useHistory();
+    const { appLanguage } = useContext(AppLanguage);
+    useEffect(()=>{
+        if(user.email)
+            if(userName !== props.userNameInUrl){
+                history.push('/user');
+            }
+    },[user.email, userName, props.userNameInUrl])
     return (
         <Fade>
             <div className='userAcc-wrapper p-0 container-fluid'>

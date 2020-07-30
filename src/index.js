@@ -7,6 +7,9 @@ const options = {
   position: 'bottom center',
   timeout: 3000,
   offset: '5px',
+  containerStyle: {
+    zIndex: 10000000000
+  },
   transition: 'fade'
 }
 ReactDOM.render(

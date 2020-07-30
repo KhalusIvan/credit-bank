@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
   useRouteMatch,
+  Redirect,
 } from "react-router-dom";
 import Error404 from '../Error404.js'
 //import UserGiveReview from './UserReviewManagement/UserGiveReview.js';
@@ -28,27 +29,36 @@ export default (props) => {
         }
       });
       let result = await response.json();
-      console.log(result);
       changeUser(result);
     }
     if (localStorage.getItem('token'))
       getUserData();
-  }, [localStorage.getItem('token')])
+  }, [localStorage.getItem('token')]);
+  const userNameInUrl = user.email ? user.first_name.toLowerCase() + '_' + user.second_name.toLowerCase() : '';
   let { path } = useRouteMatch();
   return (
     <div className='content'>
       <Suspense fallback={<Spiner />}>
         <Switch>
           <Route exact path={`${path}`}>
-            <UserAcc />
+            {user.email ?  <Redirect to={`${path}/${userNameInUrl}`}/> : <UserAcc />}
           </Route>
           <Route path={`${path}/takeCredit`}>
-            {user.email ?
-              <UserCredit />
-               : <Spiner />}
+            {user.email ?  <Redirect to={`${path}/${userNameInUrl}/takeCredit`}/> : <UserAcc />}
           </Route>
           <Route path={`${path}/review`}>
-            <UserGiveReview />
+            {user.email ?  <Redirect to={`${path}/${userNameInUrl}/review`}/> : <UserGiveReview />}
+          </Route>
+          <Route exact path={`${path}/:userName`}>
+            <UserAcc userNameInUrl={userNameInUrl} />
+          </Route>
+          <Route path={`${path}/:userName/takeCredit`}>
+            {user.email ?
+              <UserCredit userNameInUrl={userNameInUrl} />
+               : <Spiner />}
+          </Route>
+          <Route path={`${path}/:userName/review`}>
+            <UserGiveReview userNameInUrl={userNameInUrl} />
           </Route>
           <Route path={`${path}/*`}>
             <Error404 />
