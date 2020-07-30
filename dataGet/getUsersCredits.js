@@ -17,6 +17,9 @@ function getUsersCredits(){
                 "expired": 2,
                 "closed": 3
             }
+            resp.map(el => {
+                el.finish_sum = el.finish_sum + el.fine;
+            });
             resp.sort((a,b) => {
                 if (index[a.status] < index[b.status]) 
                     return -1
