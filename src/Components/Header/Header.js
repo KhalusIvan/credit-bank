@@ -3,6 +3,7 @@ import { NavHashLink as NavLink } from 'react-router-hash-link';
 import { Link } from "react-router-dom";
 import '../../style/header.css';
 import headerThemeContext from '../../Contexts/HeaderThemeContext.js';
+import Proxy from '../../Contexts/Proxy'
 import AppLanguage from '../../Contexts/AppLanguage.js';
 import Logo from '../Logo.js';
 import NavItemsForGuests from './NavItemsForGuests.js';
@@ -12,7 +13,8 @@ const Header = (props) => {
     const theme = useContext(headerThemeContext);
     const [path, setPath] = useState(document.location.pathname);
     const language = useContext(AppLanguage);
-    const { user,changeUserRole } = useContext(User);
+    const { user, changeUserRole } = useContext(User);
+    const {param,changeParam} = useContext(Proxy);
     const activeElement = useRef(null);
     const languageSwitcherSmall = useRef(null);
     const languageSwitcherMiddle = useRef(null);
@@ -62,10 +64,10 @@ const Header = (props) => {
                         {user.role === 'guest' ?
                             <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/guest#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/guest#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Benefits' : "Переваги", href: '/guest#why-us' }, { label: language.appLanguage === 'eng' ? 'Instruction' : "Інструкція", href: '/guest#instruction' }]} />
                             : (<>
-                                <li className={`nav-item ${path === '/user' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user')} to={`/user`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
-                                <li className={`nav-item ${path === '/user/takeCredit' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/takeCredit')} to={`/user/takeCredit`}>{language.appLanguage === 'eng' ? 'Loan' : 'Кредит'}</Link></li>
-                                <li className={`nav-item ${path === '/user/review' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/review')} to={`/user/review`}>{language.appLanguage === 'eng' ? 'Review' : 'Відгук'}</Link></li>
-                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className='nav-link' onClick={() => { localStorage.removeItem('token'); changeUserRole('guest')/*  document.location.reload() */ }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
+                                <li className={`nav-item ${path === '/user/'+param ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user'+'/'+param)} to={`/user/${param}`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
+                                <li className={`nav-item ${path === '/user/'+param+'/takeCredit' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param+'/takeCredit')} to={`/user/${param}/takeCredit`}>{language.appLanguage === 'eng' ? 'Loan' : 'Кредит'}</Link></li>
+                                <li className={`nav-item ${path === '/user/'+param+'/review' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param+'/review')} to={`/user/${param}/review`}>{language.appLanguage === 'eng' ? 'Review' : 'Відгук'}</Link></li>
+                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className='nav-link' onClick={() => { localStorage.removeItem('token'); changeUserRole('guest');changeParam('') }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>)
                         }
                     </ul>

@@ -17,7 +17,7 @@ const UserCredit = lazy(() => import('./UserCreditManagement/UserCredit'));
 const UserGiveReview = lazy(() => import('./UserReviewManagement/UserGiveReview'));
 export default (props) => {
   const { changeUser } = useContext(User);
-  const { proxy } = useContext(Proxy);
+  const { proxy,changeParam } = useContext(Proxy);
   const { user } = useContext(User);
   useEffect(() => {
     async function getUserData() {
@@ -35,6 +35,7 @@ export default (props) => {
       getUserData();
   }, [localStorage.getItem('token')]);
   const userNameInUrl = user.email ? user.first_name.toLowerCase() + '_' + user.second_name.toLowerCase() : '';
+  changeParam(userNameInUrl);
   let { path } = useRouteMatch();
   return (
     <div className='content'>

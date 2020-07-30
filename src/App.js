@@ -32,11 +32,17 @@ const UserMainPage = lazy(() => import('./Components/User/UserMainPage'));
 const ValidateEmail = lazy(() => import('./Components/ValidateEmail'))
 function App() {
   const proxy = 'https://credit-bank-practice.herokuapp.com';
+  const [param,setParam]=useState('');
   const [isUserReady, setIsUserReady] = useState(false);
   const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
   const headerWrapper = useRef(null);
   const [headerTheme, setHeaderTheme] = useState();
   localStorage.setItem('lang', appLanguage);
+  function changeParam(newParam) {
+    setParam(newParam);
+  }
+
+
   function toggleLanguage() {
     appLanguage === 'eng' ? setAppLanguage('ukr') : setAppLanguage('eng');
   }
@@ -152,7 +158,7 @@ function App() {
   return (
     <>
       <React.StrictMode>
-        <Proxy.Provider value={{ proxy: proxy }}>
+        <Proxy.Provider value={{ proxy: proxy,param:param,changeParam:changeParam}}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
             <User.Provider value={{ user: user, removeUser: removeUser, changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
               <Router>

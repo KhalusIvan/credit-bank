@@ -17,7 +17,7 @@ export default (props) => {
             if(userName !== props.userNameInUrl){
                 history.push('/user');
             }
-    },[user.email, userName, props.userNameInUrl])
+    },[user.email, userName, props.userNameInUrl]);
     return (
         <Fade>
             <div className='userAcc-wrapper p-0 container-fluid'>
