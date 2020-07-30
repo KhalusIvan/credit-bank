@@ -34,9 +34,9 @@ function updateCreditPaid(){
                 }, { $set: {
                     paid: allSum,
                     }      
-                },{                           // доп. опции обновления    
+                },{                              
                     returnOriginal: false
-                },,(err,result, raw)=>{
+                },(err,result, raw)=>{
                     if(err)
                         return console.log(err);
                     res.send(result.value);
