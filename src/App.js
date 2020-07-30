@@ -100,9 +100,9 @@ function App() {
     newUser.role = role;
     setUser(newUser);
   }
-  function changeUserPassport(passport) {
+  function changeUserPassport() {
     let newUser = Object.assign({}, user);
-    newUser.passport = passport;
+    newUser.is_passport = true;
     setUser(newUser);
   }
   function changeUserCreditCard(creditCard) {

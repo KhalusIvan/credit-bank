@@ -25,6 +25,10 @@ export default (props) => {
         if (inputOnlyNumbers(e.target.value) && e.target.value.length <= 6)
             setCreditValue(e.target.value);
     }
+    function sendPayment() {
+        props.payCredit(choseCredit.id,creditValue);
+        closeModalButton.current.click();
+    }
     return (
         <div className='container-fluid p-0 user-my-credits-wrapper'>
             <div className='container p-0 user-my-credits'>
@@ -68,7 +72,7 @@ export default (props) => {
                                         </div> : ''
                                     }
                                     <div className='modal-footer'>
-                                        <button disabled={!isValidCreditValue} className='btn btn-primary' >{appLanguage === 'eng' ? 'Pay' : ' Оплатити'}</button>
+                                        <button onClick={sendPayment} disabled={!isValidCreditValue} className='btn btn-primary' >{appLanguage === 'eng' ? 'Pay' : ' Оплатити'}</button>
                                     </div>
                                 </div>
                             </div>

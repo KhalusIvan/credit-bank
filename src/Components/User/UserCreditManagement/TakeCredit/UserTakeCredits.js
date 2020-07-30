@@ -13,7 +13,7 @@ export default (props) => {
                 <div className="jumbotron p-1 p-xm-2 p-sm-4 p-lg-5 m-0 rounded-0 bg-transparent">
                     <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 user-take-credits title'>{appLanguage === 'eng' ? 'All credits' : 'Всі кредити'}</h2>
                     {
-                        user['ischecked'] ?
+                        !user['is_checked'] ?
                             <p className='lead text-center'>{appLanguage === 'eng' ? 'All credits will be displayed here' : 'Тут будуть відображатися всі кредити'}</p> :
                             <>
                             <p className='text-center'>Увага! У випадку прострочення кредиту, його відсоток збільшиться вдвічі</p>

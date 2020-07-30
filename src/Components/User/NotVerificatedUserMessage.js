@@ -56,7 +56,7 @@ export default (props) => {
         });
         let result = await response.json();
         if(result.status === 'ok'){
-            changeUserPassport(passportLoader.current.files[0].name);
+            changeUserPassport(true);
             setStartAnimationFile(true);
             setIsSendingFile(false);
         }
@@ -106,14 +106,14 @@ export default (props) => {
     return (
         <div className='container-fluid p-0 not-verificated-user-wrapper'>
             <div className='container  not-verificated-user p-3'>
-                <p className={`not-verificated-user-titile text-center`}>{ !user['credit_card'] && !user.passport &&  !user.phone ?
-                    appLanguage === 'eng' ? `To take a loan you need to confirm your ${user.passport ? '' : 'passport'} ${user.phone ? '' : 'phone'} ${user['credit_card'] ? '' : 'credit card'}` : `Щоб взяти кредит вам залишилося підтвердити ${user.passport ? '' : 'паспорт'} ${user.phone ? '' : 'телефон'} ${user['credit_card'] ? '' : 'кредитну карту'}`:
+                <p className={`not-verificated-user-titile text-center`}>{ !user['credit_card'] || !user.is_passport ||  !user.phone ?
+                    appLanguage === 'eng' ? `To take a loan you need to confirm your ${user.is_passport ? '' : 'passport'} ${user.phone ? '' : 'phone'} ${user['credit_card'] ? '' : 'credit card'}` : `Щоб взяти кредит вам залишилося підтвердити ${user.is_passport ? '' : 'паспорт'} ${user.phone ? '' : 'телефон'} ${user['credit_card'] ? '' : 'кредитну карту'}`:
                     appLanguage === 'eng' ? 'You will be able to take a loan after the service administrator checks your data' : 'Ви зможете брати кредит після того, як адміністратор сервісу перевірить ваші дані'
                 }</p>
-                <div className={`form-inline ${user.passport && user.phone && user['credit_card'] ? 'd-none' : ''}`}>
+                <div className={`form-inline ${user.is_passport && user.phone && user['credit_card'] ? 'd-none' : ''}`}>
                     <div className='d-flex justify-content-center w-100 align-items-center flex-column flex-lg-row'>
                     <Zoom timeout={500}  when={!startAnimationFile}>
-                        <div className={`input-group m-2 ${user.passport ? 'd-none' : ''}`}>
+                        <div className={`input-group m-2 ${user.is_passport ? 'd-none' : ''}`}>
                             <div className="custom-file">
                                 <input ref={passportLoader} onChange={changeFile} style={{ cursor: 'pointer' }} type="file" name="picture" className="fileLoader custom-file-input" id="passportLoader" accept="image/*"></input>
                                 <label className="custom-file-label text-nowrap d-flex justify-content-start passport-loader" htmlFor="passportLoader" data-browse={appLanguage === 'eng' ? 'Browse' : 'Файл'}>{fileLabel ? fileLabel : appLanguage === 'eng' ? 'Upload passport' : 'Завантажити паспорт'}</label>
