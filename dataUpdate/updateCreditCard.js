@@ -10,6 +10,7 @@ setTimeout(function run() {
 }, 100);
 function updateCreditCard(){
     app.post('/updateCreditCard', middleware, type, (req, res) => {
+        
         base.collection('users').findOneAndUpdate({
             email : req.user.email
         }, { $set: {

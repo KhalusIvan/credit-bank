@@ -5,6 +5,7 @@ const {updateCreditCard} = require('./updateCreditCard.js');
 const {updateComments} = require('./updateComments.js');
 const {updateName} = require('./updateName.js');
 const {updatePassword} = require('./updatePassword.js');
+const {updateCreditPaid} = require('./updateCreditPaid.js');
 function startDataUpdate() {
     updateAvatar();
     updatePassport();
@@ -13,5 +14,6 @@ function startDataUpdate() {
     updateComments();
     updateName();
     updatePassword();
+    updateCreditPaid();
 }
 module.exports.startDataUpdate = startDataUpdate;

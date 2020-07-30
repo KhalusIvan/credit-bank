@@ -13,18 +13,15 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/setUserCredit', {
+                res(fetch('/updateCreditPaid', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token.token
                     },
                     body: JSON.stringify({
-                        "id": "1",
-                        "name": "credit name",
-                        "time": 20,
-                        "percent": 2,
-                        "start_sum": 1000
+                        "id": "$2b$10$KwwdtSLmWEDqr/CKDaTT7OidqxaTcxIpxLcFVFEw6BFdPydqOPUnu",
+                        "paidSum": 10
                     })
                 }).then (res => {
                     return res.json();
