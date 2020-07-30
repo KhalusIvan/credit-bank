@@ -11,7 +11,19 @@ setTimeout(function run() {
 function getUsersCredits(){
     app.post('/getUsersCredits', type, middleware, (req, res) => {
         base.collection('users_credits').find({user: req.user.email}).toArray((err,resp)=>{
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
+            let index = {
+                "active": 1,
+                "expired": 2,
+                "closed": 3
+            }
+            resp.sort((a,b) => {
+                if (index[a.status] < index[b.status]) 
+                    return -1
+                else if (index[a.status] > index[b.status])
+                    return 1
+                return 0 
+            });
             res.send(resp);
         });
     });
