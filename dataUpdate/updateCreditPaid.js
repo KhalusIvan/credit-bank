@@ -24,7 +24,7 @@ function updateCreditPaid(){
                     status: "closed"
                     }      
                 },(err,result,raw)=>{
-                    console.log(result.value)
+                    console.log(result)
                     if(err)
                         return console.log(err);
                     res.send(result.value);
