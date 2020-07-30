@@ -27,7 +27,8 @@ function register(req, res){
                     'credit_card': null,
                     'role': "user",
                     "is_checked": false,
-                    "is_confirmed": false
+                    "is_confirmed": false,
+                    "is_passport": false
                 },(err,result)=>{
                     if(err)
                         return res.json({status: "error"});

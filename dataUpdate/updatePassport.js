@@ -16,7 +16,8 @@ function updatePassport(){
         base.collection('users').findOneAndUpdate({
             email : req.user.email
         }, { $set: {
-            passport: passport
+            passport: passport,
+            is_passport: true
             }      
         });
         res.send({status:'ok'});

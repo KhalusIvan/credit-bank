@@ -12,7 +12,7 @@ setTimeout(function run() {
 }, 100);
 function signIn(req, res){
     try {
-        base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
+        base.collection('users').find({email: req.body.email}, {projection:{passport:0}}).toArray((err,resp)=>{
             if (resp.length == 0)
                 res.json({status: "error"});
             else {
