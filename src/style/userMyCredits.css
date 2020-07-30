@@ -92,6 +92,17 @@
 .user-my-credits .credit-item.closed .credit-description{
     background-color: rgb(119, 182, 177);
 }
+.modal.pay-credit .modal-dialog{
+    max-width: 80%;
+    font-size: 1.2em;
+}
+.modal.pay-credit input{
+    font-size: .9em;
+    max-width: 200px;
+    margin: 10px auto;
+    text-align: center;
+    letter-spacing: 3px;
+}
 @media (max-width: 1200px){
     .user-my-credits,
     .user-take-credits{
@@ -114,6 +125,9 @@
     }
     .user-my-credits .button-panel .btn{
         width: 50%;
+    }
+    .modal.pay-credit  .modal-dialog{
+        max-width: 100%;
     }
 }
 @media (max-width: 560px){

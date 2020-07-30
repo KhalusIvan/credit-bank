@@ -4,6 +4,7 @@ import AppLanguage from '../../../../Contexts/AppLanguage.js';
 export default (props) => {
     const { user } = useContext(User);
     const { appLanguage } = useContext(AppLanguage);
+    console.log(4);
     return (
         <div className={`credit-item ${props.status}`} >
             <div className='credit-title'>
@@ -21,12 +22,13 @@ export default (props) => {
                     <div className='credit-percent'>{appLanguage === 'eng' ? 'Percent ' + props.percent : 'Відсоток ' + props.percent}%</div>
                 </div>
                 <div className='credit-payd-data'>
-                    <div className='credit-end'>{props.status !== 'active' ? appLanguage === 'eng' ? 'Payment was expected until: ' : 'Оплата очікувалась до: ':appLanguage === 'eng' ? 'Payment expected until: ' : 'Оплата очікується до: '}{`${props.end_date.getDate()}.${props.end_date.getMonth() + 1}.${props.end_date.getFullYear()}`}</div>
+                    <div className='credit-end'>{props.status !== 'active' ? appLanguage === 'eng' ? 'Payment was expected until: ' : 'Оплата очікувалась до: ' : appLanguage === 'eng' ? 'Payment expected until: ' : 'Оплата очікується до: '}{`${props.end_date.getDate()}.${props.end_date.getMonth() + 1}.${props.end_date.getFullYear()}`}</div>
                     <div className='credit-payd-value'>{appLanguage === 'eng' ? 'You payd ' + props.paid + 'grn from ' : 'Ви заплaтили ' + props.paid + 'грн з '}{props.finish_sum}</div>
-                    <div className={`credit-payd-fine ${props.status === 'expired' ? '':'d-none'}`}>{appLanguage === 'eng' ? 'Fine is  ' + props.fine + ' grn' : 'Штраф: ' + props.fine + 'грн'}</div>
+                    <div className={`credit-payd-fine ${props.status === 'expired' ? '' : 'd-none'}`}>{appLanguage === 'eng' ? 'Fine is  ' + props.fine + ' grn' : 'Штраф: ' + props.fine + 'грн'}</div>
                 </div>
             </div>
             <div className='credit-description text-center'>{props.description}</div>
+            <button  data-toggle='modal' data-target={'#'+props.idOfModal} onClick={()=>{props.getDataAboutCredit(props.id)}} className='btn btn-dark'>{appLanguage === 'eng' ? 'Pay' : 'Оплатити'}</button>
         </div>
     )
 }

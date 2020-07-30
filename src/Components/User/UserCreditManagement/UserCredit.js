@@ -58,6 +58,9 @@ export default (props) => {
         newArray.unshift(newCredit)
         setMyCredits(newArray);
     }
+    function payCredit(idOfCredit,paidSum) {
+
+    }
     return (
         <Fade>
             <div className='container-fluid p-0 user-credit-wrapper'>
