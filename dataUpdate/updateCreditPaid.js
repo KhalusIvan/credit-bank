@@ -23,6 +23,8 @@ function updateCreditPaid(){
                     paid: allSum,
                     status: "closed"
                     }      
+                },{                              
+                    returnOriginal: false
                 },(err,result,raw)=>{
                     if(err)
                         return console.log(err);
