@@ -13,7 +13,6 @@ function updateCreditPaid(){
         let allSum;
         let needSum;
         base.collection('users_credits').find({id: req.body.id, user:req.user.email}).toArray((err,resp)=>{
-            let resultCredit;
             if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
             allSum = req.body.paidSum + resp[0].paid;      
             needSum = resp[0].finish_sum + resp[0].fine;
@@ -25,6 +24,7 @@ function updateCreditPaid(){
                     status: "closed"
                     }      
                 },(err,result,raw)=>{
+                    console.log(result.value)
                     if(err)
                         return console.log(err);
                     res.send(result.value);
@@ -36,6 +36,7 @@ function updateCreditPaid(){
                     paid: allSum,
                     }      
                 },(err,result, raw)=>{
+                    console.log(result.value)
                     if(err)
                         return console.log(err);
                     res.send(result.value);
