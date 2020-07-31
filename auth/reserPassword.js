@@ -26,11 +26,14 @@ function resetPassword(req, res){
                 expiresIn: '1h',
                 }, (err, emailToken) => {
                     const url = `http://credit-bank-practice.herokuapp.com/resetPassword/${emailToken}`;
+                    let html_text = req.body.lang == "ukr" ? `Ваш новий пароль ${new_password} </br> Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити зміну паролю.` :
+                                    `Your new password is ${new_password} </br> Please follow <a href="${url}">this reference</a> to confirm password changing.`;
+                    let subject_text = req.body.lang == "ukr" ? "Підтвердження зміни пароля" : "Password changing confirmation";
                     transporter.sendMail({
                         from: 'vakhalus.work@gmail.com',
                         to: req.body.email,
-                        subject: "Підтвердження зміни пароля",
-                        html: `Ваш новий пароль ${new_password} </br> Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити зміну паролю.`
+                        subject: subject_text,
+                        html: html_text
                     }, function (err, info) {
                         if (err) {
                             return res.json({status: "error"})

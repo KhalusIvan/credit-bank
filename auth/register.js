@@ -13,6 +13,7 @@ setTimeout(function run() {
 }, 100);
 function register(req, res){
     base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
+        console.log(req.body);
         if (err) return console.log(err)
         if (resp.length == 0) {
             bcrypt.hash(req.body.password, 10, function(err, hash) {
@@ -43,11 +44,14 @@ function register(req, res){
                               expiresIn: '1h',
                             }, (err, emailToken) => {
                                 const url = `http://credit-bank-practice.herokuapp.com/confirmation/${emailToken}`;
+                                let html_text = req.body.lang == "ukr" ? `Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити Ваш e-mail адрес.` :
+                                    `Please follow <a href="${url}">this reference</a>  to confirm your e-mail.`;
+                                let subject_text = req.body.lang == "ukr" ? "Підтвердження емайла" : "E-mail confirmation";
                                 transporter.sendMail({
                                     from: 'vakhalus.work@gmail.com',
                                     to: req.body.email,
-                                    subject: "Підтвердження емайла",
-                                    html: `Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити Ваш e-mail адрес.`
+                                    subject: subject_text,
+                                    html: html_text
                                 }, function (err, info) {
                                     if (err) {
                                         return res.json({status: "error"})
