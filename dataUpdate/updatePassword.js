@@ -23,11 +23,11 @@ function updatePassword(){
                         password: hash     
                     }});
                 });
+                return res.send({status:'ok'});
             } else {
                 return res.send({status: "password"})
             }
         });
-        res.send({status:'ok'});
     });
 }
 module.exports.updatePassword = updatePassword;
