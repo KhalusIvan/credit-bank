@@ -67,7 +67,7 @@ const Header = (props) => {
                                 <li className={`nav-item ${path === '/user/'+param ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param)} to={`/user${user.email?'/':''}${param}`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
                                 <li className={`nav-item ${path === '/user/'+param+'/takeCredit' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param+'/takeCredit')} to={`/user${user.email?'/':''}${param}/takeCredit`}>{language.appLanguage === 'eng' ? 'Loan' : 'Кредит'}</Link></li>
                                 <li className={`nav-item ${path === '/user/'+param+'/review' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param+'/review')} to={`/user${user.email?'/':''}${param}/review`}>{language.appLanguage === 'eng' ? 'Review' : 'Відгук'}</Link></li>
-                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className='nav-link' onClick={() => { localStorage.removeItem('token'); changeUserRole('guest');changeParam('') }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
+                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className={`nav-link ${user.email?'':'disabled'}`} onClick={() => { localStorage.removeItem('token'); changeUserRole('guest');changeParam('') }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>)
                         }
                     </ul>

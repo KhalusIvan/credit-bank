@@ -3,6 +3,7 @@ import AppLanguage from '../../../Contexts/AppLanguage';
 import UserData from './UserData';
 import ChangeUserData from './ChangeUserData.js';
 import ChangeUserPassword from './ChangeUserPassword.js';
+import ChangeCreditData from './ChangeCreditData';
 import Fade from 'react-reveal/Fade';
 import '../../../style/userAcc.css'
 import { useParams,useHistory } from 'react-router-dom';
@@ -37,6 +38,9 @@ export default (props) => {
                             </div>
                             <div className='col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2'>
                                 <ChangeUserPassword />
+                            </div>
+                            <div className={`col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2 ${user.email?'':'d-none'}`}>
+                                <ChangeCreditData />
                             </div>
                         </div>
                     </div>

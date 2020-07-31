@@ -5,12 +5,12 @@ import Logo from '../../../Logo';
 import '../../../../style/userMyCredits.css';
 import AppLanguage from '../../../../Contexts/AppLanguage.js';
 import Zoom from 'react-reveal/Zoom';
+import CreditRange from '../TakeCredit/CreditRange';
 export default (props) => {
     const { user } = useContext(User);
     const { appLanguage } = useContext(AppLanguage);
     const [filter, setFilter] = useState('all');
-    const [creditValue, setCreditValue] = useState('');
-    const [isValidCreditValue, setIsValidCreditValue] = useState(false);
+    let creditValue = 10;//min value for paiment. Var shouldn`t call setState 
     const idOfModal = 'payCredit';
     const closeModalButton = useRef(null);
     const [choseCredit, setChoseCredit] = useState(null);
@@ -18,16 +18,13 @@ export default (props) => {
         let credit = props.creditsArray.filter(credit => credit.id === creditId);
         setChoseCredit(credit[0]);
     }
-    function inputOnlyNumbers(text) {
-        return /^[1-9]\d*$|^$/.test(text);
-    }
-    function handleCreditValue(e) {
-        if (inputOnlyNumbers(e.target.value) && e.target.value.length <= 6)
-            setCreditValue(e.target.value);
-    }
     function sendPayment() {
-        props.payCredit(choseCredit.id,creditValue);
+        console.log(creditValue)
+        props.payCredit(choseCredit.id, creditValue);
         closeModalButton.current.click();
+    }
+    function changeValue(newSum) {
+        creditValue = +newSum;
     }
     return (
         <div className='container-fluid p-0 user-my-credits-wrapper'>
@@ -65,14 +62,14 @@ export default (props) => {
                                             <div className='mb-3'>({appLanguage === 'eng' ? "Don't forget to provide your credit ID and email when paying" : 'Не забудьте вказати ID кредиту та вашу почту при нарахуванні'})</div>
                                             <div className='pseudo-paid'>
                                                 <div className='font-weight-bold'>{appLanguage === 'eng' ? 'Pseudo payment' : 'Псевдо оплата'}</div>
-                                                <div className="form-group">
-                                                    <input onChange={(e)=>{handleCreditValue(e);setIsValidCreditValue(e.target.value.length > 0)}} value={creditValue} type="text" className="form-control"/>
+                                                <div className="input-range">
+                                                    <CreditRange setValue={changeValue} text={appLanguage === 'eng' ? 'Select the amount' : 'Виберіть суму'} subcontrollerText={appLanguage === 'eng' ? 'grn' : 'грн'} min={10} max={choseCredit.finish_sum - choseCredit.paid} step={(choseCredit.finish_sum - choseCredit.paid) * 0.01} />
                                                 </div>
                                             </div>
                                         </div> : ''
                                     }
                                     <div className='modal-footer'>
-                                        <button onClick={sendPayment} disabled={!isValidCreditValue} className='btn btn-primary' >{appLanguage === 'eng' ? 'Pay' : ' Оплатити'}</button>
+                                        <button onClick={sendPayment} className='btn btn-primary' >{appLanguage === 'eng' ? 'Pay' : ' Оплатити'}</button>
                                     </div>
                                 </div>
                             </div>

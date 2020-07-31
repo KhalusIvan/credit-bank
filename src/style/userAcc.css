@@ -28,7 +28,7 @@
     letter-spacing: 2px;
     font-style: italic;
 }
-.userAcc .btn{
+.userAcc .change-avatar-btn{
     font-size: 1em;
     width: 50%;
 }
@@ -54,6 +54,10 @@
 .changeUserData .btn{
     font-size: 0.9em;
     width: 200px;
+}
+.changeUserData .btn-checked{
+    font-size: 1.4em;
+    padding: 0;
 }
 .change-avatar .modal-dialog{
     max-width: 1100px;
@@ -88,6 +92,9 @@
     .changeUserData{
         font-size: 0.8em;
     }
+    .changeUserData .btn-checked{
+        font-size: 1.2em;
+    }
     .userAcc .userAvatar{
      width: 200px;
      height: 200px;
@@ -104,7 +111,7 @@
     .userAcc .userAvatar{
      width: 180px;
      height: 180px;
- }.userAcc .btn{
+ }.userAcc .change-avatar-btn{
      width: 75%;
  }
  .userAcc .user-name{

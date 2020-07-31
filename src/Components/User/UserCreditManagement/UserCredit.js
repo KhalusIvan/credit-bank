@@ -73,14 +73,13 @@ export default (props) => {
             })
         })
         let json = await resp.json();
-        console.log(json);
         const newArray = myCredits.map((value=>{
             if(value.id === idOfCredit){
                 value.paid = json.paid;
                 value.status = json.status;
             }
             return value;
-        }));
+        })); 
         setMyCredits(newArray);
     }
     return (

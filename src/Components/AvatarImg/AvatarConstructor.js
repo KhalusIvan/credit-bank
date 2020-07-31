@@ -27,7 +27,6 @@ export default (props) => {
         }else{
             comprimed = imageBlob;
         }
-        console.log(comprimed);
         let formData =  new FormData();
         formData.append("file", await comprimed, "image.png");
         let response = await fetch(proxy + '/updateAvatar', {

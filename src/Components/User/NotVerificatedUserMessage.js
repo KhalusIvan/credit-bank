@@ -125,7 +125,7 @@ export default (props) => {
                     </Zoom>
                     <Zoom timeout={500}  when={!startAnimationCredit}>
                         <div className={`input-group m-2 ${user['credit_card']? 'd-none' : ''}`}>
-                            <input onChange={(e) => { handleCreditValue(e); setIsValidCreditCard(e.target.value.length >= 16); }} value={creditValue} type="text" className="form-control" id="inputPassword2" placeholder="Card number" />
+                            <input onChange={(e) => { handleCreditValue(e); setIsValidCreditCard(e.target.value.length >= 16); }} value={creditValue} type="text" className="form-control" placeholder="Card number" />
                             <div className="input-group-append">
                                 <button disabled={!isValidCreditCard || isSendingCredit} onClick={sendCreditCard} className="btn btn-secondary" type="button">{isSendingCredit?<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>:appLanguage==='eng'?'Send':'Відправити'}</button>
                             </div>

@@ -96,9 +96,9 @@
     max-width: 80%;
     font-size: 1.2em;
 }
-.modal.pay-credit input{
+.modal.pay-credit .input-range{
     font-size: .9em;
-    max-width: 200px;
+    max-width: 400px;
     margin: 10px auto;
     text-align: center;
     letter-spacing: 3px;

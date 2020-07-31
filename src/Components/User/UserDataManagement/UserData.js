@@ -21,7 +21,7 @@ export default (props) => {
                 <div className='user-email m-0 ml-md-2 text-muted '>{user.email}</div>
                 <div className='user-role mt-0 mt-md-1 ml-md-2 text-muted'>{user.phone ?  user.phone : user.role}</div>
                 <div className='user-role mt-0 mt-md-1 ml-md-2 text-muted text-nowrap'>{user.credit_card ? user.credit_card.replace(/(\d)(?=(\d{4})+(\D|$))/g, '$1-'):''}</div>
-                <div className='change-user-avatar m-0 ml-md-2 mt-1 text-muted'><button data-toggle="modal" data-target="#changeAvatar" className='btn btn-dark'>{appLanguage === 'eng' ? 'Change image' : 'Змінити фото'}</button></div>
+                <div className='change-user-avatar m-0 ml-md-2 mt-1 text-muted'><button data-toggle="modal" data-target="#changeAvatar" className='btn change-avatar-btn btn-dark'>{appLanguage === 'eng' ? 'Change image' : 'Змінити фото'}</button></div>
             </div>
             <AvatarConstructor />
         </div>

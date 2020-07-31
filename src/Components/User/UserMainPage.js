@@ -21,6 +21,7 @@ export default (props) => {
   const { user } = useContext(User);
   useEffect(() => {
     async function getUserData() {
+      console.log(2);
       let response = await fetch(proxy + '/getData', {
         method: 'POST',
         headers: {
@@ -28,14 +29,15 @@ export default (props) => {
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
       });
+      console.log(7);
       let result = await response.json();
-      changeUser(result);
+      changeUser(result);//Цей контекст міняю відразу
     }
     if (localStorage.getItem('token'))
       getUserData();
   }, [localStorage.getItem('token')]);
   const userNameInUrl = user.email ? user.first_name.toLowerCase() + '_' + user.second_name.toLowerCase() : '';
-  changeParam(userNameInUrl);
+  setTimeout(() => {changeParam(userNameInUrl);}, 0);//Не можна міняти контексти за один такт відразу. Тому для цього використовую нульову затримку (1 такт процесора)
   let { path } = useRouteMatch();
   return (
     <div className='content'>

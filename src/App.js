@@ -41,8 +41,6 @@ function App() {
   function changeParam(newParam) {
     setParam(newParam);
   }
-
-
   function toggleLanguage() {
     appLanguage === 'eng' ? setAppLanguage('ukr') : setAppLanguage('eng');
   }
