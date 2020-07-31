@@ -9,7 +9,7 @@ setTimeout(function run() {
     setTimeout(run, 500);
 }, 100);
 function resetPassword(req, res){
-    base.collection('users').find({email: req.user.email}, {projection:{passport:0}}).toArray((err,resp)=>{
+    base.collection('users').find({email: req.body.email}, {projection:{passport:0}}).toArray((err,resp)=>{
         if (err) return console.log(err)
         if (resp.length > 0) {
             let new_password = "";
