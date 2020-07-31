@@ -13,7 +13,7 @@ function updateCreditPaid(){
         let allSum;
         let needSum;
         base.collection('users_credits').find({id: req.body.id, user:req.user.email}).toArray((err,resp)=>{
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
+            if (err) return console.log(err);
             allSum = req.body.paidSum + resp[0].paid;      
             needSum = resp[0].finish_sum + resp[0].fine;
             if (allSum >= needSum) {

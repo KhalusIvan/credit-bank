@@ -13,9 +13,8 @@ function updatePassword(){
     app.post('/updatePassword', middleware, type, async (req, res) => {
         let currentOldPAss = false;
         base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            if (err) return console.log(err);
             if(bcrypt.compareSync(req.body.old_password, resp[0].password)) {
-                console.log("here");
                 bcrypt.hash(req.body.new_password, 10, function(err, hash) {
                     base.collection('users').findOneAndUpdate({
                         email : req.user.email,
@@ -26,8 +25,6 @@ function updatePassword(){
             }
         });
         res.send({status:'ok'});
-        console.log(222);
-
     });
 }
 module.exports.updatePassword = updatePassword;

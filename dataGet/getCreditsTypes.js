@@ -11,7 +11,7 @@ setTimeout(function run() {
 function getCreditsTypes(){
     app.post('/getCreditsTypes', type, middleware, (req, res) => {
         base.collection('credit_types').find().toArray((err,resp)=>{
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            if (err) return console.log(err)
             res.send(resp);
         });
     });

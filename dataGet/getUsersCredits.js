@@ -11,7 +11,7 @@ setTimeout(function run() {
 function getUsersCredits(){
     app.post('/getUsersCredits', type, middleware, (req, res) => {
         base.collection('users_credits').find({user: req.user.email}).toArray((err,resp)=>{
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
+            if (err) return console.log(err);
             let index = {
                 "active": 1,
                 "expired": 2,

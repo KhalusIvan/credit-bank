@@ -13,7 +13,7 @@ setTimeout(function run() {
 }, 100);
 function register(req, res){
     base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
-        if (err) return console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+        if (err) return console.log(err)
         if (resp.length == 0) {
             bcrypt.hash(req.body.password, 10, function(err, hash) {
                 base.collection('users').insertOne({
@@ -33,7 +33,7 @@ function register(req, res){
                     if(err)
                         return res.json({status: "error"});
                     else {
-                        console.log("1")
+
                         jwt.sign(
                             {
                               email: req.body.email,
@@ -50,21 +50,17 @@ function register(req, res){
                                     html: `Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити Ваш e-mail адрес.`
                                 }, function (err, info) {
                                     if (err) {
-                                        console.log(err);
                                         return res.json({status: "error"})
                                     }
                                     else
                                         return res.json({status:"confirm", email:req.body.email});       
                                 })
                             })
-                            console.log("2")
                     }
                         //res.redirect('/');
                     });
                 });
                 /**/
-                console.log("3")
-            console.log("4")
         } else {
             res.json({status: "email"});
         }

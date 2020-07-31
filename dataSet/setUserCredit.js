@@ -13,7 +13,7 @@ function setUserCredit(){
     app.post('/setUserCredit', middleware, type, async (req, res) => {
         let counter_active = 0, counter_expired = 0;
         base.collection('users_credits').find({user: req.user.email}).toArray((err,respAll)=>{
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
+            if (err) return console.log(err);
             for(let i = 0; i < respAll.length; i++) {
                 if (respAll[i].status == "active") 
                     counter_active++;
@@ -30,7 +30,7 @@ function setUserCredit(){
             finishDate.setDate(finishDate.getDate() + req.body.term);
             let hashString = req.user.email + startDate.toString();
             base.collection('credit_types').find({id:req.body.id}).toArray((err,resp)=>{
-                if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+                if (err) return console.log(err)
                 bcrypt.hash(hashString, 10, async function(err, hash) {
                     base.collection('users_credits').insertOne({
                         "id": hash,

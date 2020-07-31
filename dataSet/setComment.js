@@ -13,18 +13,8 @@ function setComment(){
     app.post('/setComment', middleware, type, async (req, res) => {
         let date = new Date();
         let commentsItem;
-        console.log(req.file);
         let avatar = req.file.buffer;
-        console.log(req.file);
-        //let avatarFromUser;
         let hashString = req.body.email + date.toString();
-        /*base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
-            let user = Object.assign({}, resp[0]);
-            if(user.avatar != null)
-                user.avatar = user.avatar.buffer;
-            res.send(user);
-        });*/
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(hashString, salt, async function(err, hash) {
                 base.collection('comments').insertOne({
@@ -37,7 +27,6 @@ function setComment(){
                 },(err,result)=>{
                     if(err)
                         return console.log(err);
-                    //res.redirect('/');
                 }); 
                 commentsItem = {
                     "name": req.body.name,

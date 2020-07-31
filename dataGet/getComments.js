@@ -13,7 +13,7 @@ function getComments(){
         base.collection('comments').find({email: req.user.email}, {projection:{avatar:0, name:0}}).toArray((err,resp)=>{
             let nowTime = new Date();
             let minutes;
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr");
+            if (err) return console.log(err);
             resp.sort(function(a,b) {
                 return b.date - a.date;
             })
@@ -60,7 +60,7 @@ function getComments(){
         base.collection('comments').find().toArray((err,resp)=>{
             let nowTime = new Date();
             let minutes;
-            if (err) console.log("eeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrroooooooooooooooooorrrrrrrrrrrrrrrr")
+            if (err) return console.log(err)
             resp.sort(function(a,b) {
                 return b.date - a.date;
             })
