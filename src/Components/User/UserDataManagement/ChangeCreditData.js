@@ -93,7 +93,7 @@ export default (props) => {
                         </div>
                         <input autoComplete="off" id='changeUserPhone'  value={phoneValue} onChange={(e) => { handlePhoneValue(e); setIsValidPhoneNumber(e.target.value.length >= 9); }} type="text" className="form-control" />
                         <div className="input-group-append w-25" style={{height:'100%'}}>
-                            <button disabled={!isValidPhoneNumber || isSendingPhone} onClick={sendPhone} className="btn btn-secondary  btn-checked m-0 w-100" type="button">{isSendingPhone ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : appLanguage === 'eng' ? 'Send' : '✔'}</button>
+                            <button disabled={!isValidPhoneNumber || isSendingPhone} onClick={sendPhone} className="btn btn-secondary  btn-checked m-0 w-100" type="button">{isSendingPhone ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : '✔'}</button>
                         </div>
                     </div>
                 </div>

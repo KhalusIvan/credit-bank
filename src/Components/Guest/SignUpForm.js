@@ -69,9 +69,11 @@ function SignUpForm(props) {
     async function formSubmit(e) {
         e.preventDefault();
         setIsSending(true);
+        let newForm = new FormData(e.target);
+        newForm.append('lang',appLanguage);
         let resp = await fetch(proxy + '/register', {
             method: 'POST',
-            body: new FormData(e.target)
+            body: newForm
         });
         let json = await resp.json();
         props.onSubmitFunction();

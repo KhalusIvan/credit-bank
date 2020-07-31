@@ -1,7 +1,9 @@
 import React, { useContext, useRef, useState } from 'react';
 import AppLanguage from '../../../Contexts/AppLanguage';
 import Proxy from '../../../Contexts/Proxy';
+import { useAlert } from 'react-alert'
 export default (props) => {
+    const alert = useAlert();
     const { appLanguage } = useContext(AppLanguage);
     const oldPassword = useRef(null);
     const newPassword = useRef(null);
@@ -55,8 +57,12 @@ export default (props) => {
         let json = await resp.json();
         console.log(json);
         if (json.status === 'ok') {
-            setIsSendingForm(false);
+            alert.success(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Success' : 'Успіх'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Your password was successfully changed' : 'Ваш пароль успішно змінено'}</p></div>);
         }
+        if (json.status === 'password'){
+            alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Your old password does not match' : 'Ваш старий пароль не співпадає'}</p></div>);
+        }
+        setIsSendingForm(false);
     }
     return (
         <div className='changeUserData'>

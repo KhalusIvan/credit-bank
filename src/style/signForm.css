@@ -17,6 +17,14 @@
 .signForm .Switcher-variants::after{
     background-color: #343a40;
 }
+.signForm .forget-password .btn{
+  font-size: .9em;
+}
+.signForm .forget-password .btn:focus,
+.signForm .forget-password .btn:active
+{
+  box-shadow: none;
+}
 .modal.fade .modal-dialog {
     transform: scale(0.25) translateY(20%);
     opacity: 0;
