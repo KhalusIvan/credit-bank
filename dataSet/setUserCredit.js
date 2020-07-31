@@ -22,7 +22,7 @@ function setUserCredit(){
             }  
             if (counter_expired != 0) {
                 return res.json({status: "expired"});
-            } else if (counter_active > 3) {
+            } else if (counter_active >= 3) {
                 return res.json({status: "limit"});
             }
             let startDate = new Date();
