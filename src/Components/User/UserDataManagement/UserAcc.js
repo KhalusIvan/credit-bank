@@ -39,7 +39,7 @@ export default (props) => {
                             <div className='col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2'>
                                 <ChangeUserPassword />
                             </div>
-                            <div className={`col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2 ${user.email?'':'d-none'}`}>
+                            <div className={`col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2 ${user.email && user.is_checked ? '':'d-none'}`}>
                                 <ChangeCreditData />
                             </div>
                         </div>
