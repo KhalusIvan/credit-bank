@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 const secretJWT = "practiceBank";
 const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 module.exports.app = app;
 module.exports.secretJWT = secretJWT;
 
@@ -49,7 +50,9 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/confirmation/:token', async (req, res) => {
+
+
+  app.get('/confirmation/:token', async (req, res) => {
     let userToConfirm;
     try {
         userToConfirm = jwt.verify(req.params.token, secretJWT);
@@ -63,17 +66,35 @@ app.get('/confirmation/:token', async (req, res) => {
       res.send('error');
     }
     const token = jwt.sign({email:userToConfirm.email, role:"user"}, secretJWT, {expiresIn: "1d"});
-    //localStorage.setItem("token", token);
     return res.redirect(`https://bodyapracqweqwe.herokuapp.com/abd/${token}`);
   });
 
-let {startDataSet} = require("./dataSet/startDataSet.js");
-let {startDataUpdate} = require("./dataUpdate/startDataUpdate.js");
-let {startDataGet} = require("./dataGet/startDataGet.js");
-let {startDataDelete} = require("./dataDelete/startDataDelete.js");
-let {signIn} = require('./auth/sign_in.js');
-let {register} = require('./auth/register.js');
-const { checkUser } = require('./auth/checkUser.js');
+  app.get('/resetPassword/:token', (req, res) => {
+    let userToConfirm;
+    try {
+        userToConfirm = jwt.verify(req.params.token, secretJWT);
+        bcrypt.hash(userToConfirm.password, 10, function(err, hash) {
+            dbMongo.collection('users').findOneAndUpdate({
+                email : userToConfirm.email
+            }, { $set: {
+                password: hash
+                }      
+            });
+        });
+    } catch (e) {
+      res.send('error');
+    }
+    return res.redirect(`https://bodyapracqweqwe.herokuapp.com`);
+  });
+
+const {startDataSet} = require("./dataSet/startDataSet.js");
+const {startDataUpdate} = require("./dataUpdate/startDataUpdate.js");
+const {startDataGet} = require("./dataGet/startDataGet.js");
+const {startDataDelete} = require("./dataDelete/startDataDelete.js");
+const {signIn} = require('./auth/sign_in.js');
+const {register} = require('./auth/register.js');
+const {checkUser} = require('./auth/checkUser.js');
+const {resetPassword} = require('./auth/reserPassword.js');
 
 
 startDataSet();
@@ -83,4 +104,5 @@ startDataDelete();
 
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
-app.post("/checkUser", type, checkUser)
+app.post("/checkUser", type, checkUser);
+app.post("/resetPassword", type, resetPassword);

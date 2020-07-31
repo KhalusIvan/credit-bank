@@ -13,15 +13,13 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/updateCreditPaid', {
+                res(fetch('/resetPassword', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token.token
                     },
                     body: JSON.stringify({
-                        "id": "$2b$10$KwwdtSLmWEDqr/CKDaTT7OidqxaTcxIpxLcFVFEw6BFdPydqOPUnu",
-                        "paidSum": 10
+                        "email": "vakhalus@gmail.com"
                     })
                 }).then (res => {
                     return res.json();
