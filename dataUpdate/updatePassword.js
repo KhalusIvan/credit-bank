@@ -22,6 +22,8 @@ function updatePassword(){
                         password: hash     
                     }});
                 });
+            } else {
+                return res.send({status: "password"})
             }
         });
         res.send({status:'ok'});
