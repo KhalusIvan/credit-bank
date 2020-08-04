@@ -13,10 +13,11 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/resetPassword', {
+                res(fetch('/getAdminUsersCount', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token.token
                     },
                     body: JSON.stringify({
                         "email": "vakhalus@gmail.com"

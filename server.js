@@ -108,7 +108,7 @@ setInterval(() => {
         console.log(111);
         updateFine();
     }
-}, 1000 * 60 * 15);
+}, 900000);
 
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);

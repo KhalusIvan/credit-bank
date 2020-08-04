@@ -2,7 +2,6 @@ const {secretJWT} = require('../server.js');
 const jwt = require("jsonwebtoken");
 
 function middleware(req, res, next) {
-    //next();
     const authHeader = req.get('Authorization');
     if (!authHeader) {
         return res.json({message: "Token not provided", role:"guest"})
@@ -17,7 +16,10 @@ function middleware(req, res, next) {
             //next(e);
         }
     }
-    req.user = {email: currentUser.email};
+    req.user = {
+        email: currentUser.email,
+        role: currentUser.role
+    };
     next();
 }
 
