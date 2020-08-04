@@ -105,8 +105,8 @@ startDataDelete();
 //updateFine();
 setInterval(() => {
     let now = new Date();
-    console.log(now.getHours);
-    console.log(now.getMinutes);
+    console.log(now.getHours());
+    console.log(now.getMinutes());
 }, 5000)
 
 app.post("/signIn", type,  signIn);
