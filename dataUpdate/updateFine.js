@@ -21,7 +21,8 @@ function updateFine(){
                         base.collection('users_credits').findOneAndUpdate({
                             id : resp[i].id
                         }, { $set: {
-                            fine: new_fine
+                            fine: new_fine,
+                            status: "expired"
                             }      
                         });
                     }
