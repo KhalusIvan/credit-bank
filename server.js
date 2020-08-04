@@ -95,12 +95,17 @@ const {signIn} = require('./auth/sign_in.js');
 const {register} = require('./auth/register.js');
 const {checkUser} = require('./auth/checkUser.js');
 const {resetPassword} = require('./auth/reserPassword.js');
+const {updateFine} = require('./dataUpdate/updateFine.js');
 
 
 startDataSet();
 startDataUpdate();
 startDataGet();
 startDataDelete();
+//updateFine();
+setInterval(() => {
+    console.log(111)
+}, 5000)
 
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
