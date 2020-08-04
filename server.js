@@ -102,12 +102,13 @@ startDataSet();
 startDataUpdate();
 startDataGet();
 startDataDelete();
-//updateFine();
 setInterval(() => {
     let now = new Date();
-    console.log(now.getHours());
-    console.log(now.getMinutes());
-}, 5000)
+    if (now.getHours == 21 && now.getMinutes < 15){
+        console.log(111);
+        updateFine();
+    }
+}, 1000 * 60 * 15);
 
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
