@@ -14,19 +14,7 @@
 .user-my-credits .user-my-credits-list{
     padding: 20px 0;
 }
-.user-my-credits .button-panel{
-    max-width: 980px;
-    margin: 0 auto;
-}
-.user-my-credits .button-panel .col-12{
-    margin: 5px 0;
-    display: flex;
-    justify-content: center;
-}
-.user-my-credits .button-panel .btn{
-    width: 100%;
-    font-size: 1.1em;
-}
+
 .user-my-credits .credit-title,
 .user-my-credits .credit-body,
 .user-my-credits .credit-description{
@@ -123,9 +111,6 @@
         width: 60px;
         height: 60px;
     }
-    .user-my-credits .button-panel .btn{
-        width: 50%;
-    }
     .modal.pay-credit  .modal-dialog{
         max-width: 100%;
     }
@@ -140,10 +125,5 @@
     .user-my-credits .credit-body,
     .user-my-credits .credit-title{
         padding: 0 5px;
-    }
-}
-@media (max-width: 350px){
-    .user-my-credits .button-panel .btn{
-        width: 65%;
     }
 }

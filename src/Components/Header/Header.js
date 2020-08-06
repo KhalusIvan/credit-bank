@@ -45,7 +45,7 @@ const Header = (props) => {
     return (
         <header className="container">
             <nav className={`navbar navbar-expand-md ${user.role === 'guest' ? theme : 'navbar-light'}`}>
-                <NavLink onClick={(e) => user.role === 'guest' ? document.querySelector('.nav-item a[href="/guest#up"]').click() : null} to={user.role === 'guest' ? `/guest#up` : ''} className='navbar-brand d-flex align-items-center' activeClassName='n' scroll={el => scrollWithOffset(el, 0)}><div className='header-logo ml-3'><Logo /></div></NavLink>
+                <NavLink onClick={() => user.role === 'guest' ? document.querySelector('.nav-item a[href="/guest#up"]').click() : null} to={user.role === 'guest' ? `/guest#up` : user.role === 'admin' ? 'admin' : ''} className='navbar-brand d-flex align-items-center' activeClassName='n' scroll={el => scrollWithOffset(el, 0)}><div className='header-logo ml-3'><Logo /></div></NavLink>
                 <ul className="navbar-nav d-inline-block d-md-none">
                     <li className='nav-link' style={{ paddingBottom: '2px' }}>
                         <div className='language-switcher mr-1 nav-item d-flex align-items-center' onClick={toggleSwitcher}>
@@ -63,12 +63,18 @@ const Header = (props) => {
                     <ul className="navbar-nav navbar-links ml-auto">
                         {user.role === 'guest' ?
                             <NavItemsForGuests scrollWithOffset={scrollWithOffset} activeElement={activeElement} toogleActive={toogleActive} navList={[{ label: language.appLanguage === 'eng' ? 'Home' : 'Додому', href: '/guest#up' }, { label: language.appLanguage === 'eng' ? 'Terms' : "Умови", href: '/guest#credit-conditions' }, { label: language.appLanguage === 'eng' ? 'Benefits' : "Переваги", href: '/guest#why-us' }, { label: language.appLanguage === 'eng' ? 'Instruction' : "Інструкція", href: '/guest#instruction' }]} />
-                            : (<>
+                            : user.role === 'user' ? (<>
                                 <li className={`nav-item ${path === '/user/'+param ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param)} to={`/user${user.email?'/':''}${param}`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
                                 <li className={`nav-item ${path === '/user/'+param+'/takeCredit' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param+'/takeCredit')} to={`/user${user.email?'/':''}${param}/takeCredit`}>{language.appLanguage === 'eng' ? 'Loan' : 'Кредит'}</Link></li>
                                 <li className={`nav-item ${path === '/user/'+param+'/review' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/user/'+param+'/review')} to={`/user${user.email?'/':''}${param}/review`}>{language.appLanguage === 'eng' ? 'Review' : 'Відгук'}</Link></li>
                                 <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className={`nav-link ${user.email?'':'disabled'}`} onClick={() => { localStorage.removeItem('token'); changeUserRole('guest');changeParam('') }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
-                            </>)
+                            </>) : 
+                            (<>
+                                <li className={`nav-item ${path === '/admin/'+param ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/'+param)} to={`/admin${user.email?'/':''}${param}`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
+                                <li className={`nav-item ${path === '/admin/users' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/users')} to={`/admin/users`}>{language.appLanguage === 'eng' ? 'Users' : 'Користувачі'}</Link></li>
+                                <li className={`nav-item ${path === '/admin/reviews' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/reviews')} to={`/admin/reviews`}>{language.appLanguage === 'eng' ? 'Reviews' : 'Відгуки'}</Link></li>
+                                <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className={`nav-link ${user.email?'':'disabled'}`} onClick={() => { localStorage.removeItem('token'); changeUserRole('guest');changeParam('') }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
+                            </>) 
                         }
                     </ul>
                 </div>

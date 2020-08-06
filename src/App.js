@@ -29,7 +29,8 @@ import ConfirmEmail from './Components/ConfirmEmail';
 import Fade from 'react-reveal/Fade';
 import './style/custom.css';
 const UserMainPage = lazy(() => import('./Components/User/UserMainPage'));
-const ValidateEmail = lazy(() => import('./Components/ValidateEmail'))
+const AdminMainPage = lazy(()=> import('./Components/Admin/AdminMainPage'));
+const ValidateEmail = lazy(() => import('./Components/ValidateEmail'));
 function App() {
   const proxy = 'https://credit-bank-practice.herokuapp.com';
   const [param,setParam]=useState('');
@@ -66,26 +67,17 @@ function App() {
     phone: null,
     role: null,
     second_name: null,
-    _id: null
+    _id: null,
+    adminToken:null
   });
   function changeUser(newUser) {
     setUser(newUser);
   }
-  function removeUser() {
-    setUser({
-      avatar: null,
-      credit_card: null,
-      email: null,
-      first_name: null,
-      is_checked: false,
-      passport: null,
-      password: null,
-      phone: null,
-      role: 'guest',
-      token: null,
-      second_name: null,
-      _id: null
-    });
+  function setAdmin(token){
+    let newUser = Object.assign({}, user);
+    newUser.role = 'admin';
+    newUser.adminToken = token;
+    setUser(newUser);
   }
   function changeUserAvatar(avatar) {
     let newUser = Object.assign({}, user);
@@ -158,7 +150,7 @@ function App() {
       <React.StrictMode>
         <Proxy.Provider value={{ proxy: proxy,param:param,changeParam:changeParam}}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
-            <User.Provider value={{ user: user, removeUser: removeUser, changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
+            <User.Provider value={{ user: user,setAdmin:setAdmin , changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
               <Router>
                 {!isUserReady ? <SpinerApp /> : null}
                 <div ref={headerWrapper} className={`container-fluid sticky-navigation ${user.role !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>
@@ -182,11 +174,8 @@ function App() {
                   <PrivateRoute path="/user" role={user.role}>
                     <UserMainPage />
                   </PrivateRoute>
-                  <Route path='user/aallo'>
-                    <div>allo</div>
-                  </Route>
                   <OnlyAdmin path="/admin" role={user.role}>
-                    <Fade timeout={500}><div>THIS IS ADMIN PANEL</div></Fade>
+                    <AdminMainPage/>
                   </OnlyAdmin>
                   <Route path="*">
                     <Error404 />

@@ -3,6 +3,7 @@ import User from '../../../../Contexts/User.js';
 import UserMyCredit from './UserMyCredit';
 import Logo from '../../../Logo';
 import '../../../../style/userMyCredits.css';
+import '../../../../style/button-panel.css';
 import AppLanguage from '../../../../Contexts/AppLanguage.js';
 import Zoom from 'react-reveal/Zoom';
 import CreditRange from '../TakeCredit/CreditRange';
@@ -19,7 +20,6 @@ export default (props) => {
         setChoseCredit(credit[0]);
     }
     function sendPayment() {
-        console.log(creditValue)
         props.payCredit(choseCredit.id, creditValue);
         closeModalButton.current.click();
     }

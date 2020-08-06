@@ -101,14 +101,3 @@ export default (props) => {
         </div>
     )
 }
-{/* <form>
-                <div className="form-group row mb-1 mb-sm-3">
-                    <label htmlFor="changeUserCreditData" className='text-nowrap col-sm-3 col-form-label text-left text-sm-right'>{appLanguage === 'eng' ? 'Card number' : "Номер картки"}</label>
-                    <div className='col-sm-6 col-md-9 d-flex align-items-center'>
-                        <input autoComplete='off' onChange={(e) => { handleCreditValue(e); setIsValidCreditCard(e.target.value.length >= 16); }} value={creditValue} type="text" className="form-control" id="changeUserCreditData" />
-                    </div>
-                </div>
-                <div className='d-flex justify-content-end  justify-content-sm-center justify-content-md-end'>
-                    <button disabled={!isValidCreditCard || isSendingCredit} onClick={sendCreditCard} className="btn btn-secondary" type="button">{isSendingCredit ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : appLanguage === 'eng' ? 'Send' : 'Відправити'}</button>
-                </div>
-            </form> */}

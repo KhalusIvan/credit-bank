@@ -27,7 +27,10 @@ export default (props) => {
         console.log(user);
         let formData =  new FormData();
         formData.append('name',user['first_name'] + " " + user['second_name']);
-        formData.append("file", new Blob([new Uint8Array(user.avatar.data)]), "image.png");
+        if(user.avatar)
+            formData.append("file", new Blob([new Uint8Array(user.avatar.data)]), "image.png");
+        else
+            formData.append("file", null, "image.png");
         formData.append('text',imputValue);
         console.log(user.avatar);
         let res = await fetch(proxy+'/setComment', {

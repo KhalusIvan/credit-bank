@@ -1,0 +1,94 @@
+.admin-all-users .admin-user-item {
+    margin: 20px auto 30px;
+    box-shadow: 0 0 20px #6ea7a9;
+    max-width: 768px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.admin-all-users .admin-user-title {
+    display: flex;
+    color: #e0ffff;
+    align-items: center;
+    justify-content: space-between;
+}
+.admin-all-users .user-data {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin: 10px 0;
+}
+.admin-all-users .avatar {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: url(/static/media/avatar.e28f375b.png) no-repeat 50%;
+    background-size: contain;
+}
+.admin-all-users .user-name {
+    vertical-align: middle;
+    font-weight: 600;
+    font-size: 1.5em;
+    color: #e0ffff;
+}
+.admin-all-users .admin-user-status {
+    font-size: 2em;
+    margin: 10px 0 10px 10px;
+    padding: 5px;
+}
+.admin-all-users .admin-user-title {
+    padding: 0 15px;
+}
+.admin-all-users .admin-user-item.checked .admin-user-toolbar,
+.admin-all-users .admin-user-item.checked .admin-user-title {
+    background-color: #13abf1;
+}
+.admin-all-users .admin-user-body{
+    padding: 15px;
+    font-size: 1.2em;
+}
+.admin-all-users .admin-user-toolbar{
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.admin-all-users .admin-user-toolbar .btn{
+    font-size: 1.2em;
+    margin: 0 5px;
+}
+@media (max-width: 1200px){
+
+}
+@media (max-width: 992px){
+    
+}
+@media (max-width: 767px){
+    .admin-all-users .avatar{
+        width: 60px;
+        height: 60px;
+    }
+    .admin-all-users .admin-user-toolbar .btn{
+        font-size: 1.3em;
+    }
+}
+@media (max-width: 560px){
+    .admin-all-users .admin-user-body,
+    .admin-all-users .admin-user-title{
+        padding: 10px 5px;
+    }
+    .admin-all-users .admin-user-toolbar{
+        flex-flow: column;
+        align-items: center;
+    }
+    .admin-all-users .admin-user-toolbar{
+        padding: 5px;
+    }
+    .admin-all-users .admin-user-toolbar .btn{
+        font-size: 1.2em;
+        margin: 3px;
+        width: 170px;
+    }
+    .admin-user-item .user-document-data{
+        text-align: center;
+    }
+}

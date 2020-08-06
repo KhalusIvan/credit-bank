@@ -32,14 +32,14 @@ export default (props) => {
                             <div className='col-12 col-md-4 d-none d-md-block empty-space'>
                             </div>
                         </div>
-                        <div className='row change-data-wrapper ml-0 mr-0 justify-content-around'>
+                        <div className={`row change-data-wrapper ml-0 mr-0 justify-content-around ${user.email ? '':'d-none'}`}>
                             <div className='col-12 col-sm-12 col-md-5 mb-3 mt-2'>
                                 <ChangeUserData />
                             </div>
                             <div className='col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2'>
                                 <ChangeUserPassword />
                             </div>
-                            <div className={`col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2 ${user.email && user.is_checked ? '':'d-none'}`}>
+                            <div className={`col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2 ${user.is_checked ? '':'d-none'}`}>
                                 <ChangeCreditData />
                             </div>
                         </div>

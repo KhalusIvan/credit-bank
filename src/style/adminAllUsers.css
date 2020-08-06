@@ -1,0 +1,22 @@
+.admin-all-users-scope-title{
+    font-size: 2em;
+    font-weight: 300;
+}
+@media (max-width: 1200px){
+    .admin-all-users{
+        font-size: .9em;
+    } 
+}
+@media (max-width: 960px){
+    .admin-all-users{
+        font-size: .8em;
+    } 
+}
+@media (max-width: 767px){
+    .admin-all-users{
+        font-size: .7em;
+    } 
+}
+@media (max-width: 560px){
+   
+}

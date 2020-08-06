@@ -1,0 +1,23 @@
+.button-panel{
+    max-width: 980px;
+    margin: 0 auto;
+}
+.button-panel .col-12{
+    margin: 5px 0;
+    display: flex;
+    justify-content: center;
+}
+.button-panel .btn{
+    width: 100%;
+    font-size: 1.1em;
+}
+@media (max-width: 767px){
+    .button-panel .btn{
+        width: 50%;
+    }
+}
+@media (max-width: 350px){
+    .button-panel .btn{
+        width: 65%;
+    }
+}
