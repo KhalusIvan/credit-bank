@@ -40,9 +40,9 @@ export default (props) => {
                 </div>
             </div>
             <div className='admin-user-toolbar'>
-                <button onClick={removePhoto} data-toggle='modal' data-target={'#'+props.idOfModal} className='btn btn-secondary text-nowrap'>{appLanguage === 'eng' ? 'Remove photo' : 'Видалити фото'}</button>
-                <button onClick={deleteUser} data-toggle='modal' data-target={'#'+props.idOfModal} className='btn btn-secondary text-nowrap'>{appLanguage === 'eng' ? 'Delete user' : 'Видалити користувача'}</button>
-                <button onClick={writeEmail} data-toggle='modal' data-target={'#'+props.idOfModal} className='btn btn-secondary text-nowrap'>{appLanguage === 'eng' ? 'Write email' : 'Написати емейл'}</button>
+                <button onClick={removePhoto} data-toggle='modal' data-target={'#'+props.idOfModal} className='btn btn-dark text-nowrap'>{appLanguage === 'eng' ? 'Remove photo' : 'Видалити фото'}</button>
+                <button onClick={deleteUser} data-toggle='modal' data-target={'#'+props.idOfModal} className='btn btn-dark text-nowrap'>{appLanguage === 'eng' ? 'Delete user' : 'Видалити користувача'}</button>
+                <button onClick={writeEmail} data-toggle='modal' data-target={'#'+props.idOfModal} className='btn btn-dark text-nowrap'>{appLanguage === 'eng' ? 'Write email' : 'Написати емейл'}</button>
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
-import React, { Suspense, useEffect, useContext, lazy, useState, useRef } from 'react';
+import React, { Suspense, useEffect, useContext, useState, useRef } from 'react';
 import Fade from 'react-reveal/Fade';
+import $ from "jquery";
 import {
     Switch,
     Route,
@@ -22,13 +23,19 @@ export default (props) => {
     const [filter, setFilter] = useState('all');
     const [currentUser, setCurrentUser] = useState('');
     const [scope, setScope] = useState('');
+    const closeModalButton = useRef(null);
+    const textareaOfModal = useRef(null);
     function changeCurrentUser(newUser) {
         setCurrentUser(newUser);
     }
     function changeScope(newScope) {
         setScope(newScope);
     }
-    const closeModalButton = useRef(null);
+    useEffect(() => {
+        $('#' + idOfModal).on('hidden.bs.modal', function (e) {
+           textareaOfModal.current.value = '';
+        })
+    }, [])
     return (
         <Fade>
             <div className='container-fluid p-0 admin-all-users-wrapper'>
@@ -47,7 +54,7 @@ export default (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="modal fade signForm p-0 pay-credit" id={idOfModal} tabIndex="-1" role="dialog">
+                <div className="modal fade signForm p-0 user-fall-back" id={idOfModal} tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -60,9 +67,15 @@ export default (props) => {
                                 <div className='modal-body text-center'>
                                     <h3 className='admin-all-users-scope-title'>{
                                         scope === 'delete_photo' ? appLanguage === 'eng' ? 'Why do you want to remove photo?' : 'Чому ви хочете видалити фото?' :
-                                        scope === 'delete_user' ? appLanguage === 'eng' ? 'Why do you want to delete user?' : 'Чому ви хочете видалити користувача?' :
-                                        scope === 'write_email' ? appLanguage === 'eng' ? 'Type your message' : 'Напишіть ваше повідомлення' : ''
+                                            scope === 'delete_user' ? appLanguage === 'eng' ? 'Why do you want to delete user?' : 'Чому ви хочете видалити користувача?' :
+                                                scope === 'write_email' ? appLanguage === 'eng' ? 'Type your message' : 'Напишіть ваше повідомлення' : ''
                                     }</h3>
+                                    <div className='form-group'>
+                                        <textarea style={{ resize: 'none' }} className='user-fall-back-textarea form-control p-1 p-sm-2 p-md-3 rounded' rows='8' ref={textareaOfModal}></textarea>
+                                    </div>
+                                    <div className='info text-muted'>
+                                            {appLanguage === 'eng' ? 'Your message will be sent to ' : 'Ваше повідомлення буде надіслено на адрес '}{currentUser}
+                                    </div>
                                 </div> : ''
                             }
                             <div className='modal-footer'>

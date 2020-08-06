@@ -5,5 +5,7 @@ export default (props)=>{
         return <Redirect to={'/guest'}/>
     else if(props.role === 'user')
         return <Redirect to={'/user'}/>
+    else if(props.role === 'admin')
+        return <Redirect to={'/admin'}/>
     return <div></div>
 }
