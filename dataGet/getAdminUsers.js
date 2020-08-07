@@ -17,7 +17,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersChecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: "true"}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: true}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             res.send(resp);
         });
