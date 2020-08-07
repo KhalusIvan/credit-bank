@@ -104,6 +104,7 @@ startDataGet();
 startDataDelete();
 setInterval(() => {
     let now = new Date();
+    console.log(222);
     if (now.getHours == 21 && now.getMinutes < 15){
         console.log(111);
         updateFine();

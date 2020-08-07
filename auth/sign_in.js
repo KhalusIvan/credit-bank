@@ -18,7 +18,7 @@ function signIn(req, res){
             else {
                 const isValid = bcrypt.compareSync(req.body.password, resp[0].password);
                 if (isValid) {
-                    if (resp[0].is_confirmed) {
+                    if (resp[0].is_confirmed || resp[0].role == "admin") {
                         const token = jwt.sign({email:resp[0].email, role:resp[0].role}, secretJWT, {expiresIn: "1d"});
                         res.json({token, role:resp[0].role});
                     }
