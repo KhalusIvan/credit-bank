@@ -45,17 +45,6 @@ function getAdminUsers(){
         });
     });
 
-    app.post('/getAdminUsersPassportChecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: true}, {projection:{passport:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
-            if (err) return console.log(err);
-            for (let i = 0; i < resp.length; i++) {
-                if(resp[i].passport != null)
-                    resp[i].passport = resp[i].passport.buffer;
-            }
-            res.send(resp);
-        });
-    });
-
     app.post('/getAdminUsersPassportUnchecked', type, middleware, (req, res) => {
         base.collection('users').find({role: "user", is_checked: false}, {projection:{passport:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
@@ -67,8 +56,12 @@ function getAdminUsers(){
         });
     });
 
-    app.post('/getAdminUsersCount', type, middleware, async (req, res) => {
-        res.send({length: await base.collection('users').countDocuments()})
+    app.post('/getAdminUsersCountChecked', type, middleware, async (req, res) => {
+        res.send({length: await base.collection('users').countDocuments({is_checked: true, role: "user"})})
+    });
+
+    app.post('/getAdminUsersCountUnchecked', type, middleware, async (req, res) => {
+        res.send({length: await base.collection('users').countDocuments({is_checked: false, role: "user"})})
     });
 }
 module.exports.getAdminUsers = getAdminUsers;

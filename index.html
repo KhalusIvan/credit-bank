@@ -13,14 +13,16 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/getAdminUsersCount', {
+                res(fetch('/getAdminUserUnchecked', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token.token
                     },
                     body: JSON.stringify({
-                        "email": "vakhalus@gmail.com"
+                        "email": "vakhalus@gmail.com",
+                        "number" : 5,
+                        "group": 0
                     })
                 }).then (res => {
                     return res.json();
