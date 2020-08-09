@@ -9,7 +9,7 @@ export default (props) =>{
              <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 reviews-title title'>{appLanguage === 'eng' ? 'Reviews' : 'Відгуки'}</h2>
             <div className='card-group'>
                 <MultiCarousel items={
-                props.reviewsArray.map((review, i) => (
+                props.reviewsArray.map((review) => (
                     <div key={review.id} className='card item'>
                         <div className="card-body">
                             <h5 className="card-title"><span style={review.avatar ? review.avatar.data.length ? { backgroundImage: `url(${URL.createObjectURL(new Blob([new Uint8Array(review.avatar.data)]))})` } : null : null} className='avatar flex-shrink-0'></span>{review.name} {review.surname}</h5>

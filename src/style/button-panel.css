@@ -10,10 +10,25 @@
 .button-panel .btn{
     width: 100%;
     font-size: 1.1em;
+    position: relative;
+}
+.button-panel .btn .badge{
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px 10px;
 }
 @media (max-width: 767px){
     .button-panel .btn{
         width: 50%;
+    }
+}
+@media (max-width: 567px){
+    .button-panel .btn .badge{
+        position: absolute;
+        right: 3%;
+        padding: 5px;
     }
 }
 @media (max-width: 350px){

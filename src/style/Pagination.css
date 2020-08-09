@@ -1,0 +1,31 @@
+.pagination-toolbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin: 0;
+    font-size: 1.2em;
+}
+.pagination-toolbar li{
+    cursor: pointer;
+    overflow: hidden;
+}
+.pagination-toolbar li:first-child{
+    border-radius: 5px 0 0 5px;
+}
+.pagination-toolbar li:last-child{
+    border-radius: 0 5px 5px 0;
+}
+.pagination-toolbar li a{
+    display: block;
+    padding: 5px 10px; 
+    color: white;
+    background-color: #6c757d;
+    transition: background-color .3s;
+}
+.pagination-toolbar li a:hover,
+.pagination-toolbar li a:active,
+.pagination-toolbar li.active a{
+    background-color: #56585a;
+    color: white;
+}

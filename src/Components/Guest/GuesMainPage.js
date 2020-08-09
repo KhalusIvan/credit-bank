@@ -5,6 +5,7 @@ import WhyUs from './WhyUs.js';
 import Instruction from './Instruction/Instruction.js';
 import sliderElements from './sliderElements.js';
 import AppLanguage from '../../Contexts/AppLanguage.js';
+import Proxy from '../../Contexts/Proxy.js';
 import VideoSection from './VideoSection.js';
 import Reviews from './Reviews.js';
 import SignForm from './SignForm.js';
@@ -12,9 +13,10 @@ import '../../style/carousel.css';
 export default (props) => {
     const appLanguage = useContext(AppLanguage).appLanguage;
     const [reviewsArray, setReviewsArray] = useState(null);
+    const {proxy} = useContext(Proxy);
     useEffect(() => {
         async function getReviewsFetch() {
-            let response = await fetch('https://credit-bank-practice.herokuapp.com/getAllComments', {
+            let response = await fetch(proxy+'/getAllComments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

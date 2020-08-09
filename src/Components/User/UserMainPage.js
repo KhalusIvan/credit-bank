@@ -21,7 +21,6 @@ export default (props) => {
   const { user } = useContext(User);
   useEffect(() => {
     async function getUserData() {
-      console.log(2);
       let response = await fetch(proxy + '/getData', {
         method: 'POST',
         headers: {
@@ -29,7 +28,6 @@ export default (props) => {
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
       });
-      console.log(7);
       let result = await response.json();
       changeUser(result);//Цей контекст міняю відразу
     }

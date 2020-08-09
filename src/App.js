@@ -177,7 +177,7 @@ function App() {
                   <OnlyAdmin path="/admin" role={user.role}>
                     <AdminMainPage/>
                   </OnlyAdmin>
-                  <Route path="*">
+                  <Route path="/*">
                     <Error404 />
                   </Route>
                 </Switch>

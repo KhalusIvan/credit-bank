@@ -6,19 +6,19 @@ import ChangeUserPassword from './ChangeUserPassword.js';
 import ChangeCreditData from './ChangeCreditData';
 import Fade from 'react-reveal/Fade';
 import '../../../style/userAcc.css'
-import { useParams,useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import User from '../../../Contexts/User';
 export default (props) => {
     const { userName } = useParams();
-    const {user} = useContext(User);
+    const { user } = useContext(User);
     const history = useHistory();
     const { appLanguage } = useContext(AppLanguage);
-    useEffect(()=>{
-        if(user.email)
-            if(userName !== props.userNameInUrl){
+    useEffect(() => {
+        if (user.email)
+            if (userName !== props.userNameInUrl) {
                 history.push('/user');
             }
-    },[user.email, userName, props.userNameInUrl]);
+    }, [user.email, userName, props.userNameInUrl]);
     return (
         <Fade>
             <div className='userAcc-wrapper p-0 container-fluid'>
@@ -32,16 +32,18 @@ export default (props) => {
                             <div className='col-12 col-md-4 d-none d-md-block empty-space'>
                             </div>
                         </div>
-                        <div className={`row change-data-wrapper ml-0 mr-0 justify-content-around ${user.email ? '':'d-none'}`}>
+                        <div className={`row change-data-wrapper ml-0 mr-0 justify-content-around ${user.email ? '' : 'd-none'}`}>
                             <div className='col-12 col-sm-12 col-md-5 mb-3 mt-2'>
                                 <ChangeUserData />
                             </div>
                             <div className='col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2'>
                                 <ChangeUserPassword />
                             </div>
-                            <div className={`col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2 ${user.is_checked ? '':'d-none'}`}>
-                                <ChangeCreditData />
-                            </div>
+                            {user.role === 'user' ?
+                                <div className={`col-12 col-sm-12 col-md-7 col-lg-6 mb-3 mt-2 ${user.is_checked ? '' : 'd-none'}`}>
+                                    <ChangeCreditData />
+                                </div> : null
+                            }
                         </div>
                     </div>
                 </div>
