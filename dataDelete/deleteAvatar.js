@@ -14,10 +14,27 @@ function deleteAvatar(){
         base.collection('users').findOneAndUpdate({
             email : req.user.email
         }, { $set: {
-            avatar: avatar
+            avatar: null
             }      
         });
         base.collection('comments').updateMany({email : req.user.email}, {$set: {avatar : avatar}})
+
+
+        let html_text = req.body.lang == "ukr" ? `Будь ласка перейдіть за <a href="${url}">даним посиланням</a>  щоб підтвердити Ваш e-mail адрес.` :
+                `Please follow <a href="${url}">this reference</a>  to confirm your e-mail.`;
+        let subject_text = req.body.lang == "ukr" ? "Підтвердження емайла" : "E-mail confirmation";
+        transporter.sendMail({
+                from: 'vakhalus.work@gmail.com',
+                to: req.body.email,
+                subject: subject_text,
+                html: html_text
+            }, function (err, info) {
+                if (err) {
+                    return res.json({status: "error"})
+                }
+                else
+                    return res.json({status:"confirm", email:req.body.email});       
+            })
         res.send({status:'ok'});
     });
 }
