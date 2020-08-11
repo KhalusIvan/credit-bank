@@ -1,17 +1,7 @@
-import React, { Suspense, useEffect, useContext, useState, useRef, useLayoutEffect } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import Fade from 'react-reveal/Fade';
 import $ from "jquery";
-import {
-    Switch,
-    Route,
-    useRouteMatch,
-    Redirect,
-} from "react-router-dom";
-import Error404 from '../Error404.js'
 import Proxy from '../../Contexts/Proxy.js';
-import User from '../../Contexts/User';
-import Spiner from '../Spiner.js'
-import Zoom from 'react-reveal/Zoom';
 import AdminUser from './AdminUser';
 import AppLanguage from '../../Contexts/AppLanguage.js';
 import Pagination from '../Pagination';
@@ -78,7 +68,7 @@ export default (props) => {
             <div className='container-fluid p-0 admin-all-users-wrapper'>
                 <div className='container p-0 admin-all-users'>
                     <div className="jumbotron p-1 p-xm-2 p-sm-4 p-lg-5 m-0 rounded-0 bg-transparent">
-                        <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 user-my-credits title'>{appLanguage === 'eng' ? 'Users' : 'Користувачі'}</h2>
+                        <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 admin-all-users-title title'>{appLanguage === 'eng' ? 'Users' : 'Користувачі'}</h2>
                         <div className='button-panel row justify-content-center'>
                             <div className='col-12 col-md-6 col-lg-4'><button onClick={() => setFilter('checked')} className='btn btn-primary text-nowrap'>{appLanguage === 'eng' ? 'Checked' : 'Підтверджені'}</button></div>
                             <div className='col-12 col-md-6 col-lg-4'><button onClick={() => {setFilter('notChecked'); setTimeout(()=>setIsBadgeOfUncheckUsers(false),2000)}} className='btn btn-danger text-nowrap'>{appLanguage === 'eng' ? 'Not checked' : 'Непідтверджені'}{isBadgeOfUncheckUsers ? <span className="badge badge-pill badge-light">+{props.numOfNotCheckUser}</span> : null}</button></div>

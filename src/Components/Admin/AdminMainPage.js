@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useContext, lazy, useState, useCallback } from 'react';
+import React, { Suspense, useEffect, useContext, lazy, useState } from 'react';
 import {
   Switch,
   Route,
@@ -11,12 +11,14 @@ import User from '../../Contexts/User';
 import Spiner from '../Spiner.js'
 const UserAcc = lazy(() => import('../User/UserDataManagement/UserAcc'));
 const AllUsers = lazy(() => import('./AllUsers'));
+const AllReviews = lazy(() => import('./AllReviews'));
 export default (props) => {
   const numOfItemsInPagination = 5;
   const { user,changeUser } = useContext(User);
   const { proxy, changeParam } = useContext(Proxy);
-  const [checkUserArray, setCheckUserArray] = useState(new Array(10));
-  const [notCheckUserArray, setNotCheckUserArray] = useState(new Array(10));
+  const [checkUserArray, setCheckUserArray] = useState([]);
+  const [notCheckUserArray, setNotCheckUserArray] = useState([]);
+  const [reviewsArray, setReviewsArray] = useState([])
   const [numOfCheckUser, setNumOfCheckUser] = useState();
   const [numOfNotCheckUser, setNumOfNotCheckUser] = useState();
   let { path } = useRouteMatch();
@@ -80,7 +82,7 @@ export default (props) => {
             <AllUsers numOfItemsInPagination={numOfItemsInPagination} numOfCheckUser={numOfCheckUser} numOfNotCheckUser={numOfNotCheckUser} changeCheckUserArray={changeCheckUserArray} changeNotCheckUserArray={changeNotCheckUserArray} checkUserArray={checkUserArray} notCheckUserArray={notCheckUserArray} />
           </Route>
           <Route path={`${path}/reviews`}>
-            <div>All reviews</div>
+            <AllReviews reviewsArray={reviewsArray} setReviewsArray={setReviewsArray}/>
           </Route>
           <Route exact path={`${path}/:userName`}>
             <UserAcc userNameInUrl={userNameInUrl} />

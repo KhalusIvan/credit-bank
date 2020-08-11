@@ -215,7 +215,7 @@ function OnlyAdmin({ children, role, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-        role === 'admin' ? (
+      role !== 'guest' && role !== 'user' ? (
           children
         ) : (
             <Redirect
