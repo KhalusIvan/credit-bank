@@ -13,7 +13,7 @@ function setComment(){
     app.post('/setComment', middleware, type, async (req, res) => {
         base.collection('comments').find({email: req.user.email}, {projection:{avatar:0, name:0}}).toArray((err,resp)=>{
             console.log(resp.length);
-            if (resp.length > 5) {
+            if (resp.length >= 5) {
                 return res.json({status: "limit"})
             } else {
                 let date = new Date();
