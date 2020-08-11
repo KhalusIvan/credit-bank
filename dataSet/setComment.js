@@ -11,36 +11,42 @@ setTimeout(function run() {
 }, 100);
 function setComment(){
     app.post('/setComment', middleware, type, async (req, res) => {
-        let date = new Date();
-        let commentsItem;
-        let avatar = req.file.buffer;
-        let hashString = req.body.email + date.toString();
-        bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(hashString, salt, async function(err, hash) {
-                base.collection('comments').insertOne({
-                    "name": req.body.name,
-                    "avatar": avatar,
-                    "text": req.body.text,
-                    "date": date,
-                    "email": req.user.email,
-                    "id": hash
-                },(err,result)=>{
-                    if(err)
-                        return console.log(err);
-                }); 
-                commentsItem = {
-                    "name": req.body.name,
-                    "avatar": avatar,
-                    "text": req.body.text,
-                    "date": "now",
-                    "email": req.body.email,
-                    "id": hash
-                }
-                res.send(commentsItem);
+        base.collection('comments').find({email: req.user.email}, {projection:{avatar:0, name:0}}).toArray((err,resp)=>{
+            console.log(resp.length);
+            if (resp > 5) {
+                return res.json({status: limit})
+            } else {
+                let date = new Date();
+                let commentsItem;
+                let avatar = req.file.buffer;
+                let hashString = req.body.email + date.toString();
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(hashString, salt, async function(err, hash) {
+                        base.collection('comments').insertOne({
+                            "name": req.body.name,
+                            "avatar": avatar,
+                            "text": req.body.text,
+                            "date": date,
+                            "email": req.user.email,
+                            "id": hash
+                        },(err,result)=>{
+                            if(err)
+                                return console.log(err);
+                        }); 
+                        commentsItem = {
+                            "name": req.body.name,
+                            "avatar": avatar,
+                            "text": req.body.text,
+                            "date": "now",
+                            "email": req.body.email,
+                            "id": hash
+                        }
+                        res.send(commentsItem);
 
-            });
+                    });
+                });
+            }
         });
-
     });
 }
 module.exports.setComment = setComment;
