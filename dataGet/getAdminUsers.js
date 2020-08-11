@@ -17,14 +17,14 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersChecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray( async(err,resp)=>{
             if (err) return console.log(err);
-            for (let i = 0; i < resp.length; i++) {
+            for await (let element of resp) {
                 let all_credits = 0;
                 let active_credits = 0; 
                 let expired_credits = 0; 
                 let closed_credits = 0;
-                base.collection('comments').find({email: resp[i].email}, {projection:{status:1}}).toArray((err,respC)=>{
+                base.collection('comments').find({email: element.email}, {projection:{status:1}}).toArray((err,respC)=>{
                     for(let j = 0; j < respC.length; j++) {
                         all_credits++;
                         if (respC[j].status == "active")
@@ -34,13 +34,14 @@ function getAdminUsers(){
                         else 
                             closed_credits++;
                     }
-                resp[i].all_credits = all_credits;
-                resp[i].active_credits = active_credits;
-                resp[i].expired_credits = expired_credits;
-                resp[i].closed_credits = closed_credits;
+                    element.all_credits = all_credits;
+                    element.active_credits = active_credits;
+                    element.expired_credits = expired_credits;
+                    element.closed_credits = closed_credits;
+                    console.log(element.all_credits)
                 });
             }
-            res.send(resp);
+            res.send(await resp);
         });
     });
 
