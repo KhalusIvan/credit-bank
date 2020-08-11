@@ -214,7 +214,7 @@ function getAdminUsers(){
         res.send({length: await base.collection('users').countDocuments({is_checked: true, role: "user", is_confirmed: true})})
     });
 
-    app.post('/getAdminUserCountNotReady', type, middleware, (req, res) => {
+    app.post('/getAdminUserCountNotReady', type, middleware, async (req, res) => {
         res.send({length: await base.collection('users').countDocuments({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]})});
     });
 
