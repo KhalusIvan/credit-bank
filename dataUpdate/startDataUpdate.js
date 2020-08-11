@@ -6,6 +6,7 @@ const {updateComments} = require('./updateComments.js');
 const {updateName} = require('./updateName.js');
 const {updatePassword} = require('./updatePassword.js');
 const {updateCreditPaid} = require('./updateCreditPaid.js');
+const {checkUserAgree} = require('./checkUserAgree.js');
 function startDataUpdate() {
     updateAvatar();
     updatePassport();
@@ -15,5 +16,6 @@ function startDataUpdate() {
     updateName();
     updatePassword();
     updateCreditPaid();
+    checkUserAgree();
 }
 module.exports.startDataUpdate = startDataUpdate;
