@@ -56,6 +56,17 @@ function getAdminUsers(){
         });
     });
 
+    app.post('/getAdminUsersPassportChecked', type, middleware, (req, res) => {
+        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            if (err) return console.log(err);
+            for (let i = 0; i < resp.length; i++) {
+                if(resp[i].passport != null)
+                    resp[i].passport = resp[i].passport.buffer;
+            }
+            res.send(resp);
+        });
+    });
+
     app.post('/getAdminUsersCountChecked', type, middleware, async (req, res) => {
         res.send({length: await base.collection('users').countDocuments({is_checked: true, role: "user", is_confirmed: true})})
     });
