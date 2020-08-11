@@ -10,38 +10,137 @@ setTimeout(function run() {
 }, 100);
 function getAdminUsers(){
     app.post('/getAdminUserUnchecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
-            res.send(resp);
+            let count = (user) => {
+                return new Promise((resolve, reject) => {
+                   base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
+                        err 
+                           ? reject(err) 
+                           : resolve(resp);
+                      });
+                });
+              };
+            var forLoop = async (users) => {
+                let resultArray = [];
+                for (let i = 0; i < users.length; i++) {
+                    let all_credits = 0;
+                    let active_credits = 0; 
+                    let expired_credits = 0; 
+                    let closed_credits = 0;
+                    let result = await (count(users[i]));
+                    for (let i = 0; i < result.length; i++) {
+                        all_credits++;
+                        if (result[i].status == "active")
+                            active_credits++;
+                        else if (result[i].status == "expired")
+                            expired_credits++;
+                        else 
+                            closed_credits++;
+                    }
+                    let currentUser = Object.assign({}, users[i]);
+                    currentUser.all_credits = all_credits;
+                    currentUser.active_credits = active_credits;
+                    currentUser.expired_credits = expired_credits;
+                    currentUser.closed_credits = closed_credits;
+                    resultArray.push(currentUser);
+                }
+                return resultArray;
+             };
+
+             forLoop(resp).then(function(result) {
+                res.send(result);
+             });
+        });
+    });
+
+    app.post('/getAdminUserNotReady', type, middleware, (req, res) => {
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            if (err) return console.log(err);
+            let count = (user) => {
+                return new Promise((resolve, reject) => {
+                   base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
+                        err 
+                           ? reject(err) 
+                           : resolve(resp);
+                      });
+                });
+              };
+            var forLoop = async (users) => {
+                let resultArray = [];
+                for (let i = 0; i < users.length; i++) {
+                    let all_credits = 0;
+                    let active_credits = 0; 
+                    let expired_credits = 0; 
+                    let closed_credits = 0;
+                    let result = await (count(users[i]));
+                    for (let i = 0; i < result.length; i++) {
+                        all_credits++;
+                        if (result[i].status == "active")
+                            active_credits++;
+                        else if (result[i].status == "expired")
+                            expired_credits++;
+                        else 
+                            closed_credits++;
+                    }
+                    let currentUser = Object.assign({}, users[i]);
+                    currentUser.all_credits = all_credits;
+                    currentUser.active_credits = active_credits;
+                    currentUser.expired_credits = expired_credits;
+                    currentUser.closed_credits = closed_credits;
+                    resultArray.push(currentUser);
+                }
+                return resultArray;
+             };
+
+             forLoop(resp).then(function(result) {
+                res.send(result);
+             });
         });
     });
 
     app.post('/getAdminUsersChecked', type, middleware, (req, res) => {
         base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray( async(err,resp)=>{
             if (err) return console.log(err);
-            for await (let element of resp) {
-                let all_credits = 0;
-                let active_credits = 0; 
-                let expired_credits = 0; 
-                let closed_credits = 0;
-                base.collection('comments').find({email: element.email}, {projection:{status:1}}).toArray((err,respC)=>{
-                    for(let j = 0; j < respC.length; j++) {
+            let count = (user) => {
+                return new Promise((resolve, reject) => {
+                   base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
+                        err 
+                           ? reject(err) 
+                           : resolve(resp);
+                      });
+                });
+              };
+            var forLoop = async (users) => {
+                let resultArray = [];
+                for (let i = 0; i < users.length; i++) {
+                    let all_credits = 0;
+                    let active_credits = 0; 
+                    let expired_credits = 0; 
+                    let closed_credits = 0;
+                    let result = await (count(users[i]));
+                    for (let i = 0; i < result.length; i++) {
                         all_credits++;
-                        if (respC[j].status == "active")
+                        if (result[i].status == "active")
                             active_credits++;
-                        else if (respC[j].status == "expired")
+                        else if (result[i].status == "expired")
                             expired_credits++;
                         else 
                             closed_credits++;
                     }
-                    element.all_credits = all_credits;
-                    element.active_credits = active_credits;
-                    element.expired_credits = expired_credits;
-                    element.closed_credits = closed_credits;
-                    console.log(element.all_credits)
-                });
-            }
-            res.send(await resp);
+                    let currentUser = Object.assign({}, users[i]);
+                    currentUser.all_credits = all_credits;
+                    currentUser.active_credits = active_credits;
+                    currentUser.expired_credits = expired_credits;
+                    currentUser.closed_credits = closed_credits;
+                    resultArray.push(currentUser);
+                }
+                return resultArray;
+             };
+
+             forLoop(resp).then(function(result) {
+                res.send(result);
+             });
         });
     });
 
@@ -57,7 +156,18 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersAvatarUnchecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true}, {projection:{avatar:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{avatar:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            if (err) return console.log(err);
+            for (let i = 0; i < resp.length; i++) {
+                if(resp[i].avatar != null)
+                    resp[i].avatar = resp[i].avatar.buffer;
+            }
+            res.send(resp);
+        });
+    });
+
+    app.post('/getAdminUserAvatarNotReady', type, middleware, (req, res) => {
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].avatar != null)
@@ -68,7 +178,18 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersPassportUnchecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true}, {projection:{passport:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            if (err) return console.log(err);
+            for (let i = 0; i < resp.length; i++) {
+                if(resp[i].passport != null)
+                    resp[i].passport = resp[i].passport.buffer;
+            }
+            res.send(resp);
+        });
+    });
+
+    app.post('/getAdminUserPassportNotReady', type, middleware, (req, res) => {
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].passport != null)
@@ -93,8 +214,12 @@ function getAdminUsers(){
         res.send({length: await base.collection('users').countDocuments({is_checked: true, role: "user", is_confirmed: true})})
     });
 
+    app.post('/getAdminUserCountNotReady', type, middleware, (req, res) => {
+        res.send({length: await base.collection('users').countDocuments({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]})});
+    });
+
     app.post('/getAdminUsersCountUnchecked', type, middleware, async (req, res) => {
-        res.send({length: await base.collection('users').countDocuments({is_checked: false, role: "user", is_confirmed: true})})
+        res.send({length: await base.collection('users').countDocuments({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true})})
     });
 }
 module.exports.getAdminUsers = getAdminUsers;

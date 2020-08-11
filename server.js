@@ -96,12 +96,15 @@ const {register} = require('./auth/register.js');
 const {checkUser} = require('./auth/checkUser.js');
 const {resetPassword} = require('./auth/reserPassword.js');
 const {updateFine} = require('./dataUpdate/updateFine.js');
+const {writeEmail} = require('./write_email.js');
+
 
 
 startDataSet();
 startDataUpdate();
 startDataGet();
 startDataDelete();
+writeEmail();
 setInterval(() => {
     let now = new Date();
     console.log(222);

@@ -1,4 +1,7 @@
-const {transporter} = require('../server.js');
+let {app} = require('./server.js');
+let {type} = require('./server.js');
+let {middleware} = require('./auth/middleware.js');
+const {transporter} = require('./server.js');
 function writeEmail () {
     app.post('/writeEmail', type, middleware, (req, res) => {
         transporter.sendMail({

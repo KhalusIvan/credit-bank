@@ -13,7 +13,7 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/getAdminUsersChecked', {
+                res(fetch('/getAdminUserNotReady', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -21,6 +21,7 @@
                     },
                     body: JSON.stringify({
                         "email": "vakhalus@gmail.com",
+                        "text": "ggggg",
                         "number" : 5,
                         "group": 0,
                         "name" : "Халус Іван",
