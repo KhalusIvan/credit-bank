@@ -43,6 +43,10 @@
     font-size: .8em;
     margin: 10px 0;
 }
+.admin-all-users .admin-user-item.datanotready .admin-user-toolbar,
+.admin-all-users .admin-user-item.datanotready .admin-user-title {
+    background-color: rgb(119, 182, 177);
+}
 .admin-all-users .admin-user-item.checked .admin-user-toolbar,
 .admin-all-users .admin-user-item.checked .admin-user-title {
     background-color: #13abf1;

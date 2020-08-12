@@ -29,3 +29,12 @@
     background-color: #56585a;
     color: white;
 }
+.pagination-white-list{
+    font-size: 2em;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: black;
+    text-align: center;
+    padding: 20px 10px;
+}

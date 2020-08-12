@@ -14,19 +14,24 @@ const AllUsers = lazy(() => import('./AllUsers'));
 const AllReviews = lazy(() => import('./AllReviews'));
 export default (props) => {
   const numOfItemsInPagination = 5;
-  const { user,changeUser } = useContext(User);
+  const { user, changeUser } = useContext(User);
   const { proxy, changeParam } = useContext(Proxy);
   const [checkUserArray, setCheckUserArray] = useState([]);
   const [notCheckUserArray, setNotCheckUserArray] = useState([]);
+  const [dataNotReadyUserArray, setDataNotReadyUserArray] = useState([]);
   const [reviewsArray, setReviewsArray] = useState([])
   const [numOfCheckUser, setNumOfCheckUser] = useState();
   const [numOfNotCheckUser, setNumOfNotCheckUser] = useState();
+  const [numOfDataNotReadyUser, setNumOfDataNotReadyUser] = useState();
   let { path } = useRouteMatch();
   function changeCheckUserArray(newArray) {
     setCheckUserArray(newArray.slice());
   }
   function changeNotCheckUserArray(newArray) {
     setNotCheckUserArray(newArray.slice());
+  }
+  function changeDataNotReadyUserArray(newArray) {
+    setDataNotReadyUserArray(newArray);
   }
   useEffect(() => {
     async function getNumbersOfUser() {
@@ -44,12 +49,20 @@ export default (props) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           },
+        }),
+        fetch(proxy + '/getAdminUserCountNotReady', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          },
         })
       ]).then(responses => Promise.all(responses.map(r => r.json())))
         .then(nums => {
-          const [check, uncheck] = nums.map(num => num.length);
+          const [check, uncheck,notReady] = nums.map(num => num.length);
           setNumOfCheckUser(check);
           setNumOfNotCheckUser(uncheck);
+          setNumOfDataNotReadyUser(notReady);
         });
     }
     getNumbersOfUser();
@@ -70,7 +83,7 @@ export default (props) => {
       getUserData();
   }, []);
   const userNameInUrl = user.email ? user.first_name.toLowerCase() + '_' + user.second_name.toLowerCase() : '';
-  setTimeout(() => {changeParam(userNameInUrl);}, 0);//Не можна міняти контексти за один такт відразу. Тому для цього використовую нульову затримку (1 такт процесора)
+  setTimeout(() => { changeParam(userNameInUrl); }, 0);//Не можна міняти контексти за один такт відразу. Тому для цього використовую нульову затримку (1 такт процесора)
   return (
     <div className='content'>
       <Suspense fallback={<Spiner />}>
@@ -79,10 +92,13 @@ export default (props) => {
             {user.email ? <Redirect to={`${path}/${userNameInUrl}`} /> : <UserAcc />}
           </Route>
           <Route path={`${path}/users`}>
-            <AllUsers numOfItemsInPagination={numOfItemsInPagination} numOfCheckUser={numOfCheckUser} numOfNotCheckUser={numOfNotCheckUser} changeCheckUserArray={changeCheckUserArray} changeNotCheckUserArray={changeNotCheckUserArray} checkUserArray={checkUserArray} notCheckUserArray={notCheckUserArray} />
+            {numOfCheckUser >= 0 && numOfNotCheckUser >= 0 && numOfDataNotReadyUser >=0 ?
+              <AllUsers numOfItemsInPagination={numOfItemsInPagination} numOfCheckUser={numOfCheckUser} numOfNotCheckUser={numOfNotCheckUser} numOfDataNotReadyUser={numOfDataNotReadyUser} changeCheckUserArray={changeCheckUserArray} changeNotCheckUserArray={changeNotCheckUserArray} changeDataNotReadyUserArray={changeDataNotReadyUserArray} checkUserArray={checkUserArray} notCheckUserArray={notCheckUserArray} dataNotReadyUserArray={dataNotReadyUserArray}/>
+              : <Spiner />
+            }
           </Route>
           <Route path={`${path}/reviews`}>
-            <AllReviews reviewsArray={reviewsArray} setReviewsArray={setReviewsArray}/>
+            <AllReviews reviewsArray={reviewsArray} setReviewsArray={setReviewsArray} />
           </Route>
           <Route exact path={`${path}/:userName`}>
             <UserAcc userNameInUrl={userNameInUrl} />

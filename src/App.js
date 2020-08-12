@@ -129,6 +129,7 @@ function App() {
         setIsUserReady(true);
       });
     else {
+      localStorage.removeItem('token');
       changeUserRole('guest');
       setIsUserReady(true);
     }
@@ -145,6 +146,7 @@ function App() {
       window.removeEventListener('resize', toogleHeaderWrapperTheme);
     }
   },[user.role])
+  
   return (
     <>
       <React.StrictMode>

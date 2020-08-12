@@ -72,6 +72,7 @@ const Header = (props) => {
                             (<>
                                 <li className={`nav-item ${path === '/admin/'+param ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/'+param)} to={`/admin${user.email?'/':''}${param}`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
                                 <li className={`nav-item ${path === '/admin/users' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/users')} to={`/admin/users`}>{language.appLanguage === 'eng' ? 'Users' : 'Користувачі'}</Link></li>
+                                <li className={`nav-item ${path === '/admin/users' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/users')} to={`/admin/users`}>{language.appLanguage === 'eng' ? 'Users' : 'Користувачі'}</Link></li>
                                 <li className={`nav-item ${path === '/admin/reviews' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/reviews')} to={`/admin/reviews`}>{language.appLanguage === 'eng' ? 'Reviews' : 'Відгуки'}</Link></li>
                                 <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className={`nav-link ${user.email?'':'disabled'}`} onClick={() => { localStorage.removeItem('token'); changeUserRole('guest');changeParam('') }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>) 
@@ -80,7 +81,7 @@ const Header = (props) => {
                 </div>
                 <ul className="navbar-nav d-none d-md-inline-block">
                     <li className='nav-link' style={{ paddingBottom: '2px' }}>
-                        <div className='language-switcher ml-4 nav-item d-flex align-items-center' onClick={toggleSwitcher}>
+                        <div className='language-switcher nav-item d-flex align-items-center' onClick={toggleSwitcher}>
                             <Switcher refElement={languageSwitcherMiddle} />
                             <label className="mb-0 ml-1">Eng</label>
                         </div>

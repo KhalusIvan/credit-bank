@@ -42,20 +42,43 @@ export default (props) => {
         if (textareaOfModal.current.value.length < 10) {
             return;
         }
+        let fetchPath;
+        let successMessage;
         switch (scope) {
             case 'delete_photo':
-                console.log('delete ' + currentUser);
+                fetchPath = '/deleteAvatar';
+                successMessage = appLanguage === 'eng' ? 'Avatar has been deleted' : 'Аватар успішно видалено';
                 break;
             case 'delete_user':
-                console.log('user ' + currentUser);
+                fetchPath = '/deleteUser';
+                successMessage = appLanguage === 'eng' ? 'User has been deleted' : 'Користувача успішно видалено';
                 break;
             case 'write_email':
-                console.log('write ' + currentUser);
+                fetchPath = '/sendEmail';
+                successMessage = appLanguage === 'eng' ? 'Email has been sent' : 'Емейл відправлено';
                 break;
             case 'not_check_user':
-                console.log('passport' + currentUser);
+                fetchPath = '/sendEmail';
+                successMessage = appLanguage === 'eng' ? 'User not verified' : 'Користувача не підтверджено';
                 break;
         }
+        fetch(proxy + fetchPath, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                'email': currentUser,
+                'text': textareaOfModal.current.value
+            })
+        }).then(resp => resp.json()).then(json => {
+            if (json.status === 'ok') {
+                console.log('Success!!');
+            }else{
+                console.log('Error!!!');
+            }
+        })
     }
     useEffect(() => {
         $('#' + idOfModal).on('hidden.bs.modal', function (e) {
@@ -71,27 +94,36 @@ export default (props) => {
                         <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 admin-all-users-title title'>{appLanguage === 'eng' ? 'Users' : 'Користувачі'}</h2>
                         <div className='button-panel row justify-content-center'>
                             <div className='col-12 col-md-6 col-lg-4'><button onClick={() => setFilter('checked')} className='btn btn-primary text-nowrap'>{appLanguage === 'eng' ? 'Checked' : 'Підтверджені'}</button></div>
-                            <div className='col-12 col-md-6 col-lg-4'><button onClick={() => {setFilter('notChecked'); setTimeout(()=>setIsBadgeOfUncheckUsers(false),2000)}} className='btn btn-danger text-nowrap'>{appLanguage === 'eng' ? 'Not checked' : 'Непідтверджені'}{isBadgeOfUncheckUsers ? <span className="badge badge-pill badge-light">+{props.numOfNotCheckUser}</span> : null}</button></div>
+                            <div className='col-12 col-md-6 col-lg-4'><button onClick={() => setFilter('dataNotReady')} className='btn btn-secondary text-nowrap'>{appLanguage === 'eng' ? 'Waiting' : 'Очікуються'}</button></div>
+                            <div className='col-12 col-md-6 col-lg-4'><button onClick={() => { setFilter('notChecked'); setTimeout(() => setIsBadgeOfUncheckUsers(false), 2000) }} className='btn btn-danger text-nowrap'>{appLanguage === 'eng' ? 'Not checked' : 'Непідтверджені'}{isBadgeOfUncheckUsers ? <span className="badge badge-pill badge-light">+{props.numOfNotCheckUser}</span> : null}</button></div>
                         </div>
                         <div className='container admin-all-users-list not-reveal'>
                             {filter === 'checked' ?
                                 <div key='d' >
                                     <Pagination setExternalArray={props.changeCheckUserArray} externalArray={props.checkUserArray} token={localStorage.getItem('token')} render={(userArray) =>
                                         userArray.map((user) => {
-                                            return <AdminUser key={user.email} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='Checked' first_name={user.first_name} second_name={user.second_name} email={user.email} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
+                                            return <AdminUser key={user.email} setPassport={showPassport} passport={user.passport} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='Checked' first_name={user.first_name} second_name={user.second_name} email={user.email} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
                                         })
-                                    } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUsersChecked', proxy + '/getAdminUsersAvatarChecked']} totalPages={Math.ceil(props.numOfCheckUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'}
+                                    } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUsersChecked', proxy + '/getAdminUsersAvatarChecked', proxy + '/getAdminUsersPassportChecked']} totalPages={Math.ceil(props.numOfCheckUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'} whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
                                     />
                                 </div>
-                                :
-                                <div key='rfsd'>
-                                    <Pagination setExternalArray={props.changeNotCheckUserArray} externalArray={props.notCheckUserArray} token={localStorage.getItem('token')} render={(userArray) =>
-                                        userArray.map((user) => {
-                                            return <AdminUser setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='NotChecked' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
-                                        })
-                                    } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUserUnchecked', proxy + '/getAdminUsersAvatarUnchecked', proxy + '/getAdminUsersPassportUnchecked']} totalPages={Math.ceil(props.numOfNotCheckUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'}
-                                    />
-                                </div>
+                                : filter === 'dataNotReady' ?
+                                    <div key='fg'>
+                                        <Pagination setExternalArray={props.changeDataNotReadyUserArray} externalArray={props.dataNotReadyUserArray} token={localStorage.getItem('token')} render={(userArray) =>
+                                            userArray.map((user) => {
+                                                return <AdminUser setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='DataNotReady' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
+                                            })
+                                        } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUserNotReady', proxy + '/getAdminUserAvatarNotReady', proxy + '/getAdminUserPassportNotReady']} totalPages={Math.ceil(props.numOfDataNotReadyUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'} whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
+                                        />
+                                    </div> :
+                                    <div key='rfsd'>
+                                        <Pagination setExternalArray={props.changeNotCheckUserArray} externalArray={props.notCheckUserArray} token={localStorage.getItem('token')} render={(userArray) =>
+                                            userArray.map((user) => {
+                                                return <AdminUser setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='NotChecked' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
+                                            })
+                                        } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUserUnchecked', proxy + '/getAdminUsersAvatarUnchecked', proxy + '/getAdminUsersPassportUnchecked']} totalPages={Math.ceil(props.numOfNotCheckUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'} whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
+                                        />
+                                    </div>
                             }
                         </div>
                     </div>

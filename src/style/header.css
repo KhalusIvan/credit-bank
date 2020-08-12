@@ -67,6 +67,16 @@ body{
         left: 100%;
     }
 }
+@media (max-width: 1200px){
+    header{
+        font-size: 0.9em;
+    }
+}
+@media (max-width: 900px){
+    header{
+        font-size: 0.8em;
+    }
+}
 @media (min-width: 768px){
     .navbar-nav .nav-item{
         position: relative;
@@ -89,6 +99,9 @@ body{
 }
 
 @media (max-width: 767px){
+    header{
+        font-size: 1em;
+    }
     header .logo{
         font-size: 0.8em;
     }

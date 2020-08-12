@@ -9,6 +9,7 @@ class Pagination extends React.Component {
             totalPages: props.totalPages,
             currentPage: props.currentPage,
             visiblePages: props.visiblePages,
+            whiteList : props.whiteList ? props.whiteList : 'There is no items',
             dataArray: props.externalArray ? props.externalArray : new Array(10)
         };
         this.handlePageChanged = this.handlePageChanged.bind(this);
@@ -56,6 +57,7 @@ class Pagination extends React.Component {
                 if (resp.status >= 400 && resp.status < 500)
                     throw new ReferenceError('Error to fetch ' + fetchPath);
                 const json = await resp.json();
+                console.log(json);
                 if (!Array.isArray(json))
                     throw new TypeError('Incorect data. Data must be Array');
                 if (newDataArray.length === 0) {
@@ -76,6 +78,8 @@ class Pagination extends React.Component {
         this.handlePageChanged(this.state.currentPage);
     }
     componentDidUpdate(prevProps, prevState) {
+        if(prevProps.whiteList !== this.props.whiteList)
+            this.setState({whiteList:this.props.whiteList});
         if (prevState.dataArray !== this.state.dataArray)
             if (this.props.setExternalArray)
                 this.props.setExternalArray(this.state.dataArray);
@@ -92,14 +96,20 @@ class Pagination extends React.Component {
                             : <Spiner />
                     }
                 </div>
-                <Pager
-                    total={this.state.totalPages}
-                    current={this.state.currentPage}
-                    visiblePages={this.state.visiblePages}
-                    titles={{ first: this.props.first, last: this.props.last }}
-                    className="pagination-toolbar"
-                    onPageChanged={this.handlePageChanged}
-                />
+                {
+                    this.state.totalPages > 0 ?
+                        <Pager
+                            total={this.state.totalPages}
+                            current={this.state.currentPage}
+                            visiblePages={this.state.visiblePages}
+                            titles={{ first: this.props.first, last: this.props.last }}
+                            className="pagination-toolbar"
+                            onPageChanged={this.handlePageChanged}
+                        /> : 
+                        <div className='pagination-white-list'>
+                            {this.state.whiteList}
+                        </div>
+                }
             </div>
         )
     }
