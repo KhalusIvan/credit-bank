@@ -43,6 +43,7 @@ class Pagination extends React.Component {
         this.refreshDataArray(numberOfPage, { status: 'notLoad' });
         for (let fetchPath of this.props.fetchArray) {
             try {
+                console.log(fetchPath);
                 const resp = await fetch(fetchPath, {
                     method: 'POST',
                     headers: {
