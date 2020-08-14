@@ -17,9 +17,6 @@ function getAdminUsers(){
 
         }*/
         base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({email: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
-            console.log("==========================")
-            console.log(resp)
-            console.log("==========================")
             if (err) return console.log(err);
             let count = (user) => {
                 return new Promise((resolve, reject) => {
@@ -64,8 +61,11 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserNotReady', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({email: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
+            console.log("==========================")
+            console.log(resp)
+            console.log("==========================")
             let count = (user) => {
                 return new Promise((resolve, reject) => {
                    base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
