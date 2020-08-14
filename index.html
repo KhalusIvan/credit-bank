@@ -13,7 +13,7 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/getAllComments', {
+                res(fetch('/getAdminUserNotReady', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

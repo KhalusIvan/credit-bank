@@ -100,11 +100,7 @@ function getAdminUsers(){
              };
 
              forLoop(resp).then(function(result) {
-                console.log("==========================")
-                console.log(result)
-                console.log("==========================")
                 res.send(result);
-                console.log(result)
              });
         });
     });
@@ -177,7 +173,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserAvatarNotReady', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({email: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].avatar != null)
@@ -199,7 +195,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserPassportNotReady', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({email: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].passport != null)
