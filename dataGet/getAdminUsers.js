@@ -11,11 +11,11 @@ setTimeout(function run() {
 function getAdminUsers(){
     app.post('/getAdminUserUnchecked', type, middleware, (req, res) => {
         let skipper;
-        if (req.body.email === undefined || req.body.email === null) {
+        /*if (req.body.email === undefined || req.body.email === null) {
 
         } else {
 
-        }
+        }*/
         base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({time: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             let count = (user) => {
