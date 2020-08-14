@@ -10,13 +10,7 @@ setTimeout(function run() {
 }, 100);
 function getAdminUsers(){
     app.post('/getAdminUserUnchecked', type, middleware, (req, res) => {
-        let skipper;
-        /*if (req.body.email === undefined || req.body.email === null) {
-
-        } else {
-
-        }*/
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({email: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             let count = (user) => {
                 return new Promise((resolve, reject) => {
@@ -106,7 +100,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersChecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray( async(err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray( async(err,resp)=>{
             if (err) return console.log(err);
             let count = (user) => {
                 return new Promise((resolve, reject) => {
@@ -151,7 +145,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersAvatarChecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{avatar:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].avatar != null)
@@ -162,7 +156,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersAvatarUnchecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{avatar:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].avatar != null)
@@ -184,7 +178,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersPassportUnchecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].passport != null)
@@ -206,7 +200,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersPassportChecked', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:1}}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             for (let i = 0; i < resp.length; i++) {
                 if(resp[i].passport != null)
