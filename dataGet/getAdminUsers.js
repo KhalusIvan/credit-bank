@@ -104,6 +104,7 @@ function getAdminUsers(){
                 console.log(result)
                 console.log("==========================")
                 res.send(result);
+                console.log(result)
              });
         });
     });
