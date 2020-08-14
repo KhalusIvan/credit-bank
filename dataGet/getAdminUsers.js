@@ -89,9 +89,6 @@ function getAdminUsers(){
                         else 
                             closed_credits++;
                     }
-                    console.log("==========================")
-            console.log(users[i].email)
-            console.log("==========================")
                     let currentUser = Object.assign({}, users[i]);
                     currentUser.all_credits = all_credits;
                     currentUser.active_credits = active_credits;
@@ -103,6 +100,9 @@ function getAdminUsers(){
              };
 
              forLoop(resp).then(function(result) {
+                console.log("==========================")
+                console.log(result)
+                console.log("==========================")
                 res.send(result);
              });
         });
