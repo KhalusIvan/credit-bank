@@ -173,6 +173,9 @@ function getAdminUsers(){
                 if(resp[i].avatar != null)
                     resp[i].avatar = resp[i].avatar.buffer;
             }
+            console.log("--------------------")
+            console.log(resp)
+            console.log("--------------------")
             res.send(resp);
         });
     });
