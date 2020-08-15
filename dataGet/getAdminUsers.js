@@ -10,7 +10,7 @@ setTimeout(function run() {
 }, 100);
 function getAdminUsers(){
     app.post('/getAdminUserUnchecked', type, middleware, (req, res) => {
-        console.log(rewq.body.lastItems);
+        console.log(req.body.lastItems);
         base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             let count = (user) => {
