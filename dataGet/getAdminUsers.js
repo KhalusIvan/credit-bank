@@ -64,10 +64,8 @@ function getAdminUsers(){
         console.log(req.body.lastItems[0]);
         console.log("----------------------------")
         for (let i = req.body.group - 1; i >= 0; i--) {
-            console.log(req.body.lastItems[i] != "noItems")
             if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
                 base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                     console.log(resp);
                      for (let j = 0; j < resp.length; j++) {
                          if (resp[j].email == req.body.lastItems[i]) {
                              skipper = j;
