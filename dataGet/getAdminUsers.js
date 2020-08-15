@@ -109,7 +109,7 @@ function getAdminUsers(){
         console.log("----------------------------")
         console.log(req.body.lastItems);
         //console.log(req.body.lastItems.length);
-        console.log(req.body.lastItems[0]);
+        //console.log(req.body.lastItems[0]);
         console.log("----------------------------")
         base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray( async(err,resp)=>{
             if (err) return console.log(err);
