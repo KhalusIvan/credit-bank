@@ -60,8 +60,8 @@ function getAdminUsers(){
         console.log("----------------------------")
         console.log(req.body)
         console.log(req.body.lastItems);
-        //console.log(req.body.lastItems.length);
-        //console.log(req.body.lastItems[0]);
+        console.log(req.body.lastItems.length);
+        console.log(req.body.lastItems[0]);
         console.log("----------------------------")
         /*for (let i = req.body.group - 1; i <= 0; i--) {
             if (req.body.lastItems[i] != null && req.body.lastItems[i] != undefined) {
