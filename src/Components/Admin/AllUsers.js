@@ -100,7 +100,7 @@ export default (props) => {
                                 }
                             }
                             if (!newLastItem)//Якщо змінна не помінялась, значить немає більше юзерів (вони всі видалені)
-                                newLastItem = null;//тоді ласт індекс буде налл
+                                newLastItem = 'noItems';//тоді ласт індекс буде налл
                             itemClone.lastItem = newLastItem;//оновлєюмо саме поле в об'єкті
                         }
                         updateArrayFunction(currentArrayClone);//використовуємо функцію оновлення описану вище. Параметр це новий масив з зміненими даними. Після цього реакт оновить компоненти
@@ -149,11 +149,11 @@ export default (props) => {
                                 <div key='d' >
                                     <Pagination
                                         itemId='email'
-                                        fetchBody={props.checkUserArray.map(value => {
+                                        fetchBody={{lastItems : props.checkUserArray.map(value => {
                                             if (value) {
                                                 return value.lastItem;
                                             } else return undefined;
-                                        })}
+                                        })}}
                                         fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
                                         setExternalArray={props.changeCheckUserArray}
                                         externalArray={props.checkUserArray}
@@ -177,11 +177,11 @@ export default (props) => {
                                     <div key='fg'>
                                         <Pagination
                                             itemId='email'
-                                            fetchBody={props.dataNotReadyUserArray.map(value => {
+                                            fetchBody={{lastItems : props.dataNotReadyUserArray.map(value => {
                                                 if (value) {
                                                     return value.lastItem;
                                                 } else return undefined;
-                                            })}
+                                            })}}
                                             fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
                                             setExternalArray={props.changeDataNotReadyUserArray}
                                             externalArray={props.dataNotReadyUserArray}
@@ -204,11 +204,11 @@ export default (props) => {
                                     <div key='rfsd'>
                                         <Pagination
                                             itemId='email'
-                                            fetchBody={props.notCheckUserArray.map(value => {
+                                            fetchBody={{lastItems : props.notCheckUserArray.map(value => {
                                                 if (value) {
                                                     return value.lastItem;
                                                 } else return undefined;
-                                            })}
+                                            })}}
                                             fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
                                             setExternalArray={props.changeNotCheckUserArray}
                                             externalArray={props.notCheckUserArray}
