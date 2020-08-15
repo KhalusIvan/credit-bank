@@ -63,13 +63,13 @@ function getAdminUsers(){
         console.log(req.body.lastItems.length);
         console.log(req.body.lastItems[0]);
         console.log("----------------------------")
-        for (let i = req.body.group - 1; i >= 0; i--) {
+        outer: for (let i = req.body.group - 1; i >= 0; i--) {
             if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
                 base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                      for (let j = 0; j < resp.length; j++) {
                          if (resp[j].email == req.body.lastItems[i]) {
                              skipper = j;
-                             break;
+                             break outer;
                          }
                      }
                 })
