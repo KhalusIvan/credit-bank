@@ -73,7 +73,6 @@ function getAdminUsers(){
                          }
                      }
                 })
-                break;
             } else {
                 console.log(2222222)
             }
