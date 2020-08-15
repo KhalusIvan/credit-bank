@@ -15,6 +15,7 @@ export default (props) => {
     const [filter, setFilter] = useState('checked');
     const [isBadgeOfUncheckUsers, setIsBadgeOfUncheckUsers] = useState(true);
     const [currentUser, setCurrentUser] = useState('');
+    const [currentArray, setCurrentArray] = useState([]);
     const [scope, setScope] = useState('');
     const closeModalButton = useRef(null);
     const textareaOfModal = useRef(null);
@@ -62,7 +63,53 @@ export default (props) => {
                 successMessage = appLanguage === 'eng' ? 'User not verified' : 'Користувача не підтверджено';
                 break;
         }
-        fetch(proxy + fetchPath, {
+        switch (scope) {
+            case 'delete_photo':
+
+                break;
+            case 'delete_user':
+            case 'not_check_user': //При видаленні...
+                for (let item of currentArray) {//Проходимось по ПОТОЧНОМУ МАСИВІ (ПІДТВЕРДЖЕНІ НЕПІДТВЕРДЖЕНІ НОТРЕДІ)
+                    if (item) {//Якщо є дані
+                        let currentArrayClone = currentArray.slice();//Робимо КОПІЮ поточного масиву (щоб його потім змінити, щоб реакт ПЕРЕРЕНДЕРИВ компоненти. Без копії рендеру не буде)
+                        const currentPage = currentArray.indexOf(item);//Запам'ятовуємо сторінку де видалявся користувач
+                        let itemClone = currentArrayClone[currentPage];//Об'єкт 'сторінка', де ми видалили користувача
+                        let itemCloneData = itemClone.data//Масив даних на сторінці з користувачами (є ще статус і ластАйтем)
+                        for (let user of itemCloneData) {//Проходимя по масиву даних поточної сторінки, щоб найти користувача, якого видалили
+                            if (user.email === currentUser)
+                                itemCloneData[itemCloneData.indexOf(user)].state = 'deleted'
+                        }
+                        let updateArrayFunction = () => { };//Функція, яка обновляє масив (ми отримаємо її в пропс). Далі треба вирішувати який з 3-х масивів оновити.(ПІДТВЕРДЖЕНІ НЕПІДТВЕРДЖЕНІ НОТРЕДІ)
+                        switch (currentArray) {
+                            case props.checkUserArray://Тут все понятно. Якщо це масив чекед юзер то функція оновлення буде для чек юзер. Оновити масив без функції не можна. Інакше не буде рендерінг
+                                updateArrayFunction = props.changeCheckUserArray;
+                                break;
+                            case props.dataNotReadyUserArray:
+                                updateArrayFunction = props.changeDataNotReadyUserArray;
+                                break;
+                            case props.notCheckUserArray:
+                                updateArrayFunction = props.changeNotCheckUserArray;
+                                break;
+                        }
+                        if (item.lastItem === currentUser) {//Якщо видалили останнього юзера то...
+                            let newLastItem = undefined;
+                            for (let i = itemCloneData.length - 2; i >= 0; i--) {//Проходимся по масиву даних З КІНЦЯ не беручі до уваги останнього юзера
+                                if (!itemCloneData[i].state) {//Находимо першого НЕВИДАЛЕНОГО ЮЗЕРА
+                                    newLastItem = itemCloneData[i].email;//І робимо ласт емейл на емейл цього юзера
+                                    break;
+                                }
+                            }
+                            if (!newLastItem)//Якщо змінна не помінялась, значить немає більше юзерів (вони всі видалені)
+                                newLastItem = null;//тоді ласт індекс буде налл
+                            itemClone.lastItem = newLastItem;//оновлєюмо саме поле в об'єкті
+                        }
+                        updateArrayFunction(currentArrayClone);//використовуємо функцію оновлення описану вище. Параметр це новий масив з зміненими даними. Після цього реакт оновить компоненти
+                    }
+                }
+                break;
+        }
+        closeModalButton.current.click();
+        /* fetch(proxy + fetchPath, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,11 +121,11 @@ export default (props) => {
             })
         }).then(resp => resp.json()).then(json => {
             if (json.status === 'ok') {
-                console.log('Success!!');
+                console.log('okey');
             }else{
                 console.log('Error!!!');
             }
-        })
+        }); */
     }
     useEffect(() => {
         $('#' + idOfModal).on('hidden.bs.modal', function (e) {
@@ -100,28 +147,85 @@ export default (props) => {
                         <div className='container admin-all-users-list not-reveal'>
                             {filter === 'checked' ?
                                 <div key='d' >
-                                    <Pagination setExternalArray={props.changeCheckUserArray} externalArray={props.checkUserArray} token={localStorage.getItem('token')} render={(userArray) =>
-                                        userArray.map((user) => {
-                                            return <AdminUser key={user.email} setPassport={showPassport} passport={user.passport} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='Checked' first_name={user.first_name} second_name={user.second_name} email={user.email} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
-                                        })
-                                    } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUsersChecked', proxy + '/getAdminUsersAvatarChecked', proxy + '/getAdminUsersPassportChecked']} totalPages={Math.ceil(props.numOfCheckUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'} whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
+                                    <Pagination
+                                        itemId='email'
+                                        fetchBody={props.checkUserArray.map(value => {
+                                            if (value) {
+                                                return value.lastItem;
+                                            } else return undefined;
+                                        })}
+                                        fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
+                                        setExternalArray={props.changeCheckUserArray}
+                                        externalArray={props.checkUserArray}
+                                        token={localStorage.getItem('token')}
+                                        render={(userArray) =>
+                                            userArray.map((user) => {
+                                                return <AdminUser state={user.state} setCurrentArray={() => setCurrentArray(props.checkUserArray)} key={user.email} setPassport={showPassport} passport={user.passport} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='Checked' first_name={user.first_name} second_name={user.second_name} email={user.email} phone={user.phone} credit_card={user.credit_card} all_credits={user.all_credits} closed_credits={user.closed_credits} active_credits={user.active_credits} expired_credits={user.expired_credits} />
+                                            })
+                                        }
+                                        numberOfItemsOnPage={props.numOfItemsInPagination}
+                                        fetchArray={[proxy + '/getAdminUsersChecked', proxy + '/getAdminUsersAvatarChecked', proxy + '/getAdminUsersPassportChecked']}
+                                        totalPages={Math.ceil(props.numOfCheckUser / props.numOfItemsInPagination)}
+                                        visiblePages={5}
+                                        currentPage={0}
+                                        first={appLanguage === 'eng' ? 'First' : 'Початок'}
+                                        last={appLanguage === 'eng' ? 'Last' : 'Кінець'}
+                                        whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
                                     />
                                 </div>
                                 : filter === 'dataNotReady' ?
                                     <div key='fg'>
-                                        <Pagination setExternalArray={props.changeDataNotReadyUserArray} externalArray={props.dataNotReadyUserArray} token={localStorage.getItem('token')} render={(userArray) =>
-                                            userArray.map((user) => {
-                                                return <AdminUser setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='DataNotReady' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
-                                            })
-                                        } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUserNotReady', proxy + '/getAdminUserAvatarNotReady', proxy + '/getAdminUserPassportNotReady']} totalPages={Math.ceil(props.numOfDataNotReadyUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'} whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
+                                        <Pagination
+                                            itemId='email'
+                                            fetchBody={props.dataNotReadyUserArray.map(value => {
+                                                if (value) {
+                                                    return value.lastItem;
+                                                } else return undefined;
+                                            })}
+                                            fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
+                                            setExternalArray={props.changeDataNotReadyUserArray}
+                                            externalArray={props.dataNotReadyUserArray}
+                                            token={localStorage.getItem('token')}
+                                            render={(userArray) =>
+                                                userArray.map((user) => {
+                                                    return <AdminUser state={user.state} setCurrentArray={() => setCurrentArray(props.dataNotReadyUserArray)} setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='DataNotReady' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits={user.all_credits} closed_credits={user.closed_credits} active_credits={user.active_credits} expired_credits={user.expired_credits} />
+                                                })
+                                            }
+                                            numberOfItemsOnPage={props.numOfItemsInPagination}
+                                            fetchArray={[proxy + '/getAdminUserNotReady', proxy + '/getAdminUserAvatarNotReady', proxy + '/getAdminUserPassportNotReady']}
+                                            totalPages={Math.ceil(props.numOfDataNotReadyUser / props.numOfItemsInPagination)}
+                                            visiblePages={5}
+                                            currentPage={0}
+                                            first={appLanguage === 'eng' ? 'First' : 'Початок'}
+                                            last={appLanguage === 'eng' ? 'Last' : 'Кінець'}
+                                            whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
                                         />
                                     </div> :
                                     <div key='rfsd'>
-                                        <Pagination setExternalArray={props.changeNotCheckUserArray} externalArray={props.notCheckUserArray} token={localStorage.getItem('token')} render={(userArray) =>
-                                            userArray.map((user) => {
-                                                return <AdminUser setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='NotChecked' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' closed_credits='9' active_credits='3' expired_credits='0' />
-                                            })
-                                        } numberOfItemsOnPage={props.numOfItemsInPagination} fetchArray={[proxy + '/getAdminUserUnchecked', proxy + '/getAdminUsersAvatarUnchecked', proxy + '/getAdminUsersPassportUnchecked']} totalPages={Math.ceil(props.numOfNotCheckUser / props.numOfItemsInPagination)} visiblePages={5} currentPage={0} first={appLanguage === 'eng' ? 'First' : 'Початок'} last={appLanguage === 'eng' ? 'Last' : 'Кінець'} whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
+                                        <Pagination
+                                            itemId='email'
+                                            fetchBody={props.notCheckUserArray.map(value => {
+                                                if (value) {
+                                                    return value.lastItem;
+                                                } else return undefined;
+                                            })}
+                                            fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
+                                            setExternalArray={props.changeNotCheckUserArray}
+                                            externalArray={props.notCheckUserArray}
+                                            token={localStorage.getItem('token')}
+                                            render={(userArray) =>
+                                                userArray.map((user) => {
+                                                    return <AdminUser state={user.state} setCurrentArray={() => setCurrentArray(props.notCheckUserArray)} setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='NotChecked' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' all_credits={user.all_credits} closed_credits={user.closed_credits} active_credits={user.active_credits} expired_credits={user.expired_credits} />
+                                                })
+                                            }
+                                            numberOfItemsOnPage={props.numOfItemsInPagination}
+                                            fetchArray={[proxy + '/getAdminUserUnchecked', proxy + '/getAdminUsersAvatarUnchecked', proxy + '/getAdminUsersPassportUnchecked']}
+                                            totalPages={Math.ceil(props.numOfNotCheckUser / props.numOfItemsInPagination)}
+                                            visiblePages={5}
+                                            currentPage={0}
+                                            first={appLanguage === 'eng' ? 'First' : 'Початок'}
+                                            last={appLanguage === 'eng' ? 'Last' : 'Кінець'}
+                                            whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
                                         />
                                     </div>
                             }

@@ -10,6 +10,7 @@ class Pagination extends React.Component {
             currentPage: props.currentPage,
             visiblePages: props.visiblePages,
             whiteList : props.whiteList ? props.whiteList : 'There is no items',
+            itemId: props.itemId,
             dataArray: props.externalArray ? props.externalArray : new Array(10)
         };
         this.handlePageChanged = this.handlePageChanged.bind(this);
@@ -43,22 +44,19 @@ class Pagination extends React.Component {
         this.refreshDataArray(numberOfPage, { status: 'notLoad' });
         for (let fetchPath of this.props.fetchArray) {
             try {
-                console.log(fetchPath);
                 const resp = await fetch(fetchPath, {
                     method: 'POST',
-                    headers: {
+                    headers: Object.assign({
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.props.token
-                    },
-                    body: JSON.stringify({
+                    },this.props.fetchHeaders),
+                    body: JSON.stringify(Object.assign({
                         'group': numberOfPage,
                         'number': this.props.numberOfItemsOnPage
-                    })
+                    },this.props.fetchBody))
                 });
                 if (resp.status >= 400 && resp.status < 500)
                     throw new ReferenceError('Error to fetch ' + fetchPath);
                 const json = await resp.json();
-                console.log(json);
                 if (!Array.isArray(json))
                     throw new TypeError('Incorect data. Data must be Array');
                 if (newDataArray.length === 0) {
@@ -67,13 +65,13 @@ class Pagination extends React.Component {
                 else {
                     newDataArray = this.assignObjectsOfArrays(newDataArray, json);
                 }
-                this.refreshDataArray(numberOfPage, { status: 'pending', data: newDataArray });
+                this.refreshDataArray(numberOfPage, { status: 'pending', data: newDataArray, lastItem:newDataArray[newDataArray.length - 1] ? newDataArray[newDataArray.length - 1][this.state.itemId] : null});
             } catch (error) {
                 this.refreshDataArray(numberOfPage, { status: 'rejected' })
                 throw error
             }
         }
-        this.refreshDataArray(numberOfPage, { status: 'resolved', data: newDataArray });
+        this.refreshDataArray(numberOfPage, { status: 'resolved', data: newDataArray,lastItem:newDataArray[newDataArray.length - 1] ? newDataArray[newDataArray.length - 1][this.state.itemId] : null });
     }
     componentDidMount() {
         this.handlePageChanged(this.state.currentPage);
@@ -86,6 +84,7 @@ class Pagination extends React.Component {
                 this.props.setExternalArray(this.state.dataArray);
     }
     render() {
+        console.log(this.props.fetchBody);
         return (
             <div className='Pagination'>
                 <div className='pagination-items'>

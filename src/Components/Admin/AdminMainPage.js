@@ -12,17 +12,22 @@ import Spiner from '../Spiner.js'
 const UserAcc = lazy(() => import('../User/UserDataManagement/UserAcc'));
 const AllUsers = lazy(() => import('./AllUsers'));
 const AllReviews = lazy(() => import('./AllReviews'));
+const AllCredits = lazy(() => import('./AllCredits'));
 export default (props) => {
   const numOfItemsInPagination = 5;
   const { user, changeUser } = useContext(User);
   const { proxy, changeParam } = useContext(Proxy);
+
   const [checkUserArray, setCheckUserArray] = useState([]);
   const [notCheckUserArray, setNotCheckUserArray] = useState([]);
   const [dataNotReadyUserArray, setDataNotReadyUserArray] = useState([]);
-  const [reviewsArray, setReviewsArray] = useState([])
+
+  const [reviewsArray, setReviewsArray] = useState([]);
+
   const [numOfCheckUser, setNumOfCheckUser] = useState();
   const [numOfNotCheckUser, setNumOfNotCheckUser] = useState();
   const [numOfDataNotReadyUser, setNumOfDataNotReadyUser] = useState();
+
   let { path } = useRouteMatch();
   function changeCheckUserArray(newArray) {
     setCheckUserArray(newArray.slice());
@@ -61,8 +66,11 @@ export default (props) => {
         .then(nums => {
           const [check, uncheck,notReady] = nums.map(num => num.length);
           setNumOfCheckUser(check);
+          setCheckUserArray(new Array(Math.ceil(check/numOfItemsInPagination)));
           setNumOfNotCheckUser(uncheck);
+          setNotCheckUserArray(new Array(Math.ceil(uncheck/numOfItemsInPagination)));
           setNumOfDataNotReadyUser(notReady);
+          setDataNotReadyUserArray(new Array(Math.ceil(notReady/numOfItemsInPagination)));
         });
     }
     getNumbersOfUser();
@@ -99,6 +107,9 @@ export default (props) => {
           </Route>
           <Route path={`${path}/reviews`}>
             <AllReviews reviewsArray={reviewsArray} setReviewsArray={setReviewsArray} />
+          </Route>
+          <Route path={`${path}/credits`}>
+            <AllCredits/>
           </Route>
           <Route exact path={`${path}/:userName`}>
             <UserAcc userNameInUrl={userNameInUrl} />
