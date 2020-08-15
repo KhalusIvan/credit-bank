@@ -57,6 +57,7 @@ function getAdminUsers(){
 
     app.post('/getAdminUserNotReady', type, middleware, (req, res) => {
         console.log("----------------------------")
+        console.log(req.body)
         console.log(req.body.lastItems);
         console.log(req.body.lastItems.length);
         console.log(req.body.lastItems[0]);
