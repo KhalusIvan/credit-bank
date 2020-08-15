@@ -101,6 +101,7 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUsersChecked', type, middleware, (req, res) => {
+        console.log(req.body.lastItems);
         base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray( async(err,resp)=>{
             if (err) return console.log(err);
             let count = (user) => {
@@ -174,9 +175,6 @@ function getAdminUsers(){
                 if(resp[i].avatar != null)
                     resp[i].avatar = resp[i].avatar.buffer;
             }
-            console.log("--------------------")
-            console.log(resp)
-            console.log("--------------------")
             res.send(resp);
         });
     });
