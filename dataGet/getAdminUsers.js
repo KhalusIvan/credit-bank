@@ -63,14 +63,22 @@ function getAdminUsers(){
         console.log(req.body.lastItems.length);
         console.log(req.body.lastItems[0]);
         console.log("----------------------------")
-        /*for (let i = req.body.group - 1; i <= 0; i--) {
-            if (req.body.lastItems[i] != null && req.body.lastItems[i] != undefined) {
-                base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err.resp) => {
+        for (let i = req.body.group - 1; i <= 0; i--) {
+            console.log(req.body.lastItems[i] != "noItems")
+            if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                      console.log(resp);
+                     for (let j = 0; j < resp.length; j++) {
+                         if (resp[j].email == req.body.lastItems[i]) {
+                             skipper = j;
+                             break;
+                         }
+                     }
                 })
+                break;
             }
-        }*/
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+        }
+        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
             if (err) return console.log(err);
             let count = (user) => {
                 return new Promise((resolve, reject) => {
