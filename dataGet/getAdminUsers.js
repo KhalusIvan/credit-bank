@@ -56,45 +56,47 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserNotReady', type, middleware, (req, res) => {
-        var skipperCount = () => {
+        var checkSkipperInBase = (lastItem) => {
             return new Promise((resolve, reject) => {
-                let skipper = 0;
-                console.log("----------------------------")
-                console.log(req.body)
-                console.log(req.body.lastItems);
-                console.log(req.body.lastItems.length);
-                console.log(req.body.lastItems[0]);
-                console.log("----------------------------");
-                if (req.body.group == 0) {
-                    resolve(skipper)
-                } else {
-                    for (let i = req.body.group - 1; i >= 0; i--) {
-                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                            let flag = false;
-                            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                                for (let j = 0; j < resp.length; j++) {
-                                    if (resp[j].email == req.body.lastItems[i]) {
-                                        console.log("skippppppppeer jjj === " + j)
-                                        skipper += j + 1;
-                                        console.log("before resolve")
-                                        resolve(skipper);
-                                        console.log("already resolved")
-                                        flag = true;
-                                        break;
-                                    }
-                                }
-                            })
-                            if (flag) 
-                                break;
-                        } else if (req.body.lastItems[i] == null) {
-                            console.log(2222222)
-                            skipper += 5;
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                    for (let j = 0; j < resp.length; j++) {
+                        if (resp[j].email == lastItem) {
+                            console.log("skippppppppeer jjj === " + j)
+                            skipper += j + 1;
+                            console.log("before resolve")
+                            resolve(skipper);
+                            console.log("already resolved")
+                            break;
                         }
-                        console.log("after loop")
-                        //if (i == 0)
                     }
-                }
+                })
             })
+        }
+        var skipperCount = () => {
+            let skipper = 0;
+            console.log("----------------------------")
+            console.log(req.body)
+            console.log(req.body.lastItems);
+            console.log(req.body.lastItems.length);
+            console.log(req.body.lastItems[0]);
+            console.log("----------------------------");
+            if (req.body.group != 0) {
+                for (let i = req.body.group - 1; i >= 0; i--) {
+                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                        let flag = false;
+                        let skipperEmail = await (count(users[i]));
+                        return skipperEmail;
+                        if (flag) 
+                            break;
+                    } else if (req.body.lastItems[i] == null) {
+                        console.log(2222222)
+                        skipper += 5;
+                    }
+                    console.log("after loop")
+                    //if (i == 0)
+                }
+            }
+            return skipper
         }
         skipperCount().then(function(resSkip) {
             console.log(resSkip)
