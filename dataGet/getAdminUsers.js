@@ -84,10 +84,8 @@ function getAdminUsers(){
                 for (let i = req.body.group - 1; i >= 0; i--) {
                     if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
                         let flag = false;
-                        let skipperEmail = await (count(users[i]));
+                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
                         return skipperEmail;
-                        if (flag) 
-                            break;
                     } else if (req.body.lastItems[i] == null) {
                         console.log(2222222)
                         skipper += 5;
