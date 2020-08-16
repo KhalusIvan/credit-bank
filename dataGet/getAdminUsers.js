@@ -297,7 +297,7 @@ function getAdminUsers(){
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
                 for (let i = 0; i < resp.length; i++) {
                     if(resp[i].passport != null)
