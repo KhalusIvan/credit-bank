@@ -61,11 +61,8 @@ function getAdminUsers(){
                 base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
-                            console.log("skippppppppeer jjj === " + j)
                             let skipper = j + 1;
-                            console.log("before resolve")
                             resolve(skipper);
-                            console.log("already resolved")
                             break;
                         }
                     }
@@ -83,8 +80,8 @@ function getAdminUsers(){
             if (req.body.group != 0) {
                 for (let i = req.body.group - 1; i >= 0; i--) {
                     if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let flag = false;
                         let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                        skipperEmail += skipper;
                         return skipperEmail;
                     } else if (req.body.lastItems[i] == null) {
                         console.log(2222222)
@@ -94,7 +91,7 @@ function getAdminUsers(){
                     //if (i == 0)
                 }
             }
-            return skipper
+            return skipper;
         }
         skipperCount().then(function(resSkip) {
             console.log(resSkip)
