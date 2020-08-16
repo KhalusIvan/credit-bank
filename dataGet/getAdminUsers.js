@@ -73,6 +73,7 @@ function getAdminUsers(){
                                 if (resp[j].email == req.body.lastItems[i]) {
                                     console.log("skippppppppeer jjj === " + j)
                                     skipper = j;
+                                    resolve(skipper);
                                     flag = true;
                                     break;
                                 }
@@ -84,7 +85,6 @@ function getAdminUsers(){
                         console.log(2222222)
                     }
                 }
-                resolve(skipper);
             })
         }
         skipperCount().then(function(resSkip) {
