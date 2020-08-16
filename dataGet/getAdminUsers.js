@@ -87,6 +87,7 @@ function getAdminUsers(){
             })
         }
         skipperCount().then(function(resSkip) {
+            console.log(resSkip)
             let skipper = resSkip;
             base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
