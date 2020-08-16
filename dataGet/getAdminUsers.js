@@ -72,7 +72,7 @@ function getAdminUsers(){
                 })
             })
         }
-        var skipperCount = () => {
+        var skipperCount = async () => {
             let skipper = 0;
             console.log("----------------------------")
             console.log(req.body)
