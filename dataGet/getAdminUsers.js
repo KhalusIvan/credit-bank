@@ -76,6 +76,7 @@ function getAdminUsers(){
                                     if (resp[j].email == req.body.lastItems[i]) {
                                         console.log("skippppppppeer jjj === " + j)
                                         skipper += j + 1;
+                                        console.log("before resolve")
                                         resolve(skipper);
                                         console.log("already resolved")
                                         flag = true;
