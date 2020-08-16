@@ -67,26 +67,27 @@ function getAdminUsers(){
                 console.log("----------------------------");
                 if (req.body.group == 0) {
                     resolve(skipper)
-                }
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let flag = false;
-                        base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                            for (let j = 0; j < resp.length; j++) {
-                                if (resp[j].email == req.body.lastItems[i]) {
-                                    console.log("skippppppppeer jjj === " + j)
-                                    skipper = j;
-                                    resolve(skipper);
-                                    flag = true;
-                                    break;
+                } else {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let flag = false;
+                            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                                for (let j = 0; j < resp.length; j++) {
+                                    if (resp[j].email == req.body.lastItems[i]) {
+                                        console.log("skippppppppeer jjj === " + j)
+                                        skipper = j;
+                                        resolve(skipper);
+                                        flag = true;
+                                        break;
+                                    }
                                 }
-                            }
-                        })
-                        if (flag) 
-                            break;
-                    } else {
-                        console.log(2222222)
-                        resolve(skipper);
+                            })
+                            if (flag) 
+                                break;
+                        } else {
+                            console.log(2222222)
+                            resolve(skipper);
+                        }
                     }
                 }
             })
