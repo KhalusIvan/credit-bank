@@ -57,32 +57,34 @@ function getAdminUsers(){
 
     app.post('/getAdminUserNotReady', type, middleware, (req, res) => {
         var skipperCount = () => {
-            let skipper = 0;
-            console.log("----------------------------")
-            console.log(req.body)
-            console.log(req.body.lastItems);
-            console.log(req.body.lastItems.length);
-            console.log(req.body.lastItems[0]);
-            console.log("----------------------------");
-            for (let i = req.body.group - 1; i >= 0; i--) {
-                if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                    let flag = false;
-                    base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                        for (let j = 0; j < resp.length; j++) {
-                            if (resp[j].email == req.body.lastItems[i]) {
-                                skipper = j;
-                                flag = true;
-                                break;
+            return new Promise((resolve, reject) => {
+                let skipper = 0;
+                console.log("----------------------------")
+                console.log(req.body)
+                console.log(req.body.lastItems);
+                console.log(req.body.lastItems.length);
+                console.log(req.body.lastItems[0]);
+                console.log("----------------------------");
+                for (let i = req.body.group - 1; i >= 0; i--) {
+                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                        let flag = false;
+                        base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                            for (let j = 0; j < resp.length; j++) {
+                                if (resp[j].email == req.body.lastItems[i]) {
+                                    skipper = j;
+                                    flag = true;
+                                    break;
+                                }
                             }
-                        }
-                    })
-                    if (flag) 
-                        break;
-                } else {
-                    console.log(2222222)
+                        })
+                        if (flag) 
+                            break;
+                    } else {
+                        console.log(2222222)
+                    }
                 }
-            }
-            return skipper;
+                resolve(skipper);
+            })
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
