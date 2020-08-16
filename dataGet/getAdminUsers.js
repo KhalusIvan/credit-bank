@@ -90,6 +90,7 @@ function getAdminUsers(){
                             console.log(2222222)
                             skipper += 5;
                         }
+                        console.log("after loop")
                         //if (i == 0)
                     }
                 }
