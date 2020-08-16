@@ -65,6 +65,9 @@ function getAdminUsers(){
                 console.log(req.body.lastItems.length);
                 console.log(req.body.lastItems[0]);
                 console.log("----------------------------");
+                if (req.body.group == 0) {
+                    resolve(skipper)
+                }
                 for (let i = req.body.group - 1; i >= 0; i--) {
                     if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
                         let flag = false;
