@@ -39,6 +39,16 @@ export default (props) => {
         };
         img.src = URL.createObjectURL(new Blob([new Uint8Array(passport.data)]));
     }
+    function detectUpdateArrayFunction() {
+        switch (currentArray) {
+            case props.checkUserArray://Тут все понятно. Якщо це масив чекед юзер то функція оновлення буде для чек юзер. Оновити масив без функції не можна. Інакше не буде рендерінг
+                return props.changeCheckUserArray;
+            case props.dataNotReadyUserArray:
+                return props.changeDataNotReadyUserArray;
+            case props.notCheckUserArray:
+                return props.changeNotCheckUserArray;
+        }
+    }
     async function sendEmail() {
         if (textareaOfModal.current.value.length < 10) {
             return;
@@ -65,44 +75,41 @@ export default (props) => {
         }
         switch (scope) {
             case 'delete_photo':
-
+                for(let item of currentArray){
+                    if(item)
+                        for(let user of item.data){
+                            if(user.email === currentUser){
+                                user.avatar = null;
+                                const currentArrayClone = currentArray.slice();
+                                const updateArrayFunction = detectUpdateArrayFunction();
+                                updateArrayFunction(currentArrayClone);
+                            }
+                        }
+                }
                 break;
             case 'delete_user':
             case 'not_check_user': //При видаленні...
                 for (let item of currentArray) {//Проходимось по ПОТОЧНОМУ МАСИВІ (ПІДТВЕРДЖЕНІ НЕПІДТВЕРДЖЕНІ НОТРЕДІ)
                     if (item) {//Якщо є дані
-                        let currentArrayClone = currentArray.slice();//Робимо КОПІЮ поточного масиву (щоб його потім змінити, щоб реакт ПЕРЕРЕНДЕРИВ компоненти. Без копії рендеру не буде)
-                        const currentPage = currentArray.indexOf(item);//Запам'ятовуємо сторінку де видалявся користувач
-                        let itemClone = currentArrayClone[currentPage];//Об'єкт 'сторінка', де ми видалили користувача
-                        let itemCloneData = itemClone.data//Масив даних на сторінці з користувачами (є ще статус і ластАйтем)
-                        for (let user of itemCloneData) {//Проходимя по масиву даних поточної сторінки, щоб найти користувача, якого видалили
-                            if (user.email === currentUser)
-                                itemCloneData[itemCloneData.indexOf(user)].state = 'deleted'
-                        }
-                        let updateArrayFunction = () => { };//Функція, яка обновляє масив (ми отримаємо її в пропс). Далі треба вирішувати який з 3-х масивів оновити.(ПІДТВЕРДЖЕНІ НЕПІДТВЕРДЖЕНІ НОТРЕДІ)
-                        switch (currentArray) {
-                            case props.checkUserArray://Тут все понятно. Якщо це масив чекед юзер то функція оновлення буде для чек юзер. Оновити масив без функції не можна. Інакше не буде рендерінг
-                                updateArrayFunction = props.changeCheckUserArray;
-                                break;
-                            case props.dataNotReadyUserArray:
-                                updateArrayFunction = props.changeDataNotReadyUserArray;
-                                break;
-                            case props.notCheckUserArray:
-                                updateArrayFunction = props.changeNotCheckUserArray;
-                                break;
+                        for(let user of item.data){
+                            if(user.email === currentUser){
+                                user.state = 'deleted';;
+                            }
                         }
                         if (item.lastItem === currentUser) {//Якщо видалили останнього юзера то...
                             let newLastItem = undefined;
-                            for (let i = itemCloneData.length - 2; i >= 0; i--) {//Проходимся по масиву даних З КІНЦЯ не беручі до уваги останнього юзера
-                                if (!itemCloneData[i].state) {//Находимо першого НЕВИДАЛЕНОГО ЮЗЕРА
-                                    newLastItem = itemCloneData[i].email;//І робимо ласт емейл на емейл цього юзера
+                            for (let i = item.data.length - 2; i >= 0; i--) {//Проходимся по масиву даних З КІНЦЯ не беручі до уваги останнього юзера
+                                if (!item.data[i].state) {//Находимо першого НЕВИДАЛЕНОГО ЮЗЕРА
+                                    newLastItem = item.data[i].email;//І робимо ласт емейл на емейл цього юзера
                                     break;
                                 }
                             }
                             if (!newLastItem)//Якщо змінна не помінялась, значить немає більше юзерів (вони всі видалені)
-                                newLastItem = 'noItems';//тоді ласт індекс буде налл
-                            itemClone.lastItem = newLastItem;//оновлєюмо саме поле в об'єкті
+                                newLastItem = 'noItems';//тоді ласт індекс буде no
+                            item.lastItem = newLastItem;//оновлєюмо саме поле в об'єкті
                         }
+                        const currentArrayClone = currentArray.slice();
+                        const updateArrayFunction = detectUpdateArrayFunction();
                         updateArrayFunction(currentArrayClone);//використовуємо функцію оновлення описану вище. Параметр це новий масив з зміненими даними. Після цього реакт оновить компоненти
                     }
                 }

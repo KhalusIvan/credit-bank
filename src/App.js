@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, Children,lazy, Suspense } from 'react';
+import React, { useRef, useEffect, useState, Children, lazy, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,11 +29,11 @@ import ConfirmEmail from './Components/ConfirmEmail';
 import Fade from 'react-reveal/Fade';
 import './style/custom.css';
 const UserMainPage = lazy(() => import('./Components/User/UserMainPage'));
-const AdminMainPage = lazy(()=> import('./Components/Admin/AdminMainPage'));
+const AdminMainPage = lazy(() => import('./Components/Admin/AdminMainPage'));
 const ValidateEmail = lazy(() => import('./Components/ValidateEmail'));
 function App() {
   const proxy = 'https://credit-bank-practice.herokuapp.com';
-  const [param,setParam]=useState('');
+  const [param, setParam] = useState('');
   const [isUserReady, setIsUserReady] = useState(false);
   const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
   const headerWrapper = useRef(null);
@@ -68,12 +68,12 @@ function App() {
     role: null,
     second_name: null,
     _id: null,
-    adminToken:null
+    adminToken: null
   });
   function changeUser(newUser) {
     setUser(newUser);
   }
-  function setAdmin(token){
+  function setAdmin(token) {
     let newUser = Object.assign({}, user);
     newUser.role = 'admin';
     newUser.adminToken = token;
@@ -125,6 +125,9 @@ function App() {
     }
     if (localStorage.getItem('token'))
       fetchData().then(json => {
+        if (json.role === 'guest') {
+          localStorage.removeItem('token');
+        }
         changeUserRole(json.role);
         setIsUserReady(true);
       });
@@ -134,25 +137,24 @@ function App() {
       setIsUserReady(true);
     }
   }, [localStorage.getItem('token')]);
-  useEffect(()=>{
-    if(user.role === 'guest'){
+  useEffect(() => {
+    if (user.role === 'guest') {
       console.log("ADD LISTENER");
       window.addEventListener('scroll', toogleHeaderWrapperTheme);
       window.addEventListener('resize', toogleHeaderWrapperTheme);
       toogleHeaderWrapperTheme();
     }
-    return ()=>{
+    return () => {
       window.removeEventListener('scroll', toogleHeaderWrapperTheme);
       window.removeEventListener('resize', toogleHeaderWrapperTheme);
     }
-  },[user.role])
-  
+  }, [user.role])
   return (
     <>
       <React.StrictMode>
-        <Proxy.Provider value={{ proxy: proxy,param:param,changeParam:changeParam}}>
+        <Proxy.Provider value={{ proxy: proxy, param: param, changeParam: changeParam }}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
-            <User.Provider value={{ user: user,setAdmin:setAdmin , changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
+            <User.Provider value={{ user: user, setAdmin: setAdmin, changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
               <Router>
                 {!isUserReady ? <SpinerApp /> : null}
                 <div ref={headerWrapper} className={`container-fluid sticky-navigation ${user.role !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>
@@ -161,28 +163,28 @@ function App() {
                   </headerThemeContext.Provider>
                 </div>
                 <Suspense fallback={<SpinerApp />}>
-                <Switch>
-                  <Route exact path="/">
-                    <Separate role={user.role} />
-                  </Route>
-                  <Route path="/confirm/:email" children={<ConfirmEmail />} />
-                  <Route path="/abd/:token" children={<ValidateEmail />} />
-                  <OnlyGuest exact role={user.role} path="/guest">
-                    <Fade timeout={500}><GuesMainPage /></Fade>
-                  </OnlyGuest>
-                  <Route path="/guest/*">
-                    <Error404 />
-                  </Route>
-                  <PrivateRoute path="/user" role={user.role}>
-                    <UserMainPage />
-                  </PrivateRoute>
-                  <OnlyAdmin path="/admin" role={user.role}>
-                    <AdminMainPage/>
-                  </OnlyAdmin>
-                  <Route path="/*">
-                    <Error404 />
-                  </Route>
-                </Switch>
+                  <Switch>
+                    <Route exact path="/">
+                      <Separate role={user.role} />
+                    </Route>
+                    <Route path="/confirm/:email" children={<ConfirmEmail />} />
+                    <Route path="/abd/:token" children={<ValidateEmail />} />
+                    <OnlyGuest exact role={user.role} path="/guest">
+                      <Fade timeout={500}><GuesMainPage /></Fade>
+                    </OnlyGuest>
+                    <Route path="/guest/*">
+                      <Error404 />
+                    </Route>
+                    <PrivateRoute path="/user" role={user.role}>
+                      <UserMainPage />
+                    </PrivateRoute>
+                    <OnlyAdmin path="/admin" role={user.role}>
+                      <AdminMainPage />
+                    </OnlyAdmin>
+                    <Route path="/*">
+                      <Error404 />
+                    </Route>
+                  </Switch>
                 </Suspense>
                 <Footer />
               </Router>
@@ -198,7 +200,7 @@ function PrivateRoute({ children, role, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-        role !== 'guest' && role !== 'admin'?(
+        role !== 'guest' && role !== 'admin' ? (
           children
         ) : (
             <Redirect
@@ -217,7 +219,7 @@ function OnlyAdmin({ children, role, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-      role !== 'guest' && role !== 'user' ? (
+        role !== 'guest' && role !== 'user' ? (
           children
         ) : (
             <Redirect

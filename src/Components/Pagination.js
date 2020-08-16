@@ -84,7 +84,6 @@ class Pagination extends React.Component {
                 this.props.setExternalArray(this.state.dataArray);
     }
     render() {
-        console.log(this.props.fetchBody);
         return (
             <div className='Pagination'>
                 <div className='pagination-items'>
