@@ -82,6 +82,7 @@ function getAdminUsers(){
                 };
 
                 forLoop(resp).then(function(result) {
+                    console.log(result)
                     res.send(result);
                 });
             });
