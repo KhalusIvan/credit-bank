@@ -12,7 +12,7 @@ import Spiner from '../Spiner.js'
 const UserAcc = lazy(() => import('../User/UserDataManagement/UserAcc'));
 const AllUsers = lazy(() => import('./AllUsers'));
 const AllReviews = lazy(() => import('./AllReviews'));
-const AllCredits = lazy(() => import('./AllCredits'));
+const AllCredits = lazy(() => import('./CreditManagement/AllCredits'));
 export default (props) => {
   const numOfItemsInPagination = 5;
   const { user, changeUser } = useContext(User);

@@ -149,7 +149,7 @@ export default (props) => {
                         <div className='button-panel row justify-content-center'>
                             <div className='col-12 col-md-6 col-lg-4'><button onClick={() => setFilter('checked')} className='btn btn-primary text-nowrap'>{appLanguage === 'eng' ? 'Checked' : 'Підтверджені'}</button></div>
                             <div className='col-12 col-md-6 col-lg-4'><button onClick={() => setFilter('dataNotReady')} className='btn btn-secondary text-nowrap'>{appLanguage === 'eng' ? 'Waiting' : 'Очікуються'}</button></div>
-                            <div className='col-12 col-md-6 col-lg-4'><button onClick={() => { setFilter('notChecked'); setTimeout(() => setIsBadgeOfUncheckUsers(false), 2000) }} className='btn btn-danger text-nowrap'>{appLanguage === 'eng' ? 'Not checked' : 'Непідтверджені'}{isBadgeOfUncheckUsers ? <span className="badge badge-pill badge-light">+{props.numOfNotCheckUser}</span> : null}</button></div>
+                            <div className='col-12 col-md-6 col-lg-4'><button onClick={() => { setFilter('notChecked'); setTimeout(() => setIsBadgeOfUncheckUsers(false), 2000) }} className='btn btn-danger text-nowrap'>{appLanguage === 'eng' ? 'Not checked' : 'Непідтверджені'}{isBadgeOfUncheckUsers ? <span className="badge badge-pill badge-light">{props.numOfNotCheckUser}</span> : null}</button></div>
                         </div>
                         <div className='container admin-all-users-list not-reveal'>
                             {filter === 'checked' ?

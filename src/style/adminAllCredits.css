@@ -1,0 +1,40 @@
+.admin-all-review-scope-title{
+    font-size: 2em;
+    font-weight: 300;
+}
+.modal.user-fall-back .modal-dialog{
+    max-width: 800px;
+}
+.user-fall-back-textarea{
+    font-size: 1.2em;
+}
+.user-fall-back .info{
+    font-size: 1.1em;
+}
+.admin-add-credit-wrapper{
+    max-width: 768px;
+}
+.admin-all-credits-wrapper{
+    background-color: #e9ecef;
+}
+@media (max-width: 1200px){
+    .admin-all-credits,
+    .modal.user-fall-back .modal-dialog{
+        font-size: .9em;
+    } 
+}
+@media (max-width: 960px){
+    .admin-all-credits,
+    .modal.user-fall-back .modal-dialog{
+        font-size: .8em;
+    } 
+}
+@media (max-width: 767px){
+    .admin-all-credits,
+    .modal.user-fall-back .modal-dialog{
+        font-size: .7em;
+    } 
+}
+@media (max-width: 560px){
+    
+}

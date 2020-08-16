@@ -1,0 +1,30 @@
+.admin-add-credit .form-group label,
+.admin-add-credit .form-group input{
+    font-size: 1.1em;
+}
+.admin-add-credit .form-group textarea{
+    resize: none;
+    height: 115px;
+}
+.admin-add-credit .form-group.submit-button{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.admin-add-credit .form-group.submit-button .btn{
+    font-size: 1.1em;
+    width: 50%;
+}
+@media (max-width: 960px){
+    
+}
+@media (max-width: 767px){
+    .admin-add-credit .form-group.submit-button .btn{
+        width: 75%;
+    }
+}
+@media (max-width: 560px){
+    .admin-add-credit .form-group.submit-button .btn{
+        width: 50%;
+    }
+}

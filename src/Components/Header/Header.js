@@ -72,7 +72,7 @@ const Header = (props) => {
                             (<>
                                 <li className={`nav-item ${path === '/admin/'+param ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/'+param)} to={`/admin${user.email?'/':''}${param}`}>{language.appLanguage === 'eng' ? 'Account' : 'Кабінет'}</Link></li>
                                 <li className={`nav-item ${path === '/admin/users' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/users')} to={`/admin/users`}>{language.appLanguage === 'eng' ? 'Users' : 'Користувачі'}</Link></li>
-                                <li className={`nav-item ${path === '/admin/credits' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/credits')} to={`/admin/credits`}>{language.appLanguage === 'eng' ? 'Credits' : 'Кридити'}</Link></li>
+                                <li className={`nav-item ${path === '/admin/credits' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/credits')} to={`/admin/credits`}>{language.appLanguage === 'eng' ? 'Credits' : 'Кредити'}</Link></li>
                                 <li className={`nav-item ${path === '/admin/reviews' ? 'active' : ''}`}><Link className='nav-link' onClick={() => setPath('/admin/reviews')} to={`/admin/reviews`}>{language.appLanguage === 'eng' ? 'Reviews' : 'Відгуки'}</Link></li>
                                 <li className={`nav-item ${path === '/user/logOut' ? 'active' : ''}`}><Link className={`nav-link ${user.email?'':'disabled'}`} onClick={() => { localStorage.removeItem('token'); changeUserRole('guest');changeParam('') }} to={`/guest`}>{language.appLanguage === 'eng' ? 'Log out' : 'Вийти'}</Link></li>
                             </>) 
