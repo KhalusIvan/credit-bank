@@ -56,73 +56,78 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserNotReady', type, middleware, (req, res) => {
-        let skipper = 0;
-        console.log("----------------------------")
-        console.log(req.body)
-        console.log(req.body.lastItems);
-        console.log(req.body.lastItems.length);
-        console.log(req.body.lastItems[0]);
-        console.log("----------------------------");
-        for (let i = req.body.group - 1; i >= 0; i--) {
-            if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                let flag = false;
-                base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                     for (let j = 0; j < resp.length; j++) {
-                         if (resp[j].email == req.body.lastItems[i]) {
-                             skipper = j;
-                             flag = true;
-                             break;
-                         }
-                     }
-                })
-                if (flag) 
-                    break;
-            } else {
-                console.log(2222222)
-            }
-        }
-        console.log("skipper --------------- " + skipper)
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-            if (err) return console.log(err);
-            let count = (user) => {
-                return new Promise((resolve, reject) => {
-                   base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
-                        err 
-                           ? reject(err) 
-                           : resolve(resp);
-                      });
-                });
-              };
-            var forLoop = async (users) => {
-                let resultArray = [];
-                for (let i = 0; i < users.length; i++) {
-                    let all_credits = 0;
-                    let active_credits = 0; 
-                    let expired_credits = 0; 
-                    let closed_credits = 0;
-                    let result = await (count(users[i]));
-                    for (let i = 0; i < result.length; i++) {
-                        all_credits++;
-                        if (result[i].status == "active")
-                            active_credits++;
-                        else if (result[i].status == "expired")
-                            expired_credits++;
-                        else 
-                            closed_credits++;
-                    }
-                    let currentUser = Object.assign({}, users[i]);
-                    currentUser.all_credits = all_credits;
-                    currentUser.active_credits = active_credits;
-                    currentUser.expired_credits = expired_credits;
-                    currentUser.closed_credits = closed_credits;
-                    resultArray.push(currentUser);
+        var skipperCount = () => {
+            let skipper = 0;
+            console.log("----------------------------")
+            console.log(req.body)
+            console.log(req.body.lastItems);
+            console.log(req.body.lastItems.length);
+            console.log(req.body.lastItems[0]);
+            console.log("----------------------------");
+            for (let i = req.body.group - 1; i >= 0; i--) {
+                if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                    let flag = false;
+                    base.collection('users').find({}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == req.body.lastItems[i]) {
+                                skipper = j;
+                                flag = true;
+                                break;
+                            }
+                        }
+                    })
+                    if (flag) 
+                        break;
+                } else {
+                    console.log(2222222)
                 }
-                return resultArray;
-             };
+            }
+            return skipper;
+        }
+        skipperCount().then(function(result) {
+            let skipper = result;
+            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                if (err) return console.log(err);
+                let count = (user) => {
+                    return new Promise((resolve, reject) => {
+                    base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
+                            err 
+                            ? reject(err) 
+                            : resolve(resp);
+                        });
+                    });
+                };
+                var forLoop = async (users) => {
+                    let resultArray = [];
+                    for (let i = 0; i < users.length; i++) {
+                        let all_credits = 0;
+                        let active_credits = 0; 
+                        let expired_credits = 0; 
+                        let closed_credits = 0;
+                        let result = await (count(users[i]));
+                        for (let i = 0; i < result.length; i++) {
+                            all_credits++;
+                            if (result[i].status == "active")
+                                active_credits++;
+                            else if (result[i].status == "expired")
+                                expired_credits++;
+                            else 
+                                closed_credits++;
+                        }
+                        let currentUser = Object.assign({}, users[i]);
+                        currentUser.all_credits = all_credits;
+                        currentUser.active_credits = active_credits;
+                        currentUser.expired_credits = expired_credits;
+                        currentUser.closed_credits = closed_credits;
+                        resultArray.push(currentUser);
+                    }
+                    return resultArray;
+                };
 
-             forLoop(resp).then(function(result) {
-                res.send(result);
-             });
+                forLoop(resp).then(function(result) {
+                    res.send(result);
+                });
+            });
         });
     });
 
