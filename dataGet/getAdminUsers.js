@@ -12,7 +12,7 @@ function getAdminUsers(){
     app.post('/getAdminUserUnchecked', type, middleware, (req, res) => {
         var checkSkipperInBase = (lastItem) => {
             return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card:!null, phone:!null, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
                             let skipper = j + 1;
@@ -295,7 +295,7 @@ function getAdminUsers(){
     app.post('/getAdminUsersAvatarUnchecked', type, middleware, (req, res) => {
         var checkSkipperInBase = (lastItem) => {
             return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card:!null, phone:!null, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
                             let skipper = j + 1;
@@ -385,7 +385,7 @@ function getAdminUsers(){
     app.post('/getAdminUsersPassportUnchecked', type, middleware, (req, res) => {
         var checkSkipperInBase = (lastItem) => {
             return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card:!null, phone:!null, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
                             let skipper = j + 1;
