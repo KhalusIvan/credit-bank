@@ -75,7 +75,7 @@ function getAdminUsers(){
                                 for (let j = 0; j < resp.length; j++) {
                                     if (resp[j].email == req.body.lastItems[i]) {
                                         console.log("skippppppppeer jjj === " + j)
-                                        skipper = j;
+                                        skipper = j + 1;
                                         resolve(skipper);
                                         flag = true;
                                         break;
