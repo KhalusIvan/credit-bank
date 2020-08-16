@@ -45,6 +45,9 @@ function getAdminUsers(){
             let skipper = resSkip;
             base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
+                console.log("--------------------------------------------------")
+                console.lpg(resp)
+                console.log("--------------------------------------------------")
                 let count = (user) => {
                     return new Promise((resolve, reject) => {
                     base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
@@ -113,11 +116,8 @@ function getAdminUsers(){
                         skipperEmail += skipper;
                         return skipperEmail;
                     } else if (req.body.lastItems[i] == null) {
-                        console.log(2222222)
                         skipper += 5;
                     }
-                    console.log("after loop")
-                    //if (i == 0)
                 }
             }
             return skipper;
@@ -163,7 +163,6 @@ function getAdminUsers(){
                 };
 
                 forLoop(resp).then(function(result) {
-                    console.log(result)
                     res.send(result);
                 });
             });
