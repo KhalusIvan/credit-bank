@@ -43,7 +43,7 @@ function getAdminUsers(){
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
                 let count = (user) => {
                     return new Promise((resolve, reject) => {
@@ -171,7 +171,7 @@ function getAdminUsers(){
     app.post('/getAdminUsersChecked', type, middleware, (req, res) => {
         var checkSkipperInBase = (lastItem) => {
             return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
                             let skipper = j + 1;
@@ -202,7 +202,7 @@ function getAdminUsers(){
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray( async(err,resp)=>{
+            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray( async(err,resp)=>{
                 if (err) return console.log(err);
                 let count = (user) => {
                     return new Promise((resolve, reject) => {
@@ -250,7 +250,7 @@ function getAdminUsers(){
     app.post('/getAdminUsersAvatarChecked', type, middleware, (req, res) => {
         var checkSkipperInBase = (lastItem) => {
             return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
                             let skipper = j + 1;
@@ -281,7 +281,7 @@ function getAdminUsers(){
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
                 for (let i = 0; i < resp.length; i++) {
                     if(resp[i].avatar != null)
@@ -326,7 +326,7 @@ function getAdminUsers(){
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
                 for (let i = 0; i < resp.length; i++) {
                     if(resp[i].avatar != null)
@@ -416,7 +416,7 @@ function getAdminUsers(){
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
                 for (let i = 0; i < resp.length; i++) {
                     if(resp[i].passport != null)
@@ -475,7 +475,7 @@ function getAdminUsers(){
     app.post('/getAdminUsersPassportChecked', type, middleware, (req, res) => {
         var checkSkipperInBase = (lastItem) => {
             return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
                             let skipper = j + 1;
@@ -506,7 +506,7 @@ function getAdminUsers(){
         }
         skipperCount().then(function(resSkip) {
             let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
                 for (let i = 0; i < resp.length; i++) {
                     if(resp[i].passport != null)
