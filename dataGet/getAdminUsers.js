@@ -208,13 +208,47 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserAvatarNotReady', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{avatar:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
-            if (err) return console.log(err);
-            for (let i = 0; i < resp.length; i++) {
-                if(resp[i].avatar != null)
-                    resp[i].avatar = resp[i].avatar.buffer;
+        var checkSkipperInBase = (lastItem) => {
+            return new Promise((resolve, reject) => {
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                    for (let j = 0; j < resp.length; j++) {
+                        if (resp[j].email == lastItem) {
+                            let skipper = j + 1;
+                            resolve(skipper);
+                            break;
+                        }
+                    }
+                })
+            })
+        }
+        var skipperCount = async () => {
+            let skipper = 0;
+            if (req.body.group != 0) {
+                for (let i = req.body.group - 1; i >= 0; i--) {
+                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                        skipperEmail += skipper;
+                        return skipperEmail;
+                    } else if (req.body.lastItems[i] == null) {
+                        console.log(2222222)
+                        skipper += 5;
+                    }
+                    console.log("after loop")
+                    //if (i == 0)
+                }
             }
-            res.send(resp);
+            return skipper;
+        }
+        skipperCount().then(function(resSkip) {
+            let skipper = resSkip;
+            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                if (err) return console.log(err);
+                for (let i = 0; i < resp.length; i++) {
+                    if(resp[i].avatar != null)
+                        resp[i].avatar = resp[i].avatar.buffer;
+                }
+                res.send(resp);
+            });
         });
     });
 
@@ -230,13 +264,47 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserPassportNotReady', type, middleware, (req, res) => {
-        base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
-            if (err) return console.log(err);
-            for (let i = 0; i < resp.length; i++) {
-                if(resp[i].passport != null)
-                    resp[i].passport = resp[i].passport.buffer;
+        var checkSkipperInBase = (lastItem) => {
+            return new Promise((resolve, reject) => {
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                    for (let j = 0; j < resp.length; j++) {
+                        if (resp[j].email == lastItem) {
+                            let skipper = j + 1;
+                            resolve(skipper);
+                            break;
+                        }
+                    }
+                })
+            })
+        }
+        var skipperCount = async () => {
+            let skipper = 0;
+            if (req.body.group != 0) {
+                for (let i = req.body.group - 1; i >= 0; i--) {
+                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                        skipperEmail += skipper;
+                        return skipperEmail;
+                    } else if (req.body.lastItems[i] == null) {
+                        console.log(2222222)
+                        skipper += 5;
+                    }
+                    console.log("after loop")
+                    //if (i == 0)
+                }
             }
-            res.send(resp);
+            return skipper;
+        }
+        skipperCount().then(function(resSkip) {
+            let skipper = resSkip;
+            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:1}}).sort({_id: -1}).skip(req.body.group * req.body.number).limit(req.body.number).toArray((err,resp)=>{
+                if (err) return console.log(err);
+                for (let i = 0; i < resp.length; i++) {
+                    if(resp[i].passport != null)
+                        resp[i].passport = resp[i].passport.buffer;
+                }
+                res.send(resp);
+            });
         });
     });
 
