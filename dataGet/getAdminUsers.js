@@ -62,7 +62,7 @@ function getAdminUsers(){
                     for (let j = 0; j < resp.length; j++) {
                         if (resp[j].email == lastItem) {
                             console.log("skippppppppeer jjj === " + j)
-                            skipper += j + 1;
+                            let skipper = j + 1;
                             console.log("before resolve")
                             resolve(skipper);
                             console.log("already resolved")
