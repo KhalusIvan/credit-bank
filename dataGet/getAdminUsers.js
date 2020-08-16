@@ -46,7 +46,7 @@ function getAdminUsers(){
             base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: !null, phone: !null, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
                 if (err) return console.log(err);
                 console.log("--------------------------------------------------")
-                console.lpg(resp)
+                console.log(resp)
                 console.log("--------------------------------------------------")
                 let count = (user) => {
                     return new Promise((resolve, reject) => {
