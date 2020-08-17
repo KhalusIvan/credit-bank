@@ -12,7 +12,7 @@ export default (props) => {
             <div className='admin-review-title'>
                 <div className='user-data'>
                     <div className='avatar flex-shrink-0' style={props.avatar ? props.avatar.data.length ? { backgroundImage: `url(${URL.createObjectURL(new Blob([new Uint8Array(props.avatar.data)]))})` } : null : null}></div>
-                    <div className='user-name'>{props.first_name + " " + props.second_name}</div>
+                    <div className='user-name'>{props.name}</div>
                 </div>
                 <div className='text-center'>{props.status}</div>
             </div>

@@ -29,15 +29,33 @@ export default (props) => {
                     <div className="jumbotron p-1 p-xm-2 p-sm-4 p-lg-5 m-0 rounded-0 bg-transparent">
                         <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 admin-reviews-title title'>{appLanguage === 'eng' ? 'Reviews' : 'Відгуки'}</h2>
                         <div className='container admin-reviews-list not-reveal'>
-                            <AdminReview changeEmail={changeEmail} changeReview={changeReview} id='1' email='f@dd@' idOfModal={idOfModal} first_name='Bogdan' second_name='Seredenko' text='Цей сайт деплоївся 52 рази... Поки що працює: можливість реєстрації, автентифікації,підтвердження емейлу, зміна даних акаунту та додавання, видалення, зміна коментарів, додавання паспорту, банківської картки та номеру телефона. Відтепер можна переглядати та брати доступні кредити. Поки що немає перевірки паспорта. Це буде додано в наступних релізах...' date='2 days ago' avatar={null} />
-                            <AdminReview changeEmail={changeEmail} changeReview={changeReview} id='2' email='f@ddfd@' idOfModal={idOfModal} first_name='Bogdan' second_name='Seredenko' text='Nice service!' date='2 days ago' avatar={null} />
-
-                            <AdminReview changeEmail={changeEmail} changeReview={changeReview} id='3' email='f@fgdd@' idOfModal={idOfModal} first_name='Bogdan' second_name='Seredenko' text='Nice service!' date='2 days ago' avatar={null} />
-                            <AdminReview changeEmail={changeEmail} changeReview={changeReview} id='4' email='f@sradd@' idOfModal={idOfModal} first_name='Bogdan' second_name='Seredenko' text='Nice s rv fgh dsfhg sdfg sdfhg hdsf iwuegf qpcpqwcn vus rv fgh dsfhg sdfg sdfhg hdsf iwuegf qpcpqwcn vuserv fgh dsfhg sdfg sdfhg hdsf iwuegf qpcpqwcn vusa dsggadhpawe awoudh skdjfh we rsfaice!' date='2 days ago' avatar={null} />
-                            <AdminReview changeEmail={changeEmail} changeReview={changeReview} id='5' email='f@d4d@' idOfModal={idOfModal} first_name='Bogdan' second_name='Seredenko' text='Nice service!' date='2 days ago' avatar={null} />
-
-                            <AdminReview changeEmail={changeEmail} changeReview={changeReview} id='6' email='f@ddsfgd@' idOfModal={idOfModal} first_name='Bogdan' second_name='Seredenko' text='Nice service!' date='2 days ago' avatar={null} />
-
+                            <Pagination
+                                itemId='id'
+                                fetchBody={{
+                                    lastItems: props.reviewsArray.map(value => {
+                                        console.log(value);
+                                        if (value) {
+                                            return value.lastItem;
+                                        } else return undefined;
+                                    })
+                                }}
+                                fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
+                                setExternalArray={props.setReviewsArray}
+                                externalArray={props.reviewsArray}
+                                render={(reviewsArray) =>
+                                    reviewsArray.map((review) => {
+                                        return  <AdminReview key={review.id} changeEmail={changeEmail} changeReview={changeReview} id={review.id} email={review.email} idOfModal={idOfModal} name={review.name} text={review.text} date={appLanguage === 'eng' ? review.data_en : review.data_ua} avatar={review.avatar} />
+                                    })
+                                }
+                                numberOfItemsOnPage={props.numOfItemsInPagination}
+                                fetchArray={[proxy + '/getAdminComments', proxy + '/getAdminCommentsAvatar']}
+                                totalPages={Math.ceil(props.numOfReviews / props.numOfItemsInPagination)}
+                                visiblePages={5}
+                                currentPage={0}
+                                first={appLanguage === 'eng' ? 'First' : 'Початок'}
+                                last={appLanguage === 'eng' ? 'Last' : 'Кінець'}
+                                whiteList={appLanguage === 'eng' ? 'there is no items' : "тут немає об'єктів"}
+                            />
                         </div>
                     </div>
                 </div>

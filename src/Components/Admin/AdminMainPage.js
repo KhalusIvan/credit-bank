@@ -15,18 +15,19 @@ const AllReviews = lazy(() => import('./AllReviews'));
 const AllCredits = lazy(() => import('./CreditManagement/AllCredits'));
 export default (props) => {
   const numOfItemsInPagination = 5;
+  const numOfReviewsInPagination = 6;
   const { user, changeUser } = useContext(User);
   const { proxy, changeParam } = useContext(Proxy);
 
   const [checkUserArray, setCheckUserArray] = useState([]);
   const [notCheckUserArray, setNotCheckUserArray] = useState([]);
   const [dataNotReadyUserArray, setDataNotReadyUserArray] = useState([]);
-
   const [reviewsArray, setReviewsArray] = useState([]);
 
   const [numOfCheckUser, setNumOfCheckUser] = useState();
   const [numOfNotCheckUser, setNumOfNotCheckUser] = useState();
   const [numOfDataNotReadyUser, setNumOfDataNotReadyUser] = useState();
+  const [numOfReviews, setNumofReviews] = useState();
 
   let { path } = useRouteMatch();
   function changeCheckUserArray(newArray) {
@@ -61,16 +62,25 @@ export default (props) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           },
+        }),
+        fetch(proxy + '/getAdminCommentsCount', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          },
         })
       ]).then(responses => Promise.all(responses.map(r => r.json())))
         .then(nums => {
-          const [check, uncheck,notReady] = nums.map(num => num.length);
+          const [check, uncheck, notReady, reviews] = nums.map(num => num.length);
           setNumOfCheckUser(check);
-          setCheckUserArray(new Array(Math.ceil(check/numOfItemsInPagination)));
+          setCheckUserArray(new Array(Math.ceil(check / numOfItemsInPagination)));
           setNumOfNotCheckUser(uncheck);
-          setNotCheckUserArray(new Array(Math.ceil(uncheck/numOfItemsInPagination)));
+          setNotCheckUserArray(new Array(Math.ceil(uncheck / numOfItemsInPagination)));
           setNumOfDataNotReadyUser(notReady);
-          setDataNotReadyUserArray(new Array(Math.ceil(notReady/numOfItemsInPagination)));
+          setDataNotReadyUserArray(new Array(Math.ceil(notReady / numOfItemsInPagination)));
+          setNumofReviews(reviews);
+          setReviewsArray(new Array(Math.ceil(reviews / numOfReviewsInPagination)));
         });
     }
     getNumbersOfUser();
@@ -100,16 +110,19 @@ export default (props) => {
             {user.email ? <Redirect to={`${path}/${userNameInUrl}`} /> : <UserAcc />}
           </Route>
           <Route path={`${path}/users`}>
-            {numOfCheckUser >= 0 && numOfNotCheckUser >= 0 && numOfDataNotReadyUser >=0 ?
-              <AllUsers numOfItemsInPagination={numOfItemsInPagination} numOfCheckUser={numOfCheckUser} numOfNotCheckUser={numOfNotCheckUser} numOfDataNotReadyUser={numOfDataNotReadyUser} changeCheckUserArray={changeCheckUserArray} changeNotCheckUserArray={changeNotCheckUserArray} changeDataNotReadyUserArray={changeDataNotReadyUserArray} checkUserArray={checkUserArray} notCheckUserArray={notCheckUserArray} dataNotReadyUserArray={dataNotReadyUserArray}/>
+            {numOfCheckUser >= 0 && numOfNotCheckUser >= 0 && numOfDataNotReadyUser >= 0 ?
+              <AllUsers numOfItemsInPagination={numOfItemsInPagination} numOfCheckUser={numOfCheckUser} numOfNotCheckUser={numOfNotCheckUser} numOfDataNotReadyUser={numOfDataNotReadyUser} changeCheckUserArray={changeCheckUserArray} changeNotCheckUserArray={changeNotCheckUserArray} changeDataNotReadyUserArray={changeDataNotReadyUserArray} checkUserArray={checkUserArray} notCheckUserArray={notCheckUserArray} dataNotReadyUserArray={dataNotReadyUserArray} />
               : <Spiner />
             }
           </Route>
           <Route path={`${path}/reviews`}>
-            <AllReviews reviewsArray={reviewsArray} setReviewsArray={setReviewsArray} />
+            {numOfReviews >= 0 ?
+              <AllReviews numOfReviews={numOfReviews} numOfItemsInPagination={numOfReviewsInPagination} reviewsArray={reviewsArray} setReviewsArray={setReviewsArray} />
+              : <Spiner />
+            }
           </Route>
           <Route path={`${path}/credits`}>
-            <AllCredits/>
+            <AllCredits />
           </Route>
           <Route exact path={`${path}/:userName`}>
             <UserAcc userNameInUrl={userNameInUrl} />

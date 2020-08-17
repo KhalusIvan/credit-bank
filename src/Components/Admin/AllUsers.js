@@ -6,17 +6,22 @@ import AdminUser from './AdminUser';
 import AppLanguage from '../../Contexts/AppLanguage.js';
 import Pagination from '../Pagination';
 import Logo from '../Logo';
+import { useAlert } from 'react-alert';
 import '../../style/adminAllUsers.css';
 import '../../style/button-panel.css';
 export default (props) => {
     const { appLanguage } = useContext(AppLanguage);
     const { proxy } = useContext(Proxy);
     const idOfModal = 'adminSendEmail';
+    const alert = useAlert();
+
+    const [isSending, setIsSending] = useState(false);
     const [filter, setFilter] = useState('checked');
     const [isBadgeOfUncheckUsers, setIsBadgeOfUncheckUsers] = useState(true);
     const [currentUser, setCurrentUser] = useState('');
     const [currentArray, setCurrentArray] = useState([]);
     const [scope, setScope] = useState('');
+
     const closeModalButton = useRef(null);
     const textareaOfModal = useRef(null);
     const canvas = useRef(null);
@@ -39,6 +44,41 @@ export default (props) => {
         };
         img.src = URL.createObjectURL(new Blob([new Uint8Array(passport.data)]));
     }
+    async function checkUser(email) {
+        fetch(proxy + '/checkUserAgree', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                'email': email,
+            })
+        }).then(resp => resp.json()).then(json => {
+            if (json.status === 'ok') {
+                for (let item of props.notCheckUserArray) {
+                    if (item)
+                        for (let user of item.data) {
+                            if (user.email === email) {
+                                let deletedUser = Object.assign({}, user);
+                                user.state = 'approved';
+                                const currentArrayClone = props.notCheckUserArray.slice();
+                                props.changeNotCheckUserArray(currentArrayClone);
+                                if (props.checkUserArray[0]) {
+                                    let currentArrayClone = props.checkUserArray.slice();
+                                    currentArrayClone[0].data.unshift(deletedUser);
+                                    props.changeCheckUserArray(currentArrayClone);
+                                }
+                            }
+                        }
+                }
+                alert.success(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Succes' : 'Успіх'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'User is checked' : 'Користувача підтверджено'}</p></div>);
+                closeModalButton.current.click();
+            } else {
+                alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Something was wrong' : "Щось пішло не так"}</p></div>);
+            }
+        })
+    }
     function detectUpdateArrayFunction() {
         switch (currentArray) {
             case props.checkUserArray://Тут все понятно. Якщо це масив чекед юзер то функція оновлення буде для чек юзер. Оновити масив без функції не можна. Інакше не буде рендерінг
@@ -51,6 +91,7 @@ export default (props) => {
     }
     async function sendEmail() {
         if (textareaOfModal.current.value.length < 10) {
+            alert.info(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Info' : 'Інфо'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Too short email text ' : 'Занадто короткий текст емайлу '}</p></div>);
             return;
         }
         let fetchPath;
@@ -65,58 +106,16 @@ export default (props) => {
                 successMessage = appLanguage === 'eng' ? 'User has been deleted' : 'Користувача успішно видалено';
                 break;
             case 'write_email':
-                fetchPath = '/sendEmail';
+                fetchPath = '/writeEmail';
                 successMessage = appLanguage === 'eng' ? 'Email has been sent' : 'Емейл відправлено';
                 break;
             case 'not_check_user':
-                fetchPath = '/sendEmail';
+                fetchPath = '/checkUserDisagree';
                 successMessage = appLanguage === 'eng' ? 'User not verified' : 'Користувача не підтверджено';
                 break;
         }
-        switch (scope) {
-            case 'delete_photo':
-                for(let item of currentArray){
-                    if(item)
-                        for(let user of item.data){
-                            if(user.email === currentUser){
-                                user.avatar = null;
-                                const currentArrayClone = currentArray.slice();
-                                const updateArrayFunction = detectUpdateArrayFunction();
-                                updateArrayFunction(currentArrayClone);
-                            }
-                        }
-                }
-                break;
-            case 'delete_user':
-            case 'not_check_user': //При видаленні...
-                for (let item of currentArray) {//Проходимось по ПОТОЧНОМУ МАСИВІ (ПІДТВЕРДЖЕНІ НЕПІДТВЕРДЖЕНІ НОТРЕДІ)
-                    if (item) {//Якщо є дані
-                        for(let user of item.data){
-                            if(user.email === currentUser){
-                                user.state = 'deleted';;
-                            }
-                        }
-                        if (item.lastItem === currentUser) {//Якщо видалили останнього юзера то...
-                            let newLastItem = undefined;
-                            for (let i = item.data.length - 2; i >= 0; i--) {//Проходимся по масиву даних З КІНЦЯ не беручі до уваги останнього юзера
-                                if (!item.data[i].state) {//Находимо першого НЕВИДАЛЕНОГО ЮЗЕРА
-                                    newLastItem = item.data[i].email;//І робимо ласт емейл на емейл цього юзера
-                                    break;
-                                }
-                            }
-                            if (!newLastItem)//Якщо змінна не помінялась, значить немає більше юзерів (вони всі видалені)
-                                newLastItem = 'noItems';//тоді ласт індекс буде no
-                            item.lastItem = newLastItem;//оновлєюмо саме поле в об'єкті
-                        }
-                        const currentArrayClone = currentArray.slice();
-                        const updateArrayFunction = detectUpdateArrayFunction();
-                        updateArrayFunction(currentArrayClone);//використовуємо функцію оновлення описану вище. Параметр це новий масив з зміненими даними. Після цього реакт оновить компоненти
-                    }
-                }
-                break;
-        }
-        closeModalButton.current.click();
-        /* fetch(proxy + fetchPath, {
+        setIsSending(true);
+        fetch(proxy + fetchPath, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,12 +126,68 @@ export default (props) => {
                 'text': textareaOfModal.current.value
             })
         }).then(resp => resp.json()).then(json => {
+            setIsSending(false);
             if (json.status === 'ok') {
-                console.log('okey');
-            }else{
-                console.log('Error!!!');
+                switch (scope) {
+                    case 'delete_photo':
+                        for (let item of currentArray) {
+                            if (item)
+                                for (let user of item.data) {
+                                    if (user.email === currentUser) {
+                                        user.avatar = null;
+                                        const currentArrayClone = currentArray.slice();
+                                        const updateArrayFunction = detectUpdateArrayFunction();
+                                        updateArrayFunction(currentArrayClone);
+                                    }
+                                }
+                        }
+                        break;
+                    case 'delete_user':
+                    case 'not_check_user': //При видаленні...
+                        let deletedUser;
+                        for (let item of currentArray) {//Проходимось по ПОТОЧНОМУ МАСИВІ (ПІДТВЕРДЖЕНІ НЕПІДТВЕРДЖЕНІ НОТРЕДІ)
+                            if (item) {//Якщо є дані
+                                for (let user of item.data) {
+                                    if (user.email === currentUser) {
+                                        deletedUser = Object.assign({}, user);
+                                        if (scope === 'not_check_user')
+                                            user.state = 'unchecked';
+                                        else user.state = 'deleted';
+                                    }
+                                }
+                                if (item.lastItem === currentUser) {//Якщо видалили останнього юзера то...
+                                    let newLastItem = undefined;
+                                    for (let i = item.data.length - 2; i >= 0; i--) {//Проходимся по масиву даних З КІНЦЯ не беручі до уваги останнього юзера
+                                        if (!item.data[i].state) {//Находимо першого НЕВИДАЛЕНОГО ЮЗЕРА
+                                            newLastItem = item.data[i].email;//І робимо ласт емейл на емейл цього юзера
+                                            break;
+                                        }
+                                    }
+                                    if (!newLastItem)//Якщо змінна не помінялась, значить немає більше юзерів (вони всі видалені)
+                                        newLastItem = 'noItems';//тоді ласт індекс буде no
+                                    item.lastItem = newLastItem;//оновлєюмо саме поле в об'єкті
+                                }
+                                const currentArrayClone = currentArray.slice();
+                                const updateArrayFunction = detectUpdateArrayFunction();
+                                updateArrayFunction(currentArrayClone);//використовуємо функцію оновлення описану вище. Параметр це новий масив з зміненими даними. Після цього реакт оновить компоненти
+                            }
+                        }
+                        if (scope === 'not_check_user' && props.dataNotReadyUserArray[0]) {
+                            deletedUser.passport = null;
+                            let currentArrayClone = props.dataNotReadyUserArray.slice();
+                            currentArrayClone[0].data.unshift(deletedUser);
+                            props.changeDataNotReadyUserArray(currentArrayClone);
+                        }
+                        break;
+                }
+                alert.success(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Succes' : 'Успіх'}</div><p className='alert-text text-nowrap'>{successMessage}</p></div>);
+                closeModalButton.current.click();
+            } else if (json.status === 'existence credits') {
+                alert.info(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Info' : 'Інфо'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'User have not repaid a loans yet' : 'Користувач не погасив всі кредити'}</p></div>);
+            } else {
+                alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Something was wrong' : "Щось пішло не так"}</p></div>);
             }
-        }); */
+        });
     }
     useEffect(() => {
         $('#' + idOfModal).on('hidden.bs.modal', function (e) {
@@ -156,15 +211,16 @@ export default (props) => {
                                 <div key='d' >
                                     <Pagination
                                         itemId='email'
-                                        fetchBody={{lastItems : props.checkUserArray.map(value => {
-                                            if (value) {
-                                                return value.lastItem;
-                                            } else return undefined;
-                                        })}}
+                                        fetchBody={{
+                                            lastItems: props.checkUserArray.map(value => {
+                                                if (value) {
+                                                    return value.lastItem;
+                                                } else return undefined;
+                                            })
+                                        }}
                                         fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
                                         setExternalArray={props.changeCheckUserArray}
                                         externalArray={props.checkUserArray}
-                                        token={localStorage.getItem('token')}
                                         render={(userArray) =>
                                             userArray.map((user) => {
                                                 return <AdminUser state={user.state} setCurrentArray={() => setCurrentArray(props.checkUserArray)} key={user.email} setPassport={showPassport} passport={user.passport} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='Checked' first_name={user.first_name} second_name={user.second_name} email={user.email} phone={user.phone} credit_card={user.credit_card} all_credits={user.all_credits} closed_credits={user.closed_credits} active_credits={user.active_credits} expired_credits={user.expired_credits} />
@@ -184,15 +240,16 @@ export default (props) => {
                                     <div key='fg'>
                                         <Pagination
                                             itemId='email'
-                                            fetchBody={{lastItems : props.dataNotReadyUserArray.map(value => {
-                                                if (value) {
-                                                    return value.lastItem;
-                                                } else return undefined;
-                                            })}}
+                                            fetchBody={{
+                                                lastItems: props.dataNotReadyUserArray.map(value => {
+                                                    if (value) {
+                                                        return value.lastItem;
+                                                    } else return undefined;
+                                                })
+                                            }}
                                             fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
                                             setExternalArray={props.changeDataNotReadyUserArray}
                                             externalArray={props.dataNotReadyUserArray}
-                                            token={localStorage.getItem('token')}
                                             render={(userArray) =>
                                                 userArray.map((user) => {
                                                     return <AdminUser state={user.state} setCurrentArray={() => setCurrentArray(props.dataNotReadyUserArray)} setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='DataNotReady' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits={user.all_credits} closed_credits={user.closed_credits} active_credits={user.active_credits} expired_credits={user.expired_credits} />
@@ -211,18 +268,19 @@ export default (props) => {
                                     <div key='rfsd'>
                                         <Pagination
                                             itemId='email'
-                                            fetchBody={{lastItems : props.notCheckUserArray.map(value => {
-                                                if (value) {
-                                                    return value.lastItem;
-                                                } else return undefined;
-                                            })}}
+                                            fetchBody={{
+                                                lastItems: props.notCheckUserArray.map(value => {
+                                                    if (value) {
+                                                        return value.lastItem;
+                                                    } else return undefined;
+                                                })
+                                            }}
                                             fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
                                             setExternalArray={props.changeNotCheckUserArray}
                                             externalArray={props.notCheckUserArray}
-                                            token={localStorage.getItem('token')}
                                             render={(userArray) =>
                                                 userArray.map((user) => {
-                                                    return <AdminUser state={user.state} setCurrentArray={() => setCurrentArray(props.notCheckUserArray)} setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='NotChecked' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' all_credits={user.all_credits} closed_credits={user.closed_credits} active_credits={user.active_credits} expired_credits={user.expired_credits} />
+                                                    return <AdminUser checkUser={checkUser} state={user.state} setCurrentArray={() => setCurrentArray(props.notCheckUserArray)} setPassport={showPassport} key={user._id} avatar={user.avatar} changeCurrentUser={changeCurrentUser} changeScope={changeScope} idOfModal={idOfModal} status='NotChecked' first_name={user.first_name} second_name={user.second_name} email={user.email} passport={user.passport} phone={user.phone} credit_card={user.credit_card} all_credits='12' all_credits={user.all_credits} closed_credits={user.closed_credits} active_credits={user.active_credits} expired_credits={user.expired_credits} />
                                                 })
                                             }
                                             numberOfItemsOnPage={props.numOfItemsInPagination}
@@ -272,7 +330,9 @@ export default (props) => {
                                 <canvas style={{ display: 'block', width: '100%' }} ref={canvas}></canvas>
                             </div>
                             <div className={`modal-footer ${scope === 'show_passport' ? 'd-none' : ''}`}>
-                                <button onClick={sendEmail} className='btn btn-primary' >{appLanguage === 'eng' ? 'Send' : ' Відправити'}</button>
+                                <button disabled={isSending} onClick={sendEmail} className='btn btn-primary' >
+                                    {isSending ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : appLanguage === 'eng' ? 'Send' : 'Відправити'}
+                                </button>
                             </div>
                         </div>
                     </div>

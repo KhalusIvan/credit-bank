@@ -1,5 +1,7 @@
 .admin-add-credit .form-group label,
-.admin-add-credit .form-group input{
+.admin-add-credit .form-group input,
+.admin-add-credit .form-group textarea,
+.admin-add-credit .form-group.submit-button .btn{
     font-size: 1.1em;
 }
 .admin-add-credit .form-group textarea{
@@ -12,15 +14,25 @@
     justify-content: flex-end;
 }
 .admin-add-credit .form-group.submit-button .btn{
-    font-size: 1.1em;
     width: 50%;
 }
 @media (max-width: 960px){
-    
+    .admin-add-credit .form-group label,
+    .admin-add-credit .form-group input,
+    .admin-add-credit .form-group textarea,
+    .admin-add-credit .form-group.submit-button .btn{
+        font-size: 1.3em;
+    }
 }
 @media (max-width: 767px){
     .admin-add-credit .form-group.submit-button .btn{
         width: 75%;
+    }
+    .admin-add-credit .form-group label,
+    .admin-add-credit .form-group input,
+    .admin-add-credit .form-group textarea,
+    .admin-add-credit .form-group.submit-button .btn{
+        font-size: 1.5em;
     }
 }
 @media (max-width: 560px){

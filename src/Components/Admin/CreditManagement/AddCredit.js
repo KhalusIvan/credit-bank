@@ -5,18 +5,29 @@ import { useAlert } from 'react-alert';
 import '../../../style/adminAddCredit.css';
 export default (props) => {
     const maxValueForNumberInput = 9;
+    const maxValueForDescriptionInput = 200;
     const { appLanguage } = useContext(AppLanguage);
     const { proxy } = useContext(Proxy);
     const alert = useAlert();
+    const fetchPath = props.fetchPath;
+    const fetchBody = props.fetchBody;
 
-
-    const [nameValue, setNameValue] = useState('');
-    const [minValue, setMinValue] = useState('');
-    const [maxValue, setMaxValue] = useState('');
-    const [minTerm, setMinTerm] = useState('');
-    const [maxTerm, setMaxTerm] = useState('');
-    const [percent, setPercent] = useState('');
-    const [description, setDescription] = useState('');
+    const [nameValue, setNameValue] = useState( props.nameValue ? inputText(props.nameValue,25,3) ? props.nameValue : '' : '');
+    const [minValue, setMinValue] = useState(props.minValue ? inputOnlyNumbers(props.minValue,maxValueForNumberInput) ? props.minValue : '' : '');
+    const [maxValue, setMaxValue] = useState(props.maxValue ? inputOnlyNumbers(props.maxValue,maxValueForNumberInput) ? props.maxValue : '' : '');
+    const [minTerm, setMinTerm] = useState(props.minTerm ? inputOnlyNumbers(props.minTerm,maxValueForNumberInput) ? props.minTerm : '' : '');
+    const [maxTerm, setMaxTerm] = useState(props.maxTerm ? inputOnlyNumbers(props.maxTerm,maxValueForNumberInput) ? props.maxTerm : '' : '');
+    const [percent, setPercent] = useState(props.percent ? inputOnlyNumbers(props.percent,3) ? props.percent : '' : '');
+    const [description, setDescription] = useState(props.description ? inputAnything(props.description,maxValueForDescriptionInput) ? props.description : '' : '');
+    useEffect(()=>{
+        setNameValue(props.nameValue ? inputText(props.nameValue,25,3) ? props.nameValue : '' : '');
+        setMinValue(props.minValue ? inputOnlyNumbers(props.minValue,maxValueForNumberInput) ? props.minValue : '' : '');
+        setMaxValue(props.maxValue ? inputOnlyNumbers(props.maxValue,maxValueForNumberInput) ? props.maxValue : '' : '');
+        setMinTerm(props.minTerm ? inputOnlyNumbers(props.minTerm,maxValueForNumberInput) ? props.minTerm : '' : '');
+        setMaxTerm(props.maxTerm ? inputOnlyNumbers(props.maxTerm,maxValueForNumberInput) ? props.maxTerm : '' : '');
+        setPercent(props.percent ? inputOnlyNumbers(props.percent,3) ? props.percent : '' : '');
+        setDescription(props.description ? inputAnything(props.description,maxValueForDescriptionInput) ? props.description : '' : '');
+    },[props.id]);
     function inputOnlyNumbers(text, maxLength) {
         return new RegExp(`(^[1-9]\\d{0,${maxLength - 1}}$)|(^$)`).test(text);
     }
@@ -57,7 +68,7 @@ export default (props) => {
         }
     }
     function inputDescription(e) {
-        if (inputAnything(e.target.value, 200)) {
+        if (inputAnything(e.target.value, maxValueForDescriptionInput)) {
             setDescription(e.target.value)
         }
     }

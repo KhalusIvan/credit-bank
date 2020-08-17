@@ -18,9 +18,8 @@ export default (props) => {
         props.setCurrentArray();
         props.changeScope('write_email');
     }
-    async function checkUser() {
-        props.setCurrentArray();
-        console.log(3);
+    function checkUser() {
+        props.checkUser(props.email);
     }
     function notCheckUser() {
         props.changeCurrentUser(props.email);
@@ -53,7 +52,7 @@ export default (props) => {
                         {!props.state ?
                             <div className='not-checked-toolbar'>
                                 <button onClick={showPassport} disabled={!props.passport} data-toggle='modal' data-target={'#' + (props.passport ? props.idOfModal : '')} className='btn btn-secondary passport-loader text-nowrap'>{props.passport ? appLanguage === 'eng' ? 'Passport' : 'Паспорт' : props.passport === undefined ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : props.passport === null ? appLanguage === 'eng' ? 'Passport is not loaded' : 'Паспорт не заватнажено' : ''}</button>
-                                {props.status === 'NotChecked' ? <>
+                                {props.status === 'NotChecked' && (props.passport === null || props.passport) ? <>
                                     <button onClick={checkUser} className='btn btn-primary text-nowrap'>{appLanguage === 'eng' ? 'Confirm data' : 'Підтвердити дані'}</button>
                                     <button onClick={notCheckUser} data-toggle='modal' data-target={'#' + props.idOfModal} className='btn btn-danger text-nowrap'>{appLanguage === 'eng' ? 'Refute data' : 'Спростувати дані'}</button>
                                 </> : ''}

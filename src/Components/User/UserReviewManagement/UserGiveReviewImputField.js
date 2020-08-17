@@ -44,7 +44,7 @@ export default (props) => {
         let json = await res.json();
         console.log(json);
         if (json.status === 'limit') {
-            alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The maximum number of comments is 5' : 'Максимальна кількість коментарів - 5'}</p></div>);
+            alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The maximum number of comments is 4' : 'Максимальна кількість коментарів - 4'}</p></div>);
         }
         else {
             alert.success(<div><div className='alert-title'>{appLanguage === 'eng' ?  'Succes' : 'Успіх'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'You added comment' : 'Ви додали коментар'}</p></div>);
