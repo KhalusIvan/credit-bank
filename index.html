@@ -14,7 +14,7 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/writeEmail', {
+                res(fetch('/setCreditType', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -27,7 +27,14 @@
                         "group": 0,
                         "name" : "Халус Іван",
                         "text" : "111",
-                        "lastItems": [null]
+                        "lastItems": [null],
+                        "name": "ssssssssssssssss",
+                        'description': "dddddddddddddd",
+                        'min_value': 1000,
+                        'max_value': 2000,
+                        'min_term': 10,
+                        'max_term': 20,
+                        'percent': 1.5,
                     })
                 }).then (res => {
                     return res.json();
