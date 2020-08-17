@@ -11,7 +11,7 @@ setTimeout(function run() {
 }, 100);
 function updatePassword(){
     app.post('/updatePassword', middleware, type, async (req, res) => {
-        if (req.user.role == "user") {
+        if (req.user.role == "user" || req.user.role == "admin") {
             let currentOldPAss = false;
             base.collection('users').find({email: req.user.email}).toArray((err,resp)=>{
                 if (err) return console.log(err);
