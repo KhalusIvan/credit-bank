@@ -122,6 +122,7 @@ function getAdminComments(){
             skipperCount().then(function(resSkip) {
                 let skipper = resSkip;
                 base.collection('comments').find({},{projection:{avatar:1}}).sort({_id:-1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    console.log(resp);
                     if (err) return console.log(err)
                     let comments = resp.map(el => {
                         if(el.avatar != null)
