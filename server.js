@@ -105,11 +105,6 @@ startDataUpdate();
 startDataGet();
 startDataDelete();
 writeEmail();
-let timer = 0;
-setInterval(() => {
-    timer += 30000;
-    console.log(timer)
-}, 30000)
 setInterval(() => {
     let now = new Date();
     console.log("===============================================================");

@@ -1,6 +1,7 @@
 let {app} = require('../server.js');
 let {type} = require('../server.js');
 const { middleware } = require('../auth/middleware.js');
+const {transporter} = require('../server.js');
 var base;
 setTimeout(function run() {
     if(base) return;
