@@ -10,7 +10,7 @@ setTimeout(function run() {
 }, 100);
 function updateAvatar(){
     app.post('/updateAvatar', middleware, type, (req, res) => {
-        if (req.user.role == "user") {
+        if (req.user.role == "user" || req.user.role == "admin") {
             let avatar = req.file.buffer;
             base.collection('users').findOneAndUpdate({
                 email : req.user.email
