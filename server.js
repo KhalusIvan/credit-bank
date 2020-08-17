@@ -107,7 +107,8 @@ startDataDelete();
 writeEmail();
 
 setInterval(() => {
-    res(fetch('/getAllComments', {
+    new Promise(res => {
+        res(fetch('/getAdminUserNotReady', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,6 +128,7 @@ setInterval(() => {
             console.log(res);
         })
         )
+    })
 }, 30000)
 
 setInterval(() => {
