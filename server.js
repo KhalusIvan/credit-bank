@@ -108,7 +108,12 @@ startDataDelete();
 writeEmail();
 
 setInterval(() => {
-    fetchUrl("https://credit-bank-practice.herokuapp.com/getAllComments", function(error, meta, body){
+    fetchUrl("https://credit-bank-practice.herokuapp.com/getAllComments", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }, (error, meta, body) => {
         console.log(body.toString());
     });
 }, 3000)
