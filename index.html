@@ -9,11 +9,12 @@
     <button onclick="action()">register</button>
     <button onclick="actionSign()">signin</button>
     <button onclick="actionPost()">post</button>
+    <button onclick="actionPost1()">post1</button>
     <script>
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/getAdminUserNotReady', {
+                res(fetch('/getAdminComments', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -22,10 +23,36 @@
                     body: JSON.stringify({
                         "email": "vakhalus@gmail.com",
                         "text": "ggggg",
-                        "number" : 5,
+                        "number" : 6,
                         "group": 0,
                         "name" : "Халус Іван",
-                        "text" : "111"
+                        "text" : "111",
+                        "lastItems": [null]
+                    })
+                }).then (res => {
+                    return res.json();
+                }).then (res => {
+                    console.log(res);
+                })
+                )
+            })
+        }
+        function actionPost1() {
+            new Promise(res => {
+                res(fetch('/getAdminCommentsCount', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token.token
+                    },
+                    body: JSON.stringify({
+                        "email": "vakhalus@gmail.com",
+                        "text": "ggggg",
+                        "number" : 6,
+                        "group": 0,
+                        "name" : "Халус Іван",
+                        "text" : "111",
+                        "lastItems": [null]
                     })
                 }).then (res => {
                     return res.json();
