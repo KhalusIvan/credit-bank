@@ -10,13 +10,17 @@ setTimeout(function run() {
 }, 100);
 function updatePhone(){
     app.post('/updatePhone', middleware, type, (req, res) => {
-        base.collection('users').findOneAndUpdate({
-            email : req.user.email
-        }, { $set: {
-            phone: req.body.phone
-            }      
-        });
-        res.send({status:'ok'});
+        if (req.user.role == "user") {
+            base.collection('users').findOneAndUpdate({
+                email : req.user.email
+            }, { $set: {
+                phone: req.body.phone
+                }      
+            });
+            res.send({status:'ok'});
+        } else {
+            return res.json({status: "error"})
+        }
     });
 }
 module.exports.updatePhone = updatePhone;

@@ -10,13 +10,17 @@ setTimeout(function run() {
 }, 100);
 function getData(){
     app.post('/getData', type, middleware, (req, res) => {
-        base.collection('users').find({email: req.user.email}, {projection:{passport:0}}).toArray((err,resp)=>{
-            if (err) return console.log(err)
-            let user = Object.assign({}, resp[0]);
-            if(user.avatar != null)
-                user.avatar = user.avatar.buffer;
-            res.send(user);
-        });
+        if(req.user.role == "user"){
+            base.collection('users').find({email: req.user.email}, {projection:{passport:0}}).toArray((err,resp)=>{
+                if (err) return console.log(err)
+                let user = Object.assign({}, resp[0]);
+                if(user.avatar != null)
+                    user.avatar = user.avatar.buffer;
+                res.send(user);
+            });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 }
 module.exports.getData = getData;

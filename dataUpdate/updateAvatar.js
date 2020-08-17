@@ -10,15 +10,19 @@ setTimeout(function run() {
 }, 100);
 function updateAvatar(){
     app.post('/updateAvatar', middleware, type, (req, res) => {
-        let avatar = req.file.buffer;
-        base.collection('users').findOneAndUpdate({
-            email : req.user.email
-        }, { $set: {
-            avatar: avatar
-            }      
-        });
-        base.collection('comments').updateMany({email : req.user.email}, {$set: {avatar : avatar}})
-        res.send({status:'ok'});
+        if (req.user.role == "user") {
+            let avatar = req.file.buffer;
+            base.collection('users').findOneAndUpdate({
+                email : req.user.email
+            }, { $set: {
+                avatar: avatar
+                }      
+            });
+            base.collection('comments').updateMany({email : req.user.email}, {$set: {avatar : avatar}})
+            res.send({status:'ok'});
+        } else {
+            return res.json({status: "error"})
+        }
     });
 }
 module.exports.updateAvatar = updateAvatar;

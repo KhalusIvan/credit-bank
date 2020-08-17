@@ -14,7 +14,7 @@
         let token = '';
         function actionPost() {
             new Promise(res => {
-                res(fetch('/getAdminComments', {
+                res(fetch('/writeEmail', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

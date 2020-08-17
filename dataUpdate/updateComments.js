@@ -10,14 +10,18 @@ setTimeout(function run() {
 }, 100);
 function updateComments(){
     app.post('/updateComments', middleware, type, (req, res) => {
-        base.collection('comments').findOneAndUpdate({
-            id : req.body.id,
-            email: req.user.email
-        }, { $set: {
-            text: req.body.text
-            }      
-        });
-        res.json({status:'ok'});
+        if (req.user.role == "user") {
+            base.collection('comments').findOneAndUpdate({
+                id : req.body.id,
+                email: req.user.email
+            }, { $set: {
+                text: req.body.text
+                }      
+            });
+            res.json({status:'ok'});
+        } else {
+            return res.json({status: "error"})
+        }
     });
 }
 module.exports.updateComments = updateComments;

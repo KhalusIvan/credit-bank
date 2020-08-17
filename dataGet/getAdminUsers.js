@@ -10,495 +10,543 @@ setTimeout(function run() {
 }, 100);
 function getAdminUsers(){
     app.post('/getAdminUserUnchecked', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
                         }
-                    }
+                    })
                 })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
+                        }
                     }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                let count = (user) => {
-                    return new Promise((resolve, reject) => {
-                    base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
-                            err 
-                            ? reject(err) 
-                            : resolve(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    let count = (user) => {
+                        return new Promise((resolve, reject) => {
+                        base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
+                                err 
+                                ? reject(err) 
+                                : resolve(resp);
+                            });
                         });
-                    });
-                };
-                var forLoop = async (users) => {
-                    let resultArray = [];
-                    for (let i = 0; i < users.length; i++) {
-                        let all_credits = 0;
-                        let active_credits = 0; 
-                        let expired_credits = 0; 
-                        let closed_credits = 0;
-                        let result = await (count(users[i]));
-                        for (let i = 0; i < result.length; i++) {
-                            all_credits++;
-                            if (result[i].status == "active")
-                                active_credits++;
-                            else if (result[i].status == "expired")
-                                expired_credits++;
-                            else 
-                                closed_credits++;
+                    };
+                    var forLoop = async (users) => {
+                        let resultArray = [];
+                        for (let i = 0; i < users.length; i++) {
+                            let all_credits = 0;
+                            let active_credits = 0; 
+                            let expired_credits = 0; 
+                            let closed_credits = 0;
+                            let result = await (count(users[i]));
+                            for (let i = 0; i < result.length; i++) {
+                                all_credits++;
+                                if (result[i].status == "active")
+                                    active_credits++;
+                                else if (result[i].status == "expired")
+                                    expired_credits++;
+                                else 
+                                    closed_credits++;
+                            }
+                            let currentUser = Object.assign({}, users[i]);
+                            currentUser.all_credits = all_credits;
+                            currentUser.active_credits = active_credits;
+                            currentUser.expired_credits = expired_credits;
+                            currentUser.closed_credits = closed_credits;
+                            resultArray.push(currentUser);
                         }
-                        let currentUser = Object.assign({}, users[i]);
-                        currentUser.all_credits = all_credits;
-                        currentUser.active_credits = active_credits;
-                        currentUser.expired_credits = expired_credits;
-                        currentUser.closed_credits = closed_credits;
-                        resultArray.push(currentUser);
-                    }
-                    return resultArray;
-                };
+                        return resultArray;
+                    };
 
-                forLoop(resp).then(function(result) {
-                    res.send(result);
+                    forLoop(resp).then(function(result) {
+                        res.send(result);
+                    });
                 });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUserNotReady', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if(req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
                         }
-                    }
+                    })
                 })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
+                        }
                     }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                let count = (user) => {
-                    return new Promise((resolve, reject) => {
-                    base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
-                            err 
-                            ? reject(err) 
-                            : resolve(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    let count = (user) => {
+                        return new Promise((resolve, reject) => {
+                        base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
+                                err 
+                                ? reject(err) 
+                                : resolve(resp);
+                            });
                         });
-                    });
-                };
-                var forLoop = async (users) => {
-                    let resultArray = [];
-                    for (let i = 0; i < users.length; i++) {
-                        let all_credits = 0;
-                        let active_credits = 0; 
-                        let expired_credits = 0; 
-                        let closed_credits = 0;
-                        let result = await (count(users[i]));
-                        for (let i = 0; i < result.length; i++) {
-                            all_credits++;
-                            if (result[i].status == "active")
-                                active_credits++;
-                            else if (result[i].status == "expired")
-                                expired_credits++;
-                            else 
-                                closed_credits++;
+                    };
+                    var forLoop = async (users) => {
+                        let resultArray = [];
+                        for (let i = 0; i < users.length; i++) {
+                            let all_credits = 0;
+                            let active_credits = 0; 
+                            let expired_credits = 0; 
+                            let closed_credits = 0;
+                            let result = await (count(users[i]));
+                            for (let i = 0; i < result.length; i++) {
+                                all_credits++;
+                                if (result[i].status == "active")
+                                    active_credits++;
+                                else if (result[i].status == "expired")
+                                    expired_credits++;
+                                else 
+                                    closed_credits++;
+                            }
+                            let currentUser = Object.assign({}, users[i]);
+                            currentUser.all_credits = all_credits;
+                            currentUser.active_credits = active_credits;
+                            currentUser.expired_credits = expired_credits;
+                            currentUser.closed_credits = closed_credits;
+                            resultArray.push(currentUser);
                         }
-                        let currentUser = Object.assign({}, users[i]);
-                        currentUser.all_credits = all_credits;
-                        currentUser.active_credits = active_credits;
-                        currentUser.expired_credits = expired_credits;
-                        currentUser.closed_credits = closed_credits;
-                        resultArray.push(currentUser);
-                    }
-                    return resultArray;
-                };
+                        return resultArray;
+                    };
 
-                forLoop(resp).then(function(result) {
-                    res.send(result);
+                    forLoop(resp).then(function(result) {
+                        res.send(result);
+                    });
                 });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUsersChecked', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
                         }
-                    }
+                    })
                 })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
+                        }
                     }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray( async(err,resp)=>{
-                if (err) return console.log(err);
-                let count = (user) => {
-                    return new Promise((resolve, reject) => {
-                    base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
-                            err 
-                            ? reject(err) 
-                            : resolve(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:0, avatar:0}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray( async(err,resp)=>{
+                    if (err) return console.log(err);
+                    let count = (user) => {
+                        return new Promise((resolve, reject) => {
+                        base.collection('users_credits').find({user: user.email},{projection:{status:1}}).toArray(function(err, resp) {
+                                err 
+                                ? reject(err) 
+                                : resolve(resp);
+                            });
                         });
-                    });
-                };
-                var forLoop = async (users) => {
-                    let resultArray = [];
-                    for (let i = 0; i < users.length; i++) {
-                        let all_credits = 0;
-                        let active_credits = 0; 
-                        let expired_credits = 0; 
-                        let closed_credits = 0;
-                        let result = await (count(users[i]));
-                        for (let i = 0; i < result.length; i++) {
-                            all_credits++;
-                            if (result[i].status == "active")
-                                active_credits++;
-                            else if (result[i].status == "expired")
-                                expired_credits++;
-                            else 
-                                closed_credits++;
+                    };
+                    var forLoop = async (users) => {
+                        let resultArray = [];
+                        for (let i = 0; i < users.length; i++) {
+                            let all_credits = 0;
+                            let active_credits = 0; 
+                            let expired_credits = 0; 
+                            let closed_credits = 0;
+                            let result = await (count(users[i]));
+                            for (let i = 0; i < result.length; i++) {
+                                all_credits++;
+                                if (result[i].status == "active")
+                                    active_credits++;
+                                else if (result[i].status == "expired")
+                                    expired_credits++;
+                                else 
+                                    closed_credits++;
+                            }
+                            let currentUser = Object.assign({}, users[i]);
+                            currentUser.all_credits = all_credits;
+                            currentUser.active_credits = active_credits;
+                            currentUser.expired_credits = expired_credits;
+                            currentUser.closed_credits = closed_credits;
+                            resultArray.push(currentUser);
                         }
-                        let currentUser = Object.assign({}, users[i]);
-                        currentUser.all_credits = all_credits;
-                        currentUser.active_credits = active_credits;
-                        currentUser.expired_credits = expired_credits;
-                        currentUser.closed_credits = closed_credits;
-                        resultArray.push(currentUser);
-                    }
-                    return resultArray;
-                };
+                        return resultArray;
+                    };
 
-                forLoop(resp).then(function(result) {
-                    res.send(result);
+                    forLoop(resp).then(function(result) {
+                        res.send(result);
+                    });
                 });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUsersAvatarChecked', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
+                        }
+                    })
+                })
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
                         }
                     }
-                })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
-                    }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                for (let i = 0; i < resp.length; i++) {
-                    if(resp[i].avatar != null)
-                        resp[i].avatar = resp[i].avatar.buffer;
-                }
-                res.send(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    for (let i = 0; i < resp.length; i++) {
+                        if(resp[i].avatar != null)
+                            resp[i].avatar = resp[i].avatar.buffer;
+                    }
+                    res.send(resp);
+                });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUsersAvatarUnchecked', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
+                        }
+                    })
+                })
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
                         }
                     }
-                })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
-                    }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                for (let i = 0; i < resp.length; i++) {
-                    if(resp[i].avatar != null)
-                        resp[i].avatar = resp[i].avatar.buffer;
-                }
-                res.send(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    for (let i = 0; i < resp.length; i++) {
+                        if(resp[i].avatar != null)
+                            resp[i].avatar = resp[i].avatar.buffer;
+                    }
+                    res.send(resp);
+                });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUserAvatarNotReady', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
+                        }
+                    })
+                })
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
                         }
                     }
-                })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
-                    }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                for (let i = 0; i < resp.length; i++) {
-                    if(resp[i].avatar != null)
-                        resp[i].avatar = resp[i].avatar.buffer;
-                }
-                res.send(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{avatar:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    for (let i = 0; i < resp.length; i++) {
+                        if(resp[i].avatar != null)
+                            resp[i].avatar = resp[i].avatar.buffer;
+                    }
+                    res.send(resp);
+                });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUsersPassportUnchecked', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport:true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
+                        }
+                    })
+                })
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
                         }
                     }
-                })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
-                    }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                for (let i = 0; i < resp.length; i++) {
-                    if(resp[i].passport != null)
-                        resp[i].passport = resp[i].passport.buffer;
-                }
-                res.send(resp);
-            });    
-        })                         
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    for (let i = 0; i < resp.length; i++) {
+                        if(resp[i].passport != null)
+                            resp[i].passport = resp[i].passport.buffer;
+                    }
+                    res.send(resp);
+                });    
+            })   
+        } else {
+            return res.json({status: "error"})
+        }                      
     });
 
     app.post('/getAdminUserPassportNotReady', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
+                        }
+                    })
+                })
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
                         }
                     }
-                })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
-                    }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                for (let i = 0; i < resp.length; i++) {
-                    if(resp[i].passport != null)
-                        resp[i].passport = resp[i].passport.buffer;
-                }
-                res.send(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    for (let i = 0; i < resp.length; i++) {
+                        if(resp[i].passport != null)
+                            resp[i].passport = resp[i].passport.buffer;
+                    }
+                    res.send(resp);
+                });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUsersPassportChecked', type, middleware, (req, res) => {
-        var checkSkipperInBase = (lastItem) => {
-            return new Promise((resolve, reject) => {
-                base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
-                    for (let j = 0; j < resp.length; j++) {
-                        if (resp[j].email == lastItem) {
-                            let skipper = j + 1;
-                            resolve(skipper);
-                            break;
+        if (req.user.role == "admin") {
+            var checkSkipperInBase = (lastItem) => {
+                return new Promise((resolve, reject) => {
+                    base.collection('users').find({is_checked: true, role: "user", is_confirmed: true}, {projection:{email:1}}).sort({_id:-1}).toArray((err,resp) => {
+                        for (let j = 0; j < resp.length; j++) {
+                            if (resp[j].email == lastItem) {
+                                let skipper = j + 1;
+                                resolve(skipper);
+                                break;
+                            }
+                        }
+                    })
+                })
+            }
+            var skipperCount = async () => {
+                let skipper = 0;
+                if (req.body.group != 0) {
+                    for (let i = req.body.group - 1; i >= 0; i--) {
+                        if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
+                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperEmail += skipper;
+                            return skipperEmail;
+                        } else if (req.body.lastItems[i] == null) {
+                            skipper += req.body.number;
                         }
                     }
-                })
-            })
-        }
-        var skipperCount = async () => {
-            let skipper = 0;
-            if (req.body.group != 0) {
-                for (let i = req.body.group - 1; i >= 0; i--) {
-                    if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                        let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                        skipperEmail += skipper;
-                        return skipperEmail;
-                    } else if (req.body.lastItems[i] == null) {
-                        skipper += req.body.number;
-                    }
                 }
+                return skipper;
             }
-            return skipper;
-        }
-        skipperCount().then(function(resSkip) {
-            let skipper = resSkip;
-            base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
-                if (err) return console.log(err);
-                for (let i = 0; i < resp.length; i++) {
-                    if(resp[i].passport != null)
-                        resp[i].passport = resp[i].passport.buffer;
-                }
-                res.send(resp);
+            skipperCount().then(function(resSkip) {
+                let skipper = resSkip;
+                base.collection('users').find({role: "user", is_checked: true, is_confirmed: true}, {projection:{passport:1}}).sort({_id: -1}).skip(skipper).limit(req.body.number).toArray((err,resp)=>{
+                    if (err) return console.log(err);
+                    for (let i = 0; i < resp.length; i++) {
+                        if(resp[i].passport != null)
+                            resp[i].passport = resp[i].passport.buffer;
+                    }
+                    res.send(resp);
+                });
             });
-        });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUsersCountChecked', type, middleware, async (req, res) => {
-        res.send({length: await base.collection('users').countDocuments({is_checked: true, role: "user", is_confirmed: true})})
+        if (req.user.role == "admin") {
+            res.send({length: await base.collection('users').countDocuments({is_checked: true, role: "user", is_confirmed: true})})
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUserCountNotReady', type, middleware, async (req, res) => {
-        res.send({length: await base.collection('users').countDocuments({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]})});
+        if (req.user.role == "admin") {
+            res.send({length: await base.collection('users').countDocuments({role: "user", is_checked: false, is_confirmed: true, "$or": [{credit_card:null},{phone:null},{is_passport:false}]})});
+        } else {
+            return res.json({status: "error"})
+        }
     });
 
     app.post('/getAdminUsersCountUnchecked', type, middleware, async (req, res) => {
-        res.send({length: await base.collection('users').countDocuments({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true})})
+        if (req.user.role == "admin") {
+            res.send({length: await base.collection('users').countDocuments({role: "user", is_checked: false, is_confirmed: true, credit_card: {$ne:null}, phone: {$ne:null}, is_passport: true})})
+        } else {
+            return res.json({status: "error"})
+        }
     });
 }
 module.exports.getAdminUsers = getAdminUsers;

@@ -10,10 +10,14 @@ setTimeout(function run() {
 }, 100);
 function getCreditsTypes(){
     app.post('/getCreditsTypes', type, middleware, (req, res) => {
-        base.collection('credit_types').find().toArray((err,resp)=>{
-            if (err) return console.log(err)
-            res.send(resp);
-        });
+        if (req.user.role == "user") {
+            base.collection('credit_types').find().toArray((err,resp)=>{
+                if (err) return console.log(err)
+                res.send(resp);
+            });
+        } else {
+            return res.json({status: "error"})
+        }
     });
 }
 module.exports.getCreditsTypes = getCreditsTypes;

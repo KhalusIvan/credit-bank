@@ -10,14 +10,17 @@ setTimeout(function run() {
 }, 100);
 function updateCreditCard(){
     app.post('/updateCreditCard', middleware, type, (req, res) => {
-        
-        base.collection('users').findOneAndUpdate({
-            email : req.user.email
-        }, { $set: {
-            credit_card: req.body.credit_card
-            }      
-        });
-        res.send({status:'ok'});
+        if (req.user.role == "user") {
+            base.collection('users').findOneAndUpdate({
+                email : req.user.email
+            }, { $set: {
+                credit_card: req.body.credit_card
+                }      
+            });
+            res.send({status:'ok'});
+        } else {
+            return res.json({status: "error"})
+        }
     });
 }
 module.exports.updateCreditCard = updateCreditCard;
