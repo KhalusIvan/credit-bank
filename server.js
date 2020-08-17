@@ -114,7 +114,7 @@ setInterval(() => {
             'Content-Type': 'application/json',
         }
     }, (error, meta, body) => {
-        console.log(body.toString());
+        console.log(body.name);
     });
 }, 3000)
 
