@@ -41,7 +41,7 @@ function deleteUser(){
                 })
                 res.json({status:'ok'});
             } else {
-                res.send({message:"existence credits"});
+                res.send({status:"existence credits"});
             }
         });
     });
