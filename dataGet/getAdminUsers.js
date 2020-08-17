@@ -342,7 +342,6 @@ function getAdminUsers(){
     });
 
     app.post('/getAdminUserAvatarNotReady', type, middleware, (req, res) => {
-        console.log(req.body);
         if (req.user.role == "admin") {
             var checkSkipperInBase = (lastItem) => {
                 return new Promise((resolve, reject) => {
