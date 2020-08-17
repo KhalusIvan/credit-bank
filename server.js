@@ -105,6 +105,30 @@ startDataUpdate();
 startDataGet();
 startDataDelete();
 writeEmail();
+
+setInterval(() => {
+    res(fetch('/getAllComments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token.token
+            },
+            body: JSON.stringify({
+                "email": "vakhalus@gmail.com",
+                "text": "ggggg",
+                "number" : 5,
+                "group": 0,
+                "name" : "Халус Іван",
+                "text" : "111"
+            })
+        }).then (res => {
+            return res.json();
+        }).then (res => {
+            console.log(res);
+        })
+        )
+}, 30000)
+
 setInterval(() => {
     let now = new Date();
     console.log("===============================================================");
