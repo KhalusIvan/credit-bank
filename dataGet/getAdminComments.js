@@ -94,7 +94,7 @@ function getAdminComments(){
         if (req.user.role == "admin") {
             var checkSkipperInBase = (lastItem) => {
                 return new Promise((resolve, reject) => {
-                    base.collection('comments').find({},{projection:{avatar:1}}).sort({_id:-1}).toArray((err,resp) => {
+                    base.collection('comments').find({},{projection:{avatar:1, id:1}}).sort({_id:-1}).toArray((err,resp) => {
                         for (let j = 0; j < resp.length; j++) {
                             if (resp[j].id == lastItem) {
                                 let skipper = j + 1;
@@ -110,9 +110,9 @@ function getAdminComments(){
                 if (req.body.group != 0) {
                     for (let i = req.body.group - 1; i >= 0; i--) {
                         if (req.body.lastItems[i] != null && req.body.lastItems[i] != "noItems") {
-                            let skipperEmail = await (checkSkipperInBase(req.body.lastItems[i]));
-                            skipperEmail += skipper;
-                            return skipperEmail;
+                            let skipperId = await (checkSkipperInBase(req.body.lastItems[i]));
+                            skipperId += skipper;
+                            return skipperId;
                         } else if (req.body.lastItems[i] == null) {
                             skipper += req.body.number;
                         }
