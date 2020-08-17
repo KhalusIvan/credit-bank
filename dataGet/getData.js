@@ -10,7 +10,7 @@ setTimeout(function run() {
 }, 100);
 function getData(){
     app.post('/getData', type, middleware, (req, res) => {
-        if(req.user.role == "user"){
+        if(req.user.role == "user" || req.user.role == "admin"){
             base.collection('users').find({email: req.user.email}, {projection:{passport:0}}).toArray((err,resp)=>{
                 if (err) return console.log(err)
                 let user = Object.assign({}, resp[0]);
