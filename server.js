@@ -8,6 +8,7 @@ const secretJWT = "practiceBank";
 const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const fetchUrl = require("fetch").fetchUrl;
 module.exports.app = app;
 module.exports.secretJWT = secretJWT;
 
@@ -107,29 +108,10 @@ startDataDelete();
 writeEmail();
 
 setInterval(() => {
-    new Promise(res => {
-        res(fetch('/getAdminUserNotReady', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token.token
-            },
-            body: JSON.stringify({
-                "email": "vakhalus@gmail.com",
-                "text": "ggggg",
-                "number" : 5,
-                "group": 0,
-                "name" : "Халус Іван",
-                "text" : "111"
-            })
-        }).then (res => {
-            return res.json();
-        }).then (res => {
-            console.log(res);
-        })
-        )
-    })
-}, 30000)
+    fetchUrl("https://credit-bank-practice.herokuapp.com/getAllComments", function(error, meta, body){
+        console.log(body.toString());
+    });
+}, 3000)
 
 setInterval(() => {
     let now = new Date();
