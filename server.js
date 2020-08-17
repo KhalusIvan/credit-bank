@@ -125,7 +125,7 @@ setInterval(() => {
     console.log("===============================================================");
     console.log("===============================================================");
     console.log("===============================================================");
-    if (now.getHours == 21 && now.getMinutes < 15){
+    if (now.getHours == 21 && now.getMinutes <= 15 && now.getMinutes > 0){
         console.log(111);
         updateFine();
     }
