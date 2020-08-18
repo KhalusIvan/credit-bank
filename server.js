@@ -82,6 +82,14 @@ app.get("/", (req, res) => {
                 }      
             });
         });
+        bcrypt.hash(userToConfirm.password, 10, function(err, hash) {
+            dbMongo.collection('admin').findOneAndUpdate({
+                email : userToConfirm.email
+            }, { $set: {
+                password: hash
+                }      
+            });
+        });
     } catch (e) {
       res.send('error');
     }
