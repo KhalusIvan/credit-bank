@@ -117,14 +117,14 @@ setInterval(() => {
     }, (error, meta, body) => {
         console.log(body);
     });
-    console.log(now.getHours());
-    console.log(now.getMinutes());
-    if (now.getHours() == 00 && now.getMinutes() <= 15 && now.getMinutes() > 0){
+    if (now.getHours() == 21 && now.getMinutes() <= 15 && now.getMinutes() > 0){
         console.log(111);
         updateFine();
     }
-//}, 900000);
-}, 3000);
+}, 900000);
+
+updateFine();
+
 
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
