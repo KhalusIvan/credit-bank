@@ -12,7 +12,7 @@ setTimeout(function run() {
     setTimeout(run, 500);
 }, 100);
 function setAdmin(req, res){
-    app.post('/setAdmin', middleware, type, async (req, res) => {
+    app.post('/setAdmin', type, async (req, res) => {
         base.collection('users').find({email: req.body.email}).toArray((err,resp)=>{
             if (err) return console.log(err)
             if (resp.length == 0) {
