@@ -81,8 +81,6 @@ app.get("/", (req, res) => {
                 password: hash
                 }      
             });
-        });
-        bcrypt.hash(userToConfirm.password, 10, function(err, hash) {
             dbMongo.collection('admin').findOneAndUpdate({
                 email : userToConfirm.email
             }, { $set: {
