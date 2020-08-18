@@ -15,7 +15,7 @@ function signIn(req, res){
     try {
         base.collection('users').find({email: req.body.email}, {projection:{passport:0}}).toArray((err,resp)=>{
             if (resp.length == 0) {
-                base.collection("admin").find({email.req.body.email}).toArray((err, respA) => {
+                base.collection("admin").find({email:req.body.email}).toArray((err, respA) => {
                     if (respA.length == 0) {
                         res.json({status: "error"});
                     } else {
