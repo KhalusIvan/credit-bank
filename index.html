@@ -46,7 +46,7 @@
         }
         function actionPost1() {
             new Promise(res => {
-                res(fetch('/getAdminCommentsCount', {
+                res(fetch('/setAdmin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,9 +54,9 @@
                     },
                     body: JSON.stringify({
                         "email": "vakhalus@gmail.com",
-                        "text": "ggggg",
-                        "number" : 6,
-                        "group": 0,
+                        "first_name": "ggggg",
+                        "second_name" : "ffffff",
+                        "password": "Hfqyscf10f",
                         "name" : "Халус Іван",
                         "text" : "111",
                         "lastItems": [null]

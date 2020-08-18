@@ -30,6 +30,8 @@ function setAdmin(req, res){
                             },(err,result)=>{
                                 if(err)
                                     return res.json({status: "error"});
+                                else
+                                    return res.json({status:"ok"});
                                 });
                             });
                     } else {
@@ -37,7 +39,7 @@ function setAdmin(req, res){
                     }
                 });
             } else {
-                res.json({status: "email"});
+                return res.json({status: "email"});
             }
         });
     });
