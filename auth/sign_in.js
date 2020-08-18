@@ -19,10 +19,10 @@ function signIn(req, res){
                     if (respA.length == 0) {
                         res.json({status: "error"});
                     } else {
-                        const isValid = bcrypt.compareSync(req.body.password, resp[0].password);
+                        const isValid = bcrypt.compareSync(req.body.password, respA[0].password);
                         if (isValid) {
-                            const token = jwt.sign({email:resp[0].email, role:resp[0].role}, secretJWT, {expiresIn: "1h"});
-                            res.json({token, role:resp[0].role});
+                            const token = jwt.sign({email:respA[0].email, role:respA[0].role}, secretJWT, {expiresIn: "1h"});
+                            res.json({token, role:respA[0].role});
                         }
                         else {
                             res.json({status:"error"});
