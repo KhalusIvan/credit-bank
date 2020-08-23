@@ -49,7 +49,7 @@ export default (props) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
             },
             body: JSON.stringify({
                 'email': email,
@@ -119,7 +119,7 @@ export default (props) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
             },
             body: JSON.stringify({
                 'email': currentUser,
@@ -218,7 +218,7 @@ export default (props) => {
                                                 } else return undefined;
                                             })
                                         }}
-                                        fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
+                                        fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('adminToken') }}
                                         setExternalArray={props.changeCheckUserArray}
                                         externalArray={props.checkUserArray}
                                         render={(userArray) =>
@@ -247,7 +247,7 @@ export default (props) => {
                                                     } else return undefined;
                                                 })
                                             }}
-                                            fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
+                                            fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('adminToken') }}
                                             setExternalArray={props.changeDataNotReadyUserArray}
                                             externalArray={props.dataNotReadyUserArray}
                                             render={(userArray) =>
@@ -275,7 +275,7 @@ export default (props) => {
                                                     } else return undefined;
                                                 })
                                             }}
-                                            fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('token') }}
+                                            fetchHeaders={{ 'Authorization': 'Bearer ' + localStorage.getItem('adminToken') }}
                                             setExternalArray={props.changeNotCheckUserArray}
                                             externalArray={props.notCheckUserArray}
                                             render={(userArray) =>

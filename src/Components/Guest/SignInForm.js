@@ -8,7 +8,7 @@ export default withRouter(props => {
     const alert = useAlert();
     const appLanguage = useContext(AppLanguage).appLanguage;
     const { proxy } = useContext(Proxy);
-    const { changeUserRole,setAdmin } = useContext(User);
+    const { changeUserRole } = useContext(User);
     const email = useRef(null);
     const password = useRef(null);
     const invalidLabel = useRef(false);
@@ -31,8 +31,8 @@ export default withRouter(props => {
         let json = await resp.json();
         if (json.role === 'admin') {
             props.onSubmitFunction();
-            localStorage.setItem('token', await json.token);
-            setAdmin(json.token);
+            localStorage.setItem('adminToken', await json.token);
+            changeUserRole('admin');
             props.history.push('/admin');
         }
         else if (json.role === 'user') {

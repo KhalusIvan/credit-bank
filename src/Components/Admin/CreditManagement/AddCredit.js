@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState, useRef } from 'react';
 import Proxy from '../../../Contexts/Proxy.js';
 import AppLanguage from '../../../Contexts/AppLanguage.js';
 import { useAlert } from 'react-alert';
+import $ from "jquery";
 import '../../../style/adminAddCredit.css';
 export default (props) => {
     const maxValueForNumberInput = 9;
@@ -113,7 +114,16 @@ export default (props) => {
     }
     function submitForm(e) {
         e.preventDefault();
-        console.log(checkForm());
+        props.onSubmitFunction({
+            name:nameValue,
+            min_value: minValue,
+            max_value: maxValue,
+            min_term: minTerm,
+            max_term: maxTerm,
+            description: description,
+            percent: percent,
+            id: props.id + minTerm
+        });
     }
     return (
         <div className='container-fluid p-0 admin-add-credit-wrapper'>

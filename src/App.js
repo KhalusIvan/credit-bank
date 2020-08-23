@@ -73,12 +73,6 @@ function App() {
   function changeUser(newUser) {
     setUser(newUser);
   }
-  function setAdmin(token) {
-    let newUser = Object.assign({}, user);
-    newUser.role = 'admin';
-    newUser.adminToken = token;
-    setUser(newUser);
-  }
   function changeUserAvatar(avatar) {
     let newUser = Object.assign({}, user);
     newUser.avatar = { data: null };
@@ -113,20 +107,22 @@ function App() {
   }
   useEffect(() => {
     async function fetchData() {
+      const token = localStorage.getItem('token') ? localStorage.getItem('token') : localStorage.getItem('adminToken');
       let resp = await fetch(proxy + '/checkUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token')
+          'Authorization': 'Bearer ' + token
         }
       });
       let json = await resp.json();
       return json;
     }
-    if (localStorage.getItem('token'))
+    if (localStorage.getItem('token') || localStorage.getItem('adminToken'))
       fetchData().then(json => {
         if (json.role === 'guest') {
           localStorage.removeItem('token');
+          localStorage.removeItem('adminToken');
         }
         changeUserRole(json.role);
         setIsUserReady(true);
@@ -136,7 +132,7 @@ function App() {
       changeUserRole('guest');
       setIsUserReady(true);
     }
-  }, [localStorage.getItem('token')]);
+  }, [localStorage.getItem('token'),localStorage.getItem('adminToken')]);
   useEffect(() => {
     if (user.role === 'guest') {
       console.log("ADD LISTENER");
@@ -154,7 +150,7 @@ function App() {
       <React.StrictMode>
         <Proxy.Provider value={{ proxy: proxy, param: param, changeParam: changeParam }}>
           <AppLanguage.Provider value={{ appLanguage: appLanguage, toggleLanguage: toggleLanguage }}>
-            <User.Provider value={{ user: user, setAdmin: setAdmin, changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
+            <User.Provider value={{ user: user, changeUserAvatar: changeUserAvatar, changeUserName: changeUserName, changeUserRole: changeUserRole, changeUser: changeUser, changeUserPassport: changeUserPassport, changeUserCreditCard: changeUserCreditCard, changeUserPhone: changeUserPhone }}>
               <Router>
                 {!isUserReady ? <SpinerApp /> : null}
                 <div ref={headerWrapper} className={`container-fluid sticky-navigation ${user.role !== 'guest' ? 'header-not-sticky sticky-now' : ''}`}>

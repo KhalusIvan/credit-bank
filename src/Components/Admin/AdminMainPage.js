@@ -23,6 +23,7 @@ export default (props) => {
   const [notCheckUserArray, setNotCheckUserArray] = useState([]);
   const [dataNotReadyUserArray, setDataNotReadyUserArray] = useState([]);
   const [reviewsArray, setReviewsArray] = useState([]);
+  const [creditsArray, setCreditsArray] = useState();
 
   const [numOfCheckUser, setNumOfCheckUser] = useState();
   const [numOfNotCheckUser, setNumOfNotCheckUser] = useState();
@@ -37,7 +38,10 @@ export default (props) => {
     setNotCheckUserArray(newArray.slice());
   }
   function changeDataNotReadyUserArray(newArray) {
-    setDataNotReadyUserArray(newArray);
+    setDataNotReadyUserArray(newArray.slice());
+  }
+  function changeCreditsArray(newArray) {
+    setCreditsArray(newArray.slice())
   }
   useEffect(() => {
     async function getNumbersOfUser() {
@@ -46,31 +50,39 @@ export default (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
           },
         }),
         fetch(proxy + '/getAdminUsersCountUnchecked', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
           },
         }),
         fetch(proxy + '/getAdminUserCountNotReady', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
           },
         }),
         fetch(proxy + '/getAdminCommentsCount', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
           },
         })
-      ]).then(responses => Promise.all(responses.map(r => r.json())))
+      ]).then(responses => {
+        for (let r of responses) {
+          if (r.status === 401) {
+            localStorage.removeItem('adminToken');
+            return;
+          }
+        }
+        return Promise.all(responses.map(r => r.json()))
+      })
         .then(nums => {
           const [check, uncheck, notReady, reviews] = nums.map(num => num.length);
           setNumOfCheckUser(check);
@@ -81,23 +93,38 @@ export default (props) => {
           setDataNotReadyUserArray(new Array(Math.ceil(notReady / numOfItemsInPagination)));
           setNumofReviews(reviews);
           setReviewsArray(new Array(Math.ceil(reviews / numOfReviewsInPagination)));
-        });
+        }).catch(err => console.log(err.message));
     }
     getNumbersOfUser();
   }, [])
+  useEffect(() => {
+    fetch(proxy + '/getCreditsTypes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
+      }
+    }).then(response => response.json()).then(json => {
+      console.log(json);
+      if (json.status === 'error') {
+        return;
+      }
+      setCreditsArray(json);
+    })
+  }, []);
   useEffect(() => {
     async function getUserData() {
       let response = await fetch(proxy + '/getData', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token')
+          'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
         }
       });
       let result = await response.json();
       changeUser(result);//Цей контекст міняю відразу
     }
-    if (localStorage.getItem('token'))
+    if (localStorage.getItem('adminToken'))
       getUserData();
   }, []);
   const userNameInUrl = user.email ? user.first_name.toLowerCase() + '_' + user.second_name.toLowerCase() : '';
@@ -122,7 +149,10 @@ export default (props) => {
             }
           </Route>
           <Route path={`${path}/credits`}>
-            <AllCredits />
+            {creditsArray ?
+              <AllCredits changeCreditsArray={changeCreditsArray} creditsArray={creditsArray} />
+              : <Spiner />
+            }
           </Route>
           <Route exact path={`${path}/:userName`}>
             <UserAcc userNameInUrl={userNameInUrl} />

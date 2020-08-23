@@ -32,7 +32,6 @@ export default (props) => {
             })
           });
         const json = await resp.json();
-        console.log(json);
         setIsSending(false);
         if(json.id){
             props.addCredit(json);

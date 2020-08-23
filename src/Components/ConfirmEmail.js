@@ -7,7 +7,6 @@ export default function ConfirmEmail() {
     const {email} = useParams();
     const appLanguage = useContext(AppLanguage);
     let data = '';
-    console.log(localStorage.getItem('token'));
     if(localStorage.getItem('token'))
         data = appLanguage === 'eng' ? 'Your account is already checked' : 'Ваш аккаунт вже підтверджено';
     else

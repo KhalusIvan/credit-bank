@@ -27,13 +27,23 @@ export default (props) => {
             id: id
         })
     }
+    function deleteCredit(removedId) {
+        const newArray = props.creditsArray.filter(value => removedId !== value.id);
+        props.changeCreditsArray(newArray);
+    }
+    function addCredit(newCredit) {
+        const newArray = props.creditsArray.slice();
+        console.log(newCredit);
+        newArray.unshift(newCredit)
+        props.changeCreditsArray(newArray);
+    }
     return (
         <Fade>
             <div className='container-fluid p-0 admin-all-credits-wrapper'>
                 <div className='container admin-add-credit'>
                     <div className="jumbotron p-1 p-sm-4 p-lg-5 m-0 rounded-0 bg-transparent">
                         <h2 className='text-center p-sm-3 p-1 m-0 mb-sm-2 admin-add-credit-title title'>{appLanguage === 'eng' ? 'Add credit' : 'Додати кредит'}</h2>
-                        <AddCredit />
+                        <AddCredit onSubmitFunction={addCredit}/>
                     </div>
                 </div>
                 <div className='container-fluid p-0 admin-credits-list-wrapper'>
@@ -43,28 +53,8 @@ export default (props) => {
                             <CreditsList
                                 changeCurrentCredit={changeCurrentCredit}
                                 idOfModal={idOfModal}
-                                creditsArray={[
-                                    {
-                                        name: 'Minimal Credit',
-                                        min_value: 1000,
-                                        max_value: 3000,
-                                        min_term: 2,
-                                        max_term: 10,
-                                        percent: 4,
-                                        description: 'Дуже мощній кредит. Багато грошей на великий термін + маленький відсоток Дуже мощній кредит. Багато грошей на великий термін + маленький відсоток',
-                                        id: 0
-                                    },
-                                    {
-                                        name: 'Maximal Credit',
-                                        min_value: 10300,
-                                        max_value: 304400,
-                                        min_term: 2,
-                                        max_term: 140,
-                                        percent: 64,
-                                        description: 'Дуже мощток Дуже мощній кредит. Багато грошей на великий термін + маленький відсоток',
-                                        id: 1
-                                    }
-                                ]}
+                                deleteCredit={deleteCredit}
+                                creditsArray={props.creditsArray}
                             />
                         </div>
                     </div>

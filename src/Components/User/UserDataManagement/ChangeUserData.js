@@ -43,11 +43,12 @@ export default (props) => {
         if(!checkAllField())
             return;
         setIsSendingForm(true);
+        const token = localStorage.getItem('token') ? localStorage.getItem('token') : localStorage.getItem('adminToken');
         let resp = await fetch(proxy + '/updateName',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify({
                 "first_name": firstName.current.value,

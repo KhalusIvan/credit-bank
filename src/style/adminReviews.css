@@ -75,6 +75,10 @@
     padding: 0 15px;
     background-color: #e9eaed;
 }
+.admin-all-reviews .review-state {
+    font-size: 1.6em;
+    font-weight: 400;
+}
 .admin-all-reviews .admin-review-body{
     padding: 15px;
     font-size: 1.2em;
@@ -88,6 +92,14 @@
     align-items: center;
     flex: 0 0 auto;
     background-color: #e2e3e6;
+}
+.admin-all-reviews .deleted .admin-review-footer,
+.admin-all-reviews .deleted .admin-review-title{
+    background-color: rgb(104, 94, 94);
+    color: white;
+}
+.admin-all-reviews .deleted .user-name{
+    color: white;
 }
 .admin-all-reviews .review-date{
     font-size: 1.1em;

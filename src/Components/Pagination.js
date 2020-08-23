@@ -86,7 +86,7 @@ class Pagination extends React.Component {
     render() {
         return (
             <div className='Pagination'>
-                <div className='pagination-items'>
+                <div className={`pagination-items ${this.props.className}`}>
                     {
                         this.state.dataArray[this.state.currentPage] ?
                             this.state.dataArray[this.state.currentPage].data ?
