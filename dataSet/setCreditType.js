@@ -34,16 +34,6 @@ function setCreditType(){
                                 if(err)
                                     return console.log(err);
                             }); 
-                            creditItem = {
-                                "name": req.body.name,
-                                'description': req.body.description,
-                                'min_value': req.body.min_value,
-                                'max_value': req.body.max_value,
-                                'min_term': req.body.min_term,
-                                'max_term': req.body.max_term,
-                                'percent': req.body.percent,
-                                "id": hash
-                            }
                             res.send({"id": hash});
 
                         });
