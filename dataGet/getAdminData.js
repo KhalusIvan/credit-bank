@@ -8,10 +8,10 @@ setTimeout(function run() {
     base = db;
     setTimeout(run, 500);
 }, 100);
-function getData(){
-    app.post('/getData', type, middleware, (req, res) => {
-        if(req.user.role == "user"){
-            base.collection('users').find({email: req.user.email}, {projection:{passport:0}}).toArray((err,resp)=>{
+function getAdminData(){
+    app.post('/getAdminData', type, middleware, (req, res) => {
+        if(req.user.role == "admin"){
+            base.collection('admin').find({email: req.user.email}).toArray((err,resp)=>{
                 if (err) return console.log(err)
                 let user = Object.assign({}, resp[0]);
                 if(user.avatar != null)
@@ -23,4 +23,4 @@ function getData(){
         }
     });
 }
-module.exports.getData = getData;
+module.exports.getAdminData = getAdminData;

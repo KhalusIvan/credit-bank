@@ -9,6 +9,9 @@ const {updateCreditPaid} = require('./updateCreditPaid.js');
 const {checkUserAgree} = require('./checkUserAgree.js');
 const {checkUserDisagree} = require('./checkUserDisagree.js');
 const {updateCreditTypes} = require('./updateCreditTypes.js');
+const {updateAdminName} = require('./updateAdminName.js');
+const {updateAdminAvatar} = require('./updateAdminAvatar.js');
+const {updateAdminPassword} = require('./updateAdminPassword.js');
 function startDataUpdate() {
     updateAvatar();
     updatePassport();
@@ -21,5 +24,8 @@ function startDataUpdate() {
     checkUserAgree();
     checkUserDisagree();
     updateCreditTypes();
+    updateAdminName();
+    updateAdminAvatar();
+    updateAdminPassword();
 }
 module.exports.startDataUpdate = startDataUpdate;

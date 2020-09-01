@@ -8,21 +8,20 @@ setTimeout(function run() {
     base = db;
     setTimeout(run, 500);
 }, 100);
-function updateAvatar(){
-    app.post('/updateAvatar', middleware, type, (req, res) => {
-        if (req.user.role == "user") {
+function updateAdminAvatar(){
+    app.post('/updateAdminAvatar', middleware, type, (req, res) => {
+        if (req.user.role == "admin") {
             let avatar = req.file.buffer;
-            base.collection('users').findOneAndUpdate({
+            base.collection('admin').findOneAndUpdate({
                 email : req.user.email
             }, { $set: {
                 avatar: avatar
                 }      
             });
-            base.collection('comments').updateMany({email : req.user.email}, {$set: {avatar : avatar}})
             res.send({status:'ok'});
         } else {
             return res.json({status: "error"})
         }
     });
 }
-module.exports.updateAvatar = updateAvatar;
+module.exports.updateAdminAvatar = updateAdminAvatar;
