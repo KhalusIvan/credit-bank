@@ -15,7 +15,8 @@ function updateName(){
                 email : req.user.email
             }, { $set: {
                 first_name: req.body.first_name,
-                second_name: req.body.second_name
+                second_name: req.body.second_name,
+                isChecked: false
                 }      
             });
             let name = req.body.first_name + " " + req.body.second_name;
