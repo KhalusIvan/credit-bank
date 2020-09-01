@@ -22,13 +22,13 @@ function setCreditType(){
                     bcrypt.genSalt(10, function(err, salt) {
                         bcrypt.hash(hashString, salt, async function(err, hash) {
                             base.collection('credit_types').insertOne({
-                                "name": req.body.name,
-                                'description': req.body.description,
-                                'min_value': req.body.min_value,
-                                'max_value': req.body.max_value,
-                                'min_term': req.body.min_term,
-                                'max_term': req.body.max_term,
-                                'percent': req.body.percent,
+                                "name": req.body.newCredit.name,
+                                'description': req.body.newCredit.description,
+                                'min_value': req.body.newCredit.min_value,
+                                'max_value': req.body.newCredit.max_value,
+                                'min_term': req.body.newCredit.min_term,
+                                'max_term': req.body.newCredit.max_term,
+                                'percent': req.body.newCredit.percent,
                                 "id": hash
                             },(err,result)=>{
                                 if(err)
@@ -44,7 +44,7 @@ function setCreditType(){
                                 'percent': req.body.percent,
                                 "id": hash
                             }
-                            res.send(creditItem);
+                            res.send({"id": hash});
 
                         });
                     });
