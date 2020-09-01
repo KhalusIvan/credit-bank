@@ -16,11 +16,11 @@ function updateCreditTypes(){
             }, { $set: {
                 name: req.body.name,
                 description: req.body.description,
-                min_value: req.body.min_value,
-                max_value: req.body.max_value,
-                min_term: req.body.min_term,
-                max_term: req.body.max_term,
-                percent: req.body.percent
+                min_value: +req.body.min_value,
+                max_value: +req.body.max_value,
+                min_term: +req.body.min_term,
+                max_term: +req.body.max_term,
+                percent: +req.body.percent
                 }      
             });
             res.send({status:'ok'});
