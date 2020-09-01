@@ -16,7 +16,7 @@ function updateName(){
             }, { $set: {
                 first_name: req.body.first_name,
                 second_name: req.body.second_name,
-                isChecked: false
+                is_checked: false
                 }      
             });
             let name = req.body.first_name + " " + req.body.second_name;
