@@ -11,7 +11,7 @@ setTimeout(function run() {
 }, 100);
 function checkUserAgree(){
     app.post('/checkUserAgree', middleware, type, (req, res) => {
-        if (res.user.role == "admin") {
+        if (req.user.role == "admin") {
             base.collection('users').findOneAndUpdate({
                 email : req.body.email
             }, { $set: {
