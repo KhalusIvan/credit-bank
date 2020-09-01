@@ -11,7 +11,7 @@ setTimeout(function run() {
 function updateAdminName(){
     app.post('/updateAdminName', middleware, type, (req, res) => {
         if(req.user.role == "admin") {
-            base.collection('users').findOneAndUpdate({
+            base.collection('admin').findOneAndUpdate({
                 email : req.user.email
             }, { $set: {
                 first_name: req.body.first_name,
