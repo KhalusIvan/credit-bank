@@ -9,7 +9,7 @@ import { wrapPromise } from '../../../script/custom.js';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 async function getAllCredits() {
-    let response = await fetch('https://credit-server.herokuapp.com/getCreditsTypes', {
+    let response = await fetch('https://credit-bank-practice.herokuapp.com/getCreditsTypes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ async function getAllCredits() {
     return await result;
 }
 async function getMyCredits() {
-    let response = await fetch('https://credit-server.herokuapp.com/getUsersCredits', {
+    let response = await fetch('https://credit-bank-practice.herokuapp.com/getUsersCredits', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
