@@ -11,7 +11,7 @@ setTimeout(function run() {
 function getCreditsTypes(){
     app.post('/getCreditsTypes', type, middleware, (req, res) => {
         if (req.user.role == "user" || req.user.role == "admin") {
-            base.collection('credit_types').find().toArray((err,resp)=>{
+            base.collection('credit_types').find().sort({_id:-1}).toArray((err,resp)=>{
                 if (err) return console.log(err)
                 res.send(resp);
             });
