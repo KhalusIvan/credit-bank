@@ -1,15 +1,11 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, { useContext } from 'react';
 import Proxy from '../../../Contexts/Proxy.js';
 import AppLanguage from '../../../Contexts/AppLanguage.js';
 import { CSSTransitionGroup } from 'react-transition-group'
-
 import { useAlert } from 'react-alert';
 import '../../../style/adminCreditsList.css';
 export default (props) => {
-    const maxValueForNumberInput = 9;
     const { appLanguage } = useContext(AppLanguage);
-    const { proxy } = useContext(Proxy);
-    const alert = useAlert();
     const creditsArray = props.creditsArray;
     return (
         <div className='container-fluid p-0 admin-credits-list-wrapper'>

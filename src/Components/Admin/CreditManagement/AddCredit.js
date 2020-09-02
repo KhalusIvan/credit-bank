@@ -1,8 +1,6 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
-import Proxy from '../../../Contexts/Proxy.js';
+import React, { useEffect, useContext, useState } from 'react';
 import AppLanguage from '../../../Contexts/AppLanguage.js';
 import { useAlert } from 'react-alert';
-import $ from "jquery";
 import '../../../style/adminAddCredit.css';
 export default (props) => {
     const maxValueForNumberInput = 9;

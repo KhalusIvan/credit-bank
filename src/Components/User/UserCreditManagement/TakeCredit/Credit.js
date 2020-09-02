@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useAlert } from 'react-alert'
-import User from '../../../../Contexts/User.js';
 import AppLanguage from '../../../../Contexts/AppLanguage.js';
 import Proxy from '../../../../Contexts/Proxy';
 import CreditRange from './CreditRange'

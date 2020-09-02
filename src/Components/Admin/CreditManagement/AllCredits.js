@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, {useContext, useState, useRef } from 'react';
 import Fade from 'react-reveal/Fade';
 import Proxy from '../../../Contexts/Proxy.js';
 import AppLanguage from '../../../Contexts/AppLanguage.js';

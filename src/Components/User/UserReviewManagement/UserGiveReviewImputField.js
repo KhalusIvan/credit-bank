@@ -46,6 +46,8 @@ export default (props) => {
         }
         else {
             alert.success(<div><div className='alert-title'>{appLanguage === 'eng' ?  'Succes' : 'Успіх'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'You added comment' : 'Ви додали коментар'}</p></div>);
+            json.date_ua = 'Просто зараз';
+            json.date_en = 'Just now';
             props.addReview(json);
             setTypedSimbols(0);
             setImputValue('');

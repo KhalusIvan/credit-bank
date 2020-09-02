@@ -1,13 +1,12 @@
-import React, { useRef, useEffect, useState, Children, lazy, Suspense } from 'react';
+import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect, useParams
+  Redirect
 } from "react-router-dom";
-
-import $ from "jquery";
-import Popper from 'popper.js';
+/* import $ from "jquery";
+import Popper from 'popper.js'; */
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { throttle } from './script/custom.js';

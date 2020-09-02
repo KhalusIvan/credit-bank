@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 import AppLanguage from '../../Contexts/AppLanguage.js';
 import Proxy from '../../Contexts/Proxy.js';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import User from '../../Contexts/User.js';
 import { useAlert } from 'react-alert'
 export default withRouter(props => {

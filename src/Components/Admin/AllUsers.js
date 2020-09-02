@@ -36,7 +36,7 @@ export default (props) => {
             return;
         }
         var ctx = canvas.current.getContext('2d');
-        var img = new Image;
+        var img = new Image();
         img.onload = function () {
             canvas.current.width = img.width;
             canvas.current.height = img.height;

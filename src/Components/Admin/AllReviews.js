@@ -2,8 +2,6 @@ import React, { useContext, useRef, useState,useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
 import Proxy from '../../Contexts/Proxy.js';
 import $ from "jquery";
-import User from '../../Contexts/User';
-import Spiner from '../Spiner.js'
 import AppLanguage from '../../Contexts/AppLanguage.js';
 import AdminReview from './AdminReview.js';
 import { useAlert } from 'react-alert';

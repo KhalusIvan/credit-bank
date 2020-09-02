@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-    useParams, useHistory
+    useParams
 } from "react-router-dom";
 import AppLanguage from '../Contexts/AppLanguage';
 export default function ConfirmEmail() {
