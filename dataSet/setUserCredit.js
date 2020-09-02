@@ -61,7 +61,7 @@ function setUserCredit(){
                             });
                     });
                 } else {
-                    res.send({status: credit});
+                    res.send({status: "credit"});
                 }
             });
         } else {

@@ -1,5 +1,3 @@
-let {app} = require('../server.js');
-let {type} = require('../server.js');
 let {secretJWT} = require('../server.js');
 const {transporter} = require('../server.js');
 const bcrypt = require("bcrypt");
