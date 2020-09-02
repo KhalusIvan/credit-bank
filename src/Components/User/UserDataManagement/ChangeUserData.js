@@ -44,7 +44,7 @@ export default (props) => {
             return;
         setIsSendingForm(true);
         const token = localStorage.getItem('token') ? localStorage.getItem('token') : localStorage.getItem('adminToken');
-        let resp = await fetch(proxy + '/updateName',{
+        let resp = await fetch(proxy + `/update${localStorage.getItem('adminToken') ? 'Admin' : ''}Name`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,6 +56,7 @@ export default (props) => {
             })
         });
         let json = await resp.json();
+        console.log(json);
         if(json.status === 'ok'){
             changeUserName(firstName.current.value,secondName.current.value);
             setIsSendingForm(false);

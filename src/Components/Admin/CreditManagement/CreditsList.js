@@ -33,7 +33,6 @@ export default (props) => {
                     </thead>
 
                     <tbody>
-
                         <CSSTransitionGroup
                             component={React.Fragment}
                             transitionName="example"
@@ -50,13 +49,21 @@ export default (props) => {
                                         <td>{credit.max_term}</td>
                                         <td>{credit.percent}</td>
                                         <td className='text-left'>{credit.description}</td>
-                                        <td><div className='controller'><button onClick={() => props.changeCurrentCredit(credit)} data-target={'#' + props.idOfModal} data-toggle='modal' className='btn btn-primary'>Edit</button><button onClick={() => { props.deleteCredit(credit.id) }} className='btn btn-danger'>Delete</button></div></td>
+                                        <td>
+                                            <div className='controller'>
+                                                <button onClick={() => props.changeCurrentCredit(credit)} data-target={'#' + props.idOfModal} data-toggle='modal' className='btn btn-primary'>
+                                                    {appLanguage === 'eng' ? 'Edit' : 'Змінити'}
+                                                </button>
+                                                <button onClick={() => props.deleteCredit(credit.id)} className='btn btn-danger'>
+                                                    {appLanguage === 'eng' ? 'Delete' : 'Видалити'}
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 ) :
                                 <tr className='no-items-message'><td colSpan='8'><h2 className='message'>{appLanguage === 'eng' ? 'There is no items' : "Тут немає об'єктів"}</h2></td></tr>
                             }
                         </CSSTransitionGroup>
-
                     </tbody>
 
                 </table>

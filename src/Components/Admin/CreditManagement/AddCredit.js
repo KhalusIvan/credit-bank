@@ -8,29 +8,29 @@ export default (props) => {
     const maxValueForNumberInput = 9;
     const maxValueForDescriptionInput = 200;
     const { appLanguage } = useContext(AppLanguage);
-    const { proxy } = useContext(Proxy);
     const alert = useAlert();
-    const fetchPath = props.fetchPath;
-    const fetchBody = props.fetchBody;
-
-    const [nameValue, setNameValue] = useState( props.nameValue ? inputText(props.nameValue,25,3) ? props.nameValue : '' : '');
-    const [minValue, setMinValue] = useState(props.minValue ? inputOnlyNumbers(props.minValue,maxValueForNumberInput) ? props.minValue : '' : '');
-    const [maxValue, setMaxValue] = useState(props.maxValue ? inputOnlyNumbers(props.maxValue,maxValueForNumberInput) ? props.maxValue : '' : '');
-    const [minTerm, setMinTerm] = useState(props.minTerm ? inputOnlyNumbers(props.minTerm,maxValueForNumberInput) ? props.minTerm : '' : '');
-    const [maxTerm, setMaxTerm] = useState(props.maxTerm ? inputOnlyNumbers(props.maxTerm,maxValueForNumberInput) ? props.maxTerm : '' : '');
-    const [percent, setPercent] = useState(props.percent ? inputOnlyNumbers(props.percent,3) ? props.percent : '' : '');
-    const [description, setDescription] = useState(props.description ? inputAnything(props.description,maxValueForDescriptionInput) ? props.description : '' : '');
-    useEffect(()=>{
-        setNameValue(props.nameValue ? inputText(props.nameValue,25,3) ? props.nameValue : '' : '');
-        setMinValue(props.minValue ? inputOnlyNumbers(props.minValue,maxValueForNumberInput) ? props.minValue : '' : '');
-        setMaxValue(props.maxValue ? inputOnlyNumbers(props.maxValue,maxValueForNumberInput) ? props.maxValue : '' : '');
-        setMinTerm(props.minTerm ? inputOnlyNumbers(props.minTerm,maxValueForNumberInput) ? props.minTerm : '' : '');
-        setMaxTerm(props.maxTerm ? inputOnlyNumbers(props.maxTerm,maxValueForNumberInput) ? props.maxTerm : '' : '');
-        setPercent(props.percent ? inputOnlyNumbers(props.percent,3) ? props.percent : '' : '');
-        setDescription(props.description ? inputAnything(props.description,maxValueForDescriptionInput) ? props.description : '' : '');
-    },[props.id]);
+    const [isSending, setIsSending] = useState(false);
+    const [nameValue, setNameValue] = useState(props.nameValue ? inputText(props.nameValue, 25, 3) ? props.nameValue : '' : '');
+    const [minValue, setMinValue] = useState(props.minValue ? inputOnlyNumbers(props.minValue, maxValueForNumberInput) ? props.minValue : '' : '');
+    const [maxValue, setMaxValue] = useState(props.maxValue ? inputOnlyNumbers(props.maxValue, maxValueForNumberInput) ? props.maxValue : '' : '');
+    const [minTerm, setMinTerm] = useState(props.minTerm ? inputOnlyNumbers(props.minTerm, maxValueForNumberInput) ? props.minTerm : '' : '');
+    const [maxTerm, setMaxTerm] = useState(props.maxTerm ? inputOnlyNumbers(props.maxTerm, maxValueForNumberInput) ? props.maxTerm : '' : '');
+    const [percent, setPercent] = useState(props.percent ? inputOnlyFloatNumbers(props.percent, 3) ? props.percent : '' : '');
+    const [description, setDescription] = useState(props.description ? inputAnything(props.description, maxValueForDescriptionInput) ? props.description : '' : '');
+    useEffect(() => {
+        setNameValue(props.nameValue ? inputText(props.nameValue, 25, 3) ? props.nameValue : '' : '');
+        setMinValue(props.minValue ? inputOnlyNumbers(props.minValue, maxValueForNumberInput) ? props.minValue : '' : '');
+        setMaxValue(props.maxValue ? inputOnlyNumbers(props.maxValue, maxValueForNumberInput) ? props.maxValue : '' : '');
+        setMinTerm(props.minTerm ? inputOnlyNumbers(props.minTerm, maxValueForNumberInput) ? props.minTerm : '' : '');
+        setMaxTerm(props.maxTerm ? inputOnlyNumbers(props.maxTerm, maxValueForNumberInput) ? props.maxTerm : '' : '');
+        setPercent(props.percent ? inputOnlyFloatNumbers(props.percent, 3) ? props.percent : '' : '');
+        setDescription(props.description ? inputAnything(props.description, maxValueForDescriptionInput) ? props.description : '' : '');
+    }, [props.id]);
     function inputOnlyNumbers(text, maxLength) {
         return new RegExp(`(^[1-9]\\d{0,${maxLength - 1}}$)|(^$)`).test(text);
+    }
+    function inputOnlyFloatNumbers(text, maxLength) {
+        return new RegExp(`(^[1-9]\\d{0,${maxLength - 1}}(\\.[1-9]?\\d{0,2})?$)|(^$)`).test(text);
     }
     function inputText(text, maxLength, maxWords) {
         return text.length >= maxLength ? false : new RegExp(`^((\\w|[а-яА-я\-])*\\s?){1,${maxWords === Infinity ? '' : maxWords}}$`, 'gm').test(text);
@@ -59,7 +59,7 @@ export default (props) => {
         }
     }
     function inputPercent(e) {
-        if (inputOnlyNumbers(e.target.value, 3)) {
+        if (inputOnlyFloatNumbers(e.target.value, 3)) {
             setPercent(e.target.value)
         }
     }
@@ -78,27 +78,27 @@ export default (props) => {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The name of credit shouldnot be empty' : "Ім'я не має бути пустим"}</p></div>);
             return false;
         }
-        if(minValue.length === 0){
+        if (minValue.length === 0) {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The min value of credit should not be empty' : "Мінімальна сума кредиту не має бути пустою"}</p></div>);
             return false;
         }
-        if(maxValue.length === 0){
+        if (maxValue.length === 0) {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The max value of credit should not be empty' : "Максимальна сума кредиту не має бути пустою"}</p></div>);
             return false;
         }
-        if(maxValue <= minValue){
+        if (+maxValue <= +minValue) {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The max value of credit should be bigger than min value' : "Максимальна сума має бути більшою, ніж мінімальна"}</p></div>);
             return false;
         }
-        if(minTerm.length === 0){
+        if (minTerm.length === 0) {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The min term of credit should not be empty' : "Мінімальний термін кредиту не має бути пустим"}</p></div>);
             return false;
         }
-        if(maxTerm.length === 0){
+        if (maxTerm.length === 0) {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The max term of credit should not be empty' : "Максимальний термін кредиту не має бути пустим"}</p></div>);
             return false;
-        } 
-        if(maxTerm <= minTerm){
+        }
+        if (+maxTerm <= +minTerm) {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The max term of credit should be bigger than min term' : "Максимальний термін кредиту має бути більшим, ніж мінімальний"}</p></div>);
             return false;
         }
@@ -106,24 +106,39 @@ export default (props) => {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The description of credit shouldnot be empty' : "Опис не має бути пустим"}</p></div>);
             return false;
         }
-        if(percent.length === 0){
+        if (percent.length === 0) {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The percent of credit should not be empty' : "Відсоток кредиту не має бути пустим"}</p></div>);
             return false;
         }
         return true
     }
-    function submitForm(e) {
+    async function submitForm(e) {
         e.preventDefault();
-        props.onSubmitFunction({
-            name:nameValue,
-            min_value: minValue,
-            max_value: maxValue,
-            min_term: minTerm,
-            max_term: maxTerm,
+        if (!checkForm()) return;
+        setIsSending(true);
+        let parsedPercent = percent;
+        if (percent[percent.length - 1] === '.')
+            parsedPercent = percent.substring(0, percent.length - 1);
+        let resp = await props.onSubmitFunction({
+            name: nameValue,
+            min_value: +minValue,
+            max_value: +maxValue,
+            min_term: +minTerm,
+            max_term: +maxTerm,
             description: description,
-            percent: percent,
-            id: props.id + minTerm
+            percent: +parsedPercent,
+            id: props.id
         });
+        if (resp) {
+            setNameValue('');
+            setMinValue('');
+            setMaxValue('');
+            setMinTerm('');
+            setMaxTerm('');
+            setPercent('');
+            setDescription('');
+            setIsSending(false);
+        }
     }
     return (
         <div className='container-fluid p-0 admin-add-credit-wrapper'>
@@ -165,7 +180,9 @@ export default (props) => {
                             <input value={percent} onChange={inputPercent} type="text" className="form-control" id="creditPercent" />
                         </div>
                         <div className='submit-button form-group col-sm-6'>
-                            <button type="submit" className="btn btn-primary">{appLanguage === 'eng' ? 'Send' : 'Відправити'}</button>
+                            <button disabled={isSending} type="submit" className="btn btn-primary">
+                                {isSending ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : appLanguage === 'eng' ? 'Send' : 'Відправити'}
+                            </button>
                         </div>
                     </div>
                 </form>

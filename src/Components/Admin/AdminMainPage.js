@@ -105,7 +105,6 @@ export default (props) => {
         'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
       }
     }).then(response => response.json()).then(json => {
-      console.log(json);
       if (json.status === 'error') {
         return;
       }
@@ -114,7 +113,7 @@ export default (props) => {
   }, []);
   useEffect(() => {
     async function getUserData() {
-      let response = await fetch(proxy + '/getData', {
+      let response = await fetch(proxy + '/getAdminData', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

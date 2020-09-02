@@ -43,6 +43,9 @@ export default (props) => {
         else if(json.status === 'expired'){
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ?  'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'You have a debt' : 'У вас є заборгованість'}</p></div>);
         }
+        else if(json.status === 'credit'){
+            alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ?  'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Your account is not checked' : 'Ваш аккаунт не перевірен'}</p></div>);
+        }
     }
     return (
         <div className='credit-item'>
@@ -51,8 +54,8 @@ export default (props) => {
                 <CreditRange setValue={changeMoney} text={appLanguage === 'eng' ? 'Select the amount' : 'Виберіть суму'} subcontrollerText={appLanguage === 'eng' ? 'grn' : 'грн'} min={props.min_value} max={props.max_value} step={props.max_value * 0.01} />
                 <CreditRange setValue={changeTerm} text={appLanguage === 'eng' ? 'Choose a term' : 'Виберіть термін'} subcontrollerText={appLanguage === 'eng' ? 'days' : 'днів'} min={props.min_term} max={props.max_term} step={props.max_term * 0.01} />
                 <div className='credit-info'>
-                    <div className='percent'>{appLanguage === 'eng' ? 'Percent: ' + props.percent + '%' : 'Відсоток ' + props.percent + '%'}</div>
-                    <div className='commission'>{appLanguage === 'eng' ? 'You will pay: ' + (money + (money / 100 * props.percent) * term).toFixed(2) + 'grn' : 'Ви заплатете ' + (money + (money / 100 * props.percent) * term).toFixed(2) + 'грн'}</div>
+                    <div className='percent'>{appLanguage === 'eng' ? 'Percent: ' + props.percent + '%' : 'Відсоток ' + +props.percent + '%'}</div>
+                    <div className='commission'>{appLanguage === 'eng' ? 'You will pay: ' + (money + (money / 100 * +props.percent) * term).toFixed(2) + 'grn' : 'Ви заплатете ' + (money + (money / 100 * props.percent) * term).toFixed(2) + 'грн'}</div>
                 </div>
             </div>
             <div className='credit-description text-center'>{props.description}</div>

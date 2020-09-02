@@ -44,7 +44,7 @@ export default (props) => {
             return;
         setIsSendingForm(true);
         const token = localStorage.getItem('token') ? localStorage.getItem('token') : localStorage.getItem('adminToken');
-        let resp = await fetch(proxy + '/updatePassword', {
+        let resp = await fetch(proxy + `/update${localStorage.getItem('adminToken') ? 'Admin' : ''}Password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +56,6 @@ export default (props) => {
             })
         });
         let json = await resp.json();
-        console.log(json);
         if (json.status === 'ok') {
             alert.success(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Success' : 'Успіх'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Your password was successfully changed' : 'Ваш пароль успішно змінено'}</p></div>);
         }

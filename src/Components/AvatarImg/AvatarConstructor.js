@@ -30,7 +30,7 @@ export default (props) => {
         let formData =  new FormData();
         formData.append("file", await comprimed, "image.png");
         const token = localStorage.getItem('token') ? localStorage.getItem('token') : localStorage.getItem('adminToken');
-        let response = await fetch(proxy + '/updateAvatar', {
+        let response = await fetch(proxy + `/update${localStorage.getItem('adminToken') ? 'Admin' : ''}Avatar`, {
             method: 'POST',
             headers:{'Authorization': 'Bearer ' + token},
             body: formData
