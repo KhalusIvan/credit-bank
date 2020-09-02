@@ -26,7 +26,6 @@ export default (props) => {
     async function submitNewReview(e) {
         e.preventDefault();
         setIsSending(true);
-        console.log(user);
         let formData = new FormData();
         formData.append('name', user['first_name'] + " " + user['second_name']);
         if (user.avatar)
@@ -42,7 +41,6 @@ export default (props) => {
             body: formData
         });
         let json = await res.json();
-        console.log(json);
         if (json.status === 'limit') {
             alert.error(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'The maximum number of comments is 4' : 'Максимальна кількість коментарів - 4'}</p></div>);
         }

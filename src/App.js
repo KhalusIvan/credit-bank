@@ -135,7 +135,6 @@ function App() {
   }, [localStorage.getItem('token'),localStorage.getItem('adminToken')]);
   useEffect(() => {
     if (user.role === 'guest') {
-      console.log("ADD LISTENER");
       window.addEventListener('scroll', toogleHeaderWrapperTheme);
       window.addEventListener('resize', toogleHeaderWrapperTheme);
       toogleHeaderWrapperTheme();

@@ -64,7 +64,6 @@ export default (props) => {
                 'id': removedId
             })
         }).then(resp => resp.json()).then(json => {
-            console.log(json);
             if (json.status === 'ok') {
                 alert.success(<div><div className='alert-title'>{appLanguage === 'eng' ? 'Succes' : 'Успіх'}</div><p className='alert-text text-nowrap'>{appLanguage === 'eng' ? 'Credit has been deleted' : 'Кредит видалено'}</p></div>);
                 const newArray = props.creditsArray.filter(value => removedId !== value.id);
