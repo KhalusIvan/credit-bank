@@ -67,7 +67,7 @@ app.get("/", (req, res) => {
       res.send('error');
     }
     const token = jwt.sign({email:userToConfirm.email, role:"user"}, secretJWT, {expiresIn: "1d"});
-    return res.redirect(`https://bodyapracqweqwe.herokuapp.com/abd/${token}`);
+    return res.redirect(`https://credit-bank-practice-front.herokuapp.com/abd/${token}`);
   });
 
   app.get('/resetPassword/:token', (req, res) => {
@@ -91,7 +91,7 @@ app.get("/", (req, res) => {
     } catch (e) {
       res.send('error');
     }
-    return res.redirect(`https://bodyapracqweqwe.herokuapp.com`);
+    return res.redirect(`https://credit-bank-practice-front.herokuapp.com/`);
   });
 
 const {startDataSet} = require("./dataSet/startDataSet.js");
