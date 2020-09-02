@@ -8,7 +8,7 @@ import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { wrapPromise } from '../../../script/custom.js';
 import User from '../../../Contexts/User';
 async function getReview() {
-    let response = await fetch('https://credit-bank-practice.herokuapp.com/getUserComments', {
+    let response = await fetch('https://credit-server.herokuapp.com/getUserComments', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

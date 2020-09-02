@@ -31,7 +31,7 @@ const UserMainPage = lazy(() => import('./Components/User/UserMainPage'));
 const AdminMainPage = lazy(() => import('./Components/Admin/AdminMainPage'));
 const ValidateEmail = lazy(() => import('./Components/ValidateEmail'));
 function App() {
-  const proxy = 'https://credit-bank-practice.herokuapp.com';
+  const proxy = 'https://credit-server.herokuapp.com';
   const [param, setParam] = useState('');
   const [isUserReady, setIsUserReady] = useState(false);
   const [appLanguage, setAppLanguage] = useState(localStorage.getItem('lang') || 'ukr');
