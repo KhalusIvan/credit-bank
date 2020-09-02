@@ -38,7 +38,8 @@ function setComment(){
                                 "name": req.body.name,
                                 "avatar": avatar,
                                 "text": req.body.text,
-                                "date": "now",
+                                "date_ua": "зараз",
+                                "date_en" : "now",
                                 "email": req.body.email,
                                 "id": hash
                             }
