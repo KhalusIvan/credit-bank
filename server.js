@@ -113,6 +113,8 @@ startDataGet();
 startDataDelete();
 writeEmail();
 
+console.log(111)
+
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
 app.post("/checkUser", type, checkUser);
