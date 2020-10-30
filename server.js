@@ -113,22 +113,6 @@ startDataGet();
 startDataDelete();
 writeEmail();
 
-setInterval(() => {
-    let now = new Date();
-    fetchUrl("https://credit-bank-practice.herokuapp.com/getAllComments", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }, (error, meta, body) => {
-        console.log(body);
-    });
-    if (now.getHours() == 21 && now.getMinutes() <= 15 && now.getMinutes() > 0){
-        console.log(111);
-        updateFine();
-    }
-}, 900000);
-
 app.post("/signIn", type,  signIn);
 app.post("/register", type,  register);
 app.post("/checkUser", type, checkUser);
