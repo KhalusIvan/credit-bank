@@ -1,14 +1,15 @@
 const express = require('express');
+require('dotenv').config()
 let multer = require('multer');
 const bodyParser = require('body-parser');
 const app = express();
 var cors = require('cors');
 const PORT = process.env.PORT || 5000;
-const secretJWT = "practiceBank";
+console.log(process.env.SECRETJWT)
+const secretJWT = process.env.SECRETJWT;
 const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const fetchUrl = require("fetch").fetchUrl;
 module.exports.app = app;
 module.exports.secretJWT = secretJWT;
 
@@ -23,7 +24,7 @@ module.exports.type = type;
 var dbMongo;
 const MongoClient = require('mongodb').MongoClient;
 
-MongoClient.connect('mongodb+srv://vania:Hfqyscf10f@cluster0.k1jws.mongodb.net/<dbname>?retryWrites=true&w=majority', function (err, client) {
+MongoClient.connect(process.env.MONGOURI, function (err, client) {
     if (err)
         return console.log(err);
     dbMongo = client.db('Credit_bank');
@@ -34,8 +35,8 @@ MongoClient.connect('mongodb+srv://vania:Hfqyscf10f@cluster0.k1jws.mongodb.net/<
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: "vakhalus.work@gmail.com",
-        pass: "YDRk.,bcnjr"
+        user: process.env.EMAILUSER,
+        pass: process.env.EMAILPASS
     }
 })
 module.exports.transporter = transporter;
